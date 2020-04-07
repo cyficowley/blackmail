@@ -7,4 +7,7 @@ module.exports = {
       poll: true,
     },
   },
+  configureWebpack: {
+    devtool: 'source-map',
+  },
 };
