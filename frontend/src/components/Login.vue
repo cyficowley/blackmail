@@ -6,31 +6,35 @@
   >
     <h1>Login</h1>
 
-    <v-text-field
-      v-model="email"
-      :rules="rules.emailText"
-      label="E-mail"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="[rules.required, rules.min]"
-      :type="show ? 'text' : 'password'"
-      label="Password"
-      name="input-10-2"
-      hint="At least 8 characters"
-      v-model="password"
-      @click:append="show = !show">
-    </v-text-field>
-
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-model="email"
+          :rules="rules.emailText"
+          label="E-mail"
+          required
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min]"
+          :type="show ? 'text' : 'password'"
+          label="Password"
+          name="input-10-2"
+          hint="At least 8 characters"
+          v-model="password"
+          @click:append="show = !show">
+        </v-text-field>
+      </v-col>
+    </v-row>
     <v-btn
       :disabled="!valid"
-      color="success"
+      color="primary"
       class="mr-4"
       @click="submit"
     >
-      Submit
+      Login
     </v-btn>
   </v-form>
 </template>
