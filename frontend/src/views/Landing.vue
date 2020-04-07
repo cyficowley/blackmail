@@ -32,17 +32,18 @@
             </div>
           </v-col>
         </v-row>
-        <v-row id="row2">
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
-          litle bitcharoo<br/>
+        <v-row id="row2" class = 'text-center'>
+          <div style = "width: 100%">
+            <h1 class="text-center bigTitle">FAQ</h1>
+            <ul class = "faqList">
+              <li class = "faqElement" v-for="question in questions" :key="question.q">
+                <b>{{ question.q }}</b> <br/>
+                {{ question.a}} <br/> <br/>
+              </li>
+            </ul>
+            <a class="emailLink" ref = "mailto: footballshane@gmail.com">
+              More Questions? Email us!</a>
+          </div>
         </v-row>
       </v-container>
     </v-content>
@@ -56,12 +57,22 @@ import Signup from '@/components/Signup.vue';
 
 export default {
   name: 'Landing',
+  data: () => ({
+    questions: [
+      { q: 'Do we ever look at your photos?', a: 'No, once we get them, we store them in our database, and delete them once deadline has passed' },
+      { q: 'This is a filler question that I am using', a: 'Ah yes this is a filler answer' },
+      { q: "What happens if I don't meet the deadline?", a: 'We send your photo out to the person you specified.' },
+      { q: 'is my cock enormous', a: 'yes of course i have big dick ' },
+    ],
+  }),
+
   components: {
     Login,
     Signup,
 
   },
 };
+
 </script>
 
 <style scoped>
@@ -96,5 +107,20 @@ export default {
   #landing-row{
     background-image: url("../assets/landing.jpg");
     background-size: cover;
+  }
+  .bigTitle{
+    font-size: 100px;
+  }
+
+  .faqList{
+    list-style: none;
+  }
+  .faqElement{
+    font-size: 20px;
+  }
+  #row2{
+    background-color: #c3efff;
+    padding-bottom: 30px;
+    /* grey color: #D3D3D3 */
   }
 </style>
