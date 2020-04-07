@@ -27,18 +27,19 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row id="row2" class = 'text-center'>
-          <div style = "width: 100%">
-            <h1 class="text-center bigTitle">FAQ</h1>
-            <ul class = "faqList">
-              <li class = "faqElement" v-for="question in questions" :key="question.q">
-                <b>{{ question.q }}</b> <br/>
-                {{ question.a}} <br/> <br/>
-              </li>
-            </ul>
+        <v-row id="row2" class = 'text-left'>
+            <h1 class="text-left bigTitle">FAQ</h1>
+                <v-expansion-panels accordion multiple>
+                  <v-expansion-panel v-for="question in questions" :key="question.q">
+                    <v-expansion-panel-header><strong>{{ question.q }}</strong>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      {{ question.a}}
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
             <a class="emailLink" ref = "mailto: footballshane@gmail.com">
               More Questions? Email us!</a>
-          </div>
         </v-row>
       </v-container>
     </v-content>
@@ -54,10 +55,13 @@ export default {
   name: 'Landing',
   data: () => ({
     questions: [
-      { q: 'Do we ever look at your photos?', a: 'No, once we get them, we store them in our database, and delete them once deadline has passed' },
-      { q: 'This is a filler question that I am using', a: 'Ah yes this is a filler answer' },
-      { q: "What happens if I don't meet the deadline?", a: 'We send your photo out to the person you specified.' },
-      { q: 'is my cock enormous', a: 'yes of course i have big dick ' },
+      { q: 'Do we ever look at your photos?', a: 'No, once we have them, we store them in our database, and delete them once you have submitted proof of completion of task, or the deadline has passed and we have sent the photo.' },
+      { q: 'What kind of proof can I submit ', a: 'We except proof in the following formats: .jpg, .png, .pdf, .mp4, and .gif. The more important thing is that the proof clearly shows completiion of the task. ' },
+      { q: "What happens if I don't meet the deadline?", a: 'We send the photo that you submitted out to the person you specified.' },
+      { q: 'Is this legal?', a: "Honestly, we're not sure but we had you sign the terms and conditions when you sign up so I'm pretty sure that means you can't sue us." },
+      { q: 'Is the email anonymous?', a: 'No, when we sent out your picture to the person you specified, we explain why they are getting that photo and who it came from. ' },
+      { q: 'What kind of blackmail can I upload?', a: 'We accept photo or video blackmail with file type .pdf, .png, .jpeg, .mp4, .mov ' },
+
     ],
   }),
 
@@ -72,22 +76,31 @@ export default {
 
 <style scoped>
   .fullwindow{
-    height: 100%;
+    height: 100vh;
     background-color:lightcyan;
   }
   .bigTitle{
     font-size: 100px;
+    padding-left: 20px;
   }
 
   .faqList{
     list-style: none;
   }
-  .faqElement{
-    font-size: 20px;
-  }
+
   #row2{
     background-color: #c3efff;
-    padding-bottom: 30px;
     /* grey color: #D3D3D3 */
+  }
+  .cardQuestion{
+    padding-left: 10px;
+  }
+  .cardAnswer{
+      padding-left: 10px;
+  }
+  .emailLink{
+    padding-top: 50px;
+    padding-left: 10px;
+    padding-bottom: 30px;
   }
 </style>
