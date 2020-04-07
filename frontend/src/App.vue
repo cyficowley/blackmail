@@ -25,4 +25,11 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Poppins', sans-serif;
+}
+
 </style>
