@@ -37,7 +37,7 @@
               </li>
             </ul>
             <a class="emailLink" ref = "mailto: footballshane@gmail.com">
-              More Questions? Email us!/</a>
+              More Questions? Email us!</a>
           </div>
         </v-row>
       </v-container>
