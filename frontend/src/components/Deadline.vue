@@ -8,7 +8,7 @@
             <v-card>
               <p><strong>Due Date:</strong></p>
               <p>{{dateString}},<br/>
-              {{daysRemaining}} days remaining
+              {{timeRemaining}}
               </p>
             </v-card>
           </v-col>
@@ -49,22 +49,21 @@ import FileUpload from '@/components/FileUpload.vue';
 export default {
   name: 'Deadline',
 
-  props: ['name', 'dueDate', 'proofDescription', 'recipient', 'status'],
+  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status'],
 
   methods: {
     submit() {
     },
   },
 
+
   computed: {
-    daysRemaining() {
-      return Math.floor(moment.duration(this.dueDate - new Date()).asDays());
+    timeRemaining() {
+      console.log(Date(this.dueStamp));
+      return moment.unix(this.dueStamp.seconds).fromNow();
     },
     dateString() {
-      if (this.dueDate.getYear() === (new Date()).getYear()) {
-        return moment(this.dueDate).format('[Midnight] MMMM Do');
-      }
-      return moment(this.dueDate).format('[Midnight] MMMM Do YYYY');
+      return moment.unix(this.dueStamp.seconds).format('[Midnight] MMMM Do YYYY');
     },
     statusColor() {
       if (this.status === 'finished') {

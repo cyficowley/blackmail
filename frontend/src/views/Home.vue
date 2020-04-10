@@ -5,7 +5,14 @@
       <router-link to="/home">Home</router-link>
     </div>
     <h1>This is an dab page</h1>
-    <v-container>
+    <v-btn color="black" class="mr-4" @click="signOut">
+      Sign Out
+    </v-btn>
+
+    <v-container v-if="loading">
+      <h1>Loading</h1>
+    </v-container>
+    <v-container v-else>
       <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
         <Deadline v-bind="deadline" />
       </v-row>
@@ -17,19 +24,54 @@
 
 import Deadline from '@/components/Deadline.vue';
 
+const fb = require('../plugins/firebase');
+
 export default {
   name: 'Landing',
 
   data: () => ({
-    deadlines: [
-      {
-        id: 1, name: 'get some bussy', dueDate: new Date(2021, 4, 1), proofDescription: 'phone numbers of 3 women and call them and text them and tell then you love them then cry when you get rejected then take up men', recipient: 'youmotherfuckinglongboi@gmail.com', status: 'incomplete',
-      },
-      {
-        id: 2, name: 'love me that man meat', dueDate: new Date(2020, 3, 10), proofDescription: 'phone numbers of 3 men', recipient: 'cyrus', status: 'finished',
-      },
-    ],
+    loading: true,
+
+    deadlines: [],
   }),
+
+  created() {
+    this.fetchData();
+  },
+
+  watch: {
+    // call again the method if the route changes
+    $route: 'fetchData',
+  },
+
+  methods: {
+    async fetchData() {
+      const { uid } = this.$store.state.currentUser;
+
+      const deadlines = [];
+      const getDeadlines = fb.users.doc(uid).collection('deadlines');
+      try {
+        const snapshot = await getDeadlines.get();
+        snapshot.forEach((doc) => {
+          deadlines.push(doc.data());
+        });
+        this.loading = false;
+        this.deadlines = deadlines;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async signOut() {
+      try {
+        await fb.auth.signOut();
+        this.$store.commit('setCurrentUser', undefined);
+        this.$router.push('/');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 
   components: {
     Deadline,
