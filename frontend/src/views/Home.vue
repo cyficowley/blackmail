@@ -7,6 +7,18 @@
     </div>
     <datetime type="datetime" v-model="datetime12" use12-hour></datetime>
     <h1>This is an dab page</h1>
+    <v-btn color="black" class="mr-4" @click="signOut">
+      Sign Out
+    </v-btn>
+
+    <v-container v-if="loading">
+      <h1>Loading</h1>
+    </v-container>
+    <v-container v-else>
+      <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
+        <Deadline v-bind="deadline" />
+      </v-row>
+    </v-container>
     <v-row justify="center">
       <v-dialog v-model='vdialog' persistent max-width="600px">
         <template v-slot:activator="{ on }">
@@ -60,18 +72,62 @@
 
 <script>
 import { Datetime } from 'vue-datetime';
+import Deadline from '@/components/Deadline.vue';
+
+const fb = require('../plugins/firebase');
 
 export default {
-  name: 'Home',
+  name: 'Landing',
 
   data: () => ({
+    loading: true,
+
+    deadlines: [],
     vdialog: '',
     datetime12: '',
     checkbox1: '',
-
   }),
 
+  created() {
+    this.fetchData();
+  },
+
+  watch: {
+    // call again the method if the route changes
+    $route: 'fetchData',
+  },
+
+  methods: {
+    async fetchData() {
+      const { uid } = this.$store.state.currentUser;
+
+      const deadlines = [];
+      const getDeadlines = fb.users.doc(uid).collection('deadlines');
+      try {
+        const snapshot = await getDeadlines.get();
+        snapshot.forEach((doc) => {
+          deadlines.push(doc.data());
+        });
+        this.loading = false;
+        this.deadlines = deadlines;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async signOut() {
+      try {
+        await fb.auth.signOut();
+        this.$store.commit('setCurrentUser', undefined);
+        this.$router.push('/');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+
   components: {
+    Deadline,
     Datetime,
   },
 };

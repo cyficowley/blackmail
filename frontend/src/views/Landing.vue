@@ -32,7 +32,8 @@
             </div>
           </v-col>
         </v-row>
-        <v-row id="row2" class = 'text-left'>
+        <v-row id="row2" class='text-left'>
+          <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
                   <v-expansion-panel style = "background-color: #F6F6F6"
@@ -46,6 +47,7 @@
                 </v-expansion-panels>
             <a class="emailLink" ref = "mailto: footballshane@gmail.com">
               More Questions? Email us!</a>
+          </div>
         </v-row>
       </v-container>
     </v-content>
@@ -129,10 +131,5 @@ export default {
   }
   .cardAnswer{
       padding-left: 10px;
-  }
-  .emailLink{
-    padding-top: 50px;
-    padding-left: 10px;
-    padding-bottom: 30px;
   }
 </style>
