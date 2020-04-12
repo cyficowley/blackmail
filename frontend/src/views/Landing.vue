@@ -35,7 +35,8 @@
         <v-row id="row2" class = 'text-left'>
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
-                  <v-expansion-panel v-for="question in questions" :key="question.q">
+                  <v-expansion-panel style = "background-color: #F6F6F6"
+                  v-for="question in questions" :key="question.q">
                     <v-expansion-panel-header><strong>{{ question.q }}</strong>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -66,7 +67,6 @@ export default {
       { q: 'Is this legal?', a: "Honestly, we're not sure but we had you sign the terms and conditions when you sign up so I'm pretty sure that means you can't sue us." },
       { q: 'Is the email anonymous?', a: 'No, when we sent out your picture to the person you specified, we explain why they are getting that photo and who it came from. ' },
       { q: 'What kind of blackmail can I upload?', a: 'We accept photo or video blackmail with file type .pdf, .png, .jpeg, .mp4, .mov ' },
-
     ],
   }),
 
@@ -122,8 +122,7 @@ export default {
   }
 
   #row2{
-    background-color: #c3efff;
-    /* grey color: #D3D3D3 */
+    background-color: #f4f4f4;
   }
   .cardQuestion{
     padding-left: 10px;
