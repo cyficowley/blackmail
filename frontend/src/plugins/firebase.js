@@ -20,6 +20,7 @@ firebase.analytics();
 const db = firebase.firestore();
 const auth = firebase.auth();
 const { currentUser } = auth;
+const provider = new firebase.auth.GoogleAuthProvider();
 
 // date issue fix according to firebase
 
@@ -31,4 +32,5 @@ export {
   auth,
   currentUser,
   users,
+  provider,
 };

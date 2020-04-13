@@ -100,6 +100,7 @@ export default {
   methods: {
     async fetchData() {
       const { uid } = this.$store.state.currentUser;
+      console.log(uid);
 
       const deadlines = [];
       const getDeadlines = fb.users.doc(uid).collection('deadlines');

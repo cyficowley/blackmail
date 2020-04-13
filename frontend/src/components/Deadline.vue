@@ -59,7 +59,6 @@ export default {
 
   computed: {
     timeRemaining() {
-      console.log(Date(this.dueStamp));
       return moment.unix(this.dueStamp.seconds).fromNow();
     },
     dateString() {
@@ -92,6 +91,7 @@ export default {
     font-size: 1.2em;
     padding:5px;
     float:left;
+    margin-bottom: 0px;
     /* width: 100%; */
   }
 
