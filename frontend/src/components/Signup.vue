@@ -47,11 +47,9 @@
       <h1 style="padding-top:20px;">or social media</h1>
 
       <v-row>
-        <v-col>
-          <img width="100%" src="../assets/signingoogle.png">
-        </v-col>
-        <v-col>
-          <img width="100%" src="../assets/facebook.png">
+        <v-col class="googleLoginSurround">
+          <img class="googleLogin" width="100%"
+            src="../assets/signingoogle.png" @click="googleLogin">
         </v-col>
       </v-row>
 
@@ -97,6 +95,18 @@ export default {
       return true;
     },
 
+    googleLogin() {
+      fb.auth.signInWithPopup(fb.provider).then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const token = result.credential.accessToken;
+        // The signed-in user info.
+        const { user } = result;
+        this.$store.commit('setCurrentUser', user.user);
+        this.$router.push('/home');
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
 
     async signup() {
       try {
@@ -117,6 +127,16 @@ export default {
 </script>
 
 <style scoped>
+  .googleLogin{
+    max-width: 300px;
+  }
+
+  .googleLoginSurround{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   h1{
     text-align: left;
   }
