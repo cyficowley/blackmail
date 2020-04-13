@@ -33,7 +33,7 @@
             <p>{{proofDescription}}</p>
           </div>
           <div>
-            <FileUpload/>
+            <FileUpload v-bind:message="formMessage" :width="fileWidth" :height="fileHeight"/>
           </div>
         </v-card>
       </v-col>
@@ -50,6 +50,12 @@ export default {
   name: 'Deadline',
 
   props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status'],
+
+  data: () => ({
+    formMessage: 'Upload proof',
+    width: -1,
+    height: -1,
+  }),
 
   methods: {
     submit() {

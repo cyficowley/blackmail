@@ -10,7 +10,7 @@
           <div>
             <img src="../assets/upload.png" style="width:30px;">
             <p v-if="isInitial">
-              Upload proof
+              {{message}}
             </p>
             <p v-if="isSaving">
               Uploading {{ fileCount }} files...
@@ -32,6 +32,7 @@ const STATUS_FAILED = 3;
 
 export default {
   name: 'FileUpload',
+  props: ['message', 'width', 'height'],
 
   data() {
     return {
@@ -39,8 +40,13 @@ export default {
       uploadError: null,
       currentStatus: null,
       uploadFieldName: 'photos',
+      // default val of width and height
+      // modified by props
+      compWidth: 25,
+      compHeight: 25,
     };
   },
+
   computed: {
     isInitial() {
       return this.currentStatus === STATUS_INITIAL;
@@ -56,6 +62,7 @@ export default {
     },
   },
   methods: {
+
     reset() {
       // reset form to initial state
       this.currentStatus = STATUS_INITIAL;
@@ -66,6 +73,16 @@ export default {
       // upload data to the server
       this.currentStatus = STATUS_SAVING;
       console.log(formData);
+    },
+    setDimensions() {
+      // sets width and height to val of passed in props
+      // if none provided, compWidth and height stay default val
+      if (this.width !== -1) {
+        this.compWidth = this.width;
+      }
+      if (this.height !== -1) {
+        this.compHeight = this.height;
+      }
     },
     filesChange(fieldName, fileList) {
       // handle file changes
@@ -84,6 +101,7 @@ export default {
   },
   mounted() {
     this.reset();
+    this.setDimensions();
   },
 };
 </script>

@@ -18,7 +18,6 @@ const store = new Vuex.Store({
   },
 });
 
-
 fb.auth.onAuthStateChanged((user) => {
   if (user) {
     store.commit('setCurrentUser', user);
