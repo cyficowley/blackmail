@@ -21,10 +21,7 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const { currentUser } = auth;
 const provider = new firebase.auth.GoogleAuthProvider();
-
-// date issue fix according to firebase
-
-// firebase collections
+const storage = firebase.storage();
 const users = db.collection('users');
 
 export {
@@ -33,4 +30,5 @@ export {
   currentUser,
   users,
   provider,
+  storage,
 };
