@@ -56,9 +56,9 @@
                   </v-col>
                 </v-row>
               </v-container>
-              <v-checkbox class="dialogConfirm" v-model="checkbox1" :label="`I understand that this
+              <v-checkbox class="dialogConfirm" v-model="checkbox1" label="I understand that this
               image will be sent to the recepient if I do not provide proof of
-              completing the task by the deadline .${checkbox1.toString()}`">
+              completing the task by the deadline .">
               </v-checkbox>
             </v-card-text>
             <v-card-actions>
@@ -134,7 +134,7 @@ export default {
     signOut() {
       this.$store.dispatch('signout');
     },
-
+˝
     ValidateEmail(mail) {
       // eslint-disable-next-line no-useless-escape
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
@@ -197,7 +197,7 @@ export default {
 
     submit() {
       if (this.validate() === true) {
-        this.uploadLocal();
+        this.$store.dispatch('signout');
         this.uploadCloud();
       }
     },
