@@ -20,12 +20,12 @@
       </v-row>
     </v-container>
     <v-row justify="center">
-      <v-dialog v-model='vdialog' persistent max-width="600px">
+       <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
         </template>
         <v-card>
-          <v-card-title>
+           <v-card-title>
             <span class="headline">Create a new Deadline</span>
           </v-card-title>
           <v-card-text>
@@ -43,11 +43,7 @@
                   <v-text-field label="Email of recipient" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select
-                    :items="['0-17', '18-29', '30-54', '54+']"
-                    label="File upload placeholder for when i pull"
-                    required
-                  ></v-select>
+                  <fileUpload :message="formMessage" :width="formWidth" :height="formHeight"/>
                 </v-col>
                  <v-col cols="6">
                   <v-text-field label="Name of Blackmail" required></v-text-field>
@@ -70,9 +66,11 @@
   </v-app>
 </template>
 
+
 <script>
 import { Datetime } from 'vue-datetime';
 import Deadline from '@/components/Deadline.vue';
+import FileUpload from '@/components/FileUpload.vue';
 
 const fb = require('../plugins/firebase');
 
@@ -81,11 +79,18 @@ export default {
 
   data: () => ({
     loading: true,
-
+    formMessage: 'Upload Blackmail File',
     deadlines: [],
-    vdialog: '',
+    // vdialog: '',
     datetime12: '',
     checkbox1: '',
+    fileWidth: -1,
+    fileHeight: -1,
+    dialog: false,
+    // values passed in to fileUpload component.
+    // Set to -1 if default val is wanted
+    formWidth: -1,
+    formHeight: -1,
   }),
 
   created() {
@@ -130,6 +135,7 @@ export default {
   components: {
     Deadline,
     Datetime,
+    FileUpload,
   },
 };
 
