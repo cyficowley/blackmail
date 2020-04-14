@@ -11,7 +11,6 @@
         v-model.trim="email"
         :rules="rules.emailText"
         label="E-mail"
-        required
       ></v-text-field>
       <v-row>
         <v-col>

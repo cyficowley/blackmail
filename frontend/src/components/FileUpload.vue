@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+      <form enctype="multipart/form-data">
         <div class="dropbox">
           <input type="file" :name="uploadFieldName" :disabled="isSaving"
             @change="filesChange($event.target.name, $event.target.files);
@@ -13,12 +13,12 @@
               {{message}}
             </p>
             <p v-if="isSaving">
-              Uploading file...
+              Reading file...
             </p>
             <p v-if="isSuccess">
-              Uploaded
+              Uploaded {{file.name}}
             </p>
-            <p v-if="isSuccess">
+            <p v-if="isFailed">
               Upload Failed
             </p>
           </div>
@@ -40,18 +40,11 @@ export default {
   name: 'FileUpload',
   props: ['message', 'uploadPath', 'uploadCallback'],
 
-  data() {
-    return {
-      uploadedFiles: [],
-      uploadError: null,
-      currentStatus: null,
-      uploadFieldName: 'photos',
-      // default val of width and height
-      // modified by props
-      compWidth: 25,
-      compHeight: 25,
-    };
-  },
+  data: () => ({
+    currentStatus: null,
+    uploadFieldName: 'photos',
+    file: undefined,
+  }),
 
   computed: {
     isInitial() {
@@ -72,24 +65,14 @@ export default {
     reset() {
       // reset form to initial state
       this.currentStatus = STATUS_INITIAL;
-      this.uploadedFiles = [];
-      this.uploadError = null;
+      this.file = undefined;
     },
     save(file) {
       // upload data to the server
+      this.file = file;
       this.currentStatus = STATUS_SAVING;
       this.uploadCallback(file);
       this.currentStatus = STATUS_SUCCESS;
-    },
-    setDimensions() {
-      // sets width and height to val of passed in props
-      // if none provided, compWidth and height stay default val
-      if (this.width !== -1) {
-        this.compWidth = this.width;
-      }
-      if (this.height !== -1) {
-        this.compHeight = this.height;
-      }
     },
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;

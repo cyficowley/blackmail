@@ -5,7 +5,6 @@
       <router-link to="/">Landing</router-link> |
       <router-link to="/home">Home</router-link>
     </div>
-    <datetime type="datetime" v-model="datetime12" use12-hour></datetime>
     <h1>This is an dab page</h1>
     <v-btn color="black" class="mr-4" @click="signOut">
       Sign Out
@@ -24,9 +23,10 @@
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
         </template>
-        <v-form ref="deadlineForm"
-           v-model="valid"
-            lazy-validation>
+        <v-form ref="newDeadline"
+          v-model="valid"
+          lazy-validation
+        >
           <v-card>
             <v-card-title>
               <span class="headline">Create a new Deadline</span>
@@ -34,37 +34,37 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="36" sm="18" md="12">
-                    <v-text-field v-model="newDeadline.proofDescription"
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="newDeadline.proofDescription" :rules="[rules.required]"
                      label="Goal to complete"></v-text-field>
                   </v-col>
                   <v-col cols="6">
-                    <datetime placeholder = " Select Deadline Date and Time" style ="width: 99%"
-                    class = "dateBox" type="datetime"  v-model="datetime12"
-                    use12-hour></datetime>
+                    <datetime placeholder = "Select Deadline Date and Time" use12-hour
+                    class = "dateBox" type="datetime" v-model="newDeadlineDate"
+                    :min-datetime="currentTime"/>
                   </v-col>
                   <v-col cols="6">
                     <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
-                    :rules="rules.emailText" required></v-text-field>
+                    :rules="rules.emailText" ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
                   </v-col>
                   <v-col cols="6">
-                    <v-text-field v-model="newDeadline.name"
-                    label="Name of Blackmail" required></v-text-field>
+                    <v-text-field v-model="newDeadline.name" :rules="[rules.required]"
+                    label="Name of Blackmail"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
-              <v-checkbox class="dialogConfirm" v-model="checkbox1" label="I understand that this
+              <v-checkbox class="dialogConfirm" v-model="confirmed" label="I understand that this
               image will be sent to the recepient if I do not provide proof of
-              completing the task by the deadline .">
+              completing the task by the deadline ." :rules="[rules.required]">
               </v-checkbox>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-              <v-btn color="blue darken-1" text @click="submit">Submit</v-btn>
+              <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
@@ -94,9 +94,9 @@ export default {
       status: 'incomplete',
       file: undefined,
     },
-    valid: undefined,
-    datetime12: '',
-    checkbox1: '',
+    valid: true,
+    newDeadlineDate: '',
+    confirmed: '',
     dialog: false,
 
     rules: {
@@ -104,19 +104,24 @@ export default {
         (v) => !!v || 'E-mail is required',
         (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      required: (value) => !!value || 'Required.',
+      required: (value) => !!value || 'Required',
       min: (v) => v.length >= 8 || 'Min 8 characters',
     },
   }),
 
   created() {
-    this.$store.dispatch('getAllDeadlines');
+    if (this.$store.state.deadlines.length === 0) {
+      this.$store.dispatch('getAllDeadlines');
+    }
   },
 
-  computed: mapState({
-    deadlines: 'deadlines',
-    loading: 'loadingDeadlines',
-  }),
+  computed: {
+    currentTime: () => new Date().toISOString(),
+    ...mapState({
+      deadlines: 'deadlines',
+      loading: 'loadingDeadlines',
+    }),
+  },
 
   methods: {
     signOut() {
@@ -127,76 +132,14 @@ export default {
       this.newDeadline.file = file;
     },
 
-    ValidateEmail(mail) {
-      // eslint-disable-next-line no-useless-escape
-      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-        return true;
-      }
-      return false;
-    },
-
-    validate() {
-      if (!this.newDeadline.proofDescription) {
-        alert('Valid goal required');
-        return false;
-      }
-      if (!this.datetime12) {
-        alert('Valid Date required');
-        return false;
-      }
-      // convert inputted deadline to timestamp
-      const deadlineDate = new Date(this.datetime12);
-      // get time stamp 5 min in the future
-      const currentDate = new Date();
-      const fiveMin = new Date(currentDate.getTime() + 5 * 60000);
-      if (deadlineDate < fiveMin) {
-        alert('Please select a deadline more than 5 min in the future');
-        return false;
-      }
-      const secondsVal = Number(deadlineDate.getTime());
-      const secondsVal2 = secondsVal / 1000;
-      console.log(secondsVal2);
-      this.newDeadline.dueStamp.seconds = secondsVal2;
-
-      if (!this.newDeadline.recipient) {
-        alert('Valid email required');
-        return false;
-      }
-      if (this.ValidateEmail(this.newDeadline.recipient) === false) {
-        alert('Valid email required');
-        return false;
-      }
-
-      if (!this.newDeadline.name) {
-        alert('Valid Title required');
-        return false;
-      }
-      if (!this.checkbox1) {
-        alert('Please check the box marking you understand this is permanent.');
-        return false;
-      }
-
-      if (this.newDeadline.file) {
-        alert('please upload some blackmail');
-        return false;
-      }
-
-      return true;
-    },
-
-    uploadLocal() {
-      this.deadlines.push(this.newDeadline);
-      this.dialog = false;
-    },
-
-    uploadCloud() {
-
-    },
-
     submit() {
-      if (this.validate() === true) {
-        this.$store.dispatch('signout');
-        this.uploadCloud();
+      const valid = this.$refs.newDeadline.validate()
+        && this.newDeadline.file && this.newDeadlineDate;
+      if (valid) {
+        this.newDeadline.dueStamp.seconds = new Date(this.newDeadlineDate).getTime() / 1000;
+        console.log('should submit');
+      } else {
+        console.log('should not submit');
       }
     },
   },
