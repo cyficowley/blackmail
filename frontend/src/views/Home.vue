@@ -48,7 +48,7 @@
                     :rules="rules.emailText" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <fileUpload :message="formMessage" :width="formWidth" :height="formHeight"/>
+                    <fileUpload :message="formMessage"/>
                   </v-col>
                   <v-col cols="6">
                     <v-text-field v-model="newDeadline.name"
@@ -94,18 +94,11 @@ export default {
       },
       status: 'incomplete',
     },
-    // 'name', 'dueStamp', 'proofDescription', 'recipient', 'status'
-    deadlines: [],
-    // vdialog: '',
+    valid: null,
     datetime12: '',
     checkbox1: '',
-    fileWidth: -1,
-    fileHeight: -1,
     dialog: false,
-    // values passed in to fileUpload component.
-    // Set to -1 if default val is wanted
-    formWidth: -1,
-    formHeight: -1,
+
     rules: {
       emailText: [
         (v) => !!v || 'E-mail is required',
@@ -118,11 +111,6 @@ export default {
 
   created() {
     this.$store.dispatch('getAllDeadlines');
-  },
-
-  watch: {
-    // call again the method if the route changes
-    $route: 'fetchData',
   },
 
   computed: mapState({
