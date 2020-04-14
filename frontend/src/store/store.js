@@ -50,6 +50,12 @@ const store = new Vuex.Store({
         console.log(error);
       }
     },
+    // commit mutation dispatch action
+    async createDeadline({ commit, state }, deadline) {
+      commit('addDeadlines', [deadline]);
+      fb.users.doc(state.currentUser.uid).collection('deadlines').add(deadline);
+    },
+
 
     async updateDeadline({ commit, state }, deadline) {
       console.log(state.currentUser.uid);

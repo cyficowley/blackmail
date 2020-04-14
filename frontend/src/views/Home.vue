@@ -58,7 +58,7 @@
               </v-container>
               <v-checkbox class="dialogConfirm" v-model="checkbox1" label="I understand that this
               image will be sent to the recepient if I do not provide proof of
-              completing the task by the deadline .">
+              completing the task by the deadline.">
               </v-checkbox>
             </v-card-text>
             <v-card-actions>
@@ -175,7 +175,6 @@ export default {
     },
 
     uploadLocal() {
-      this.deadlines.push(this.newDeadline);
       this.dialog = false;
     },
 
@@ -184,8 +183,9 @@ export default {
     },
 
     submit() {
-      if (this.validate() === true) {
-        this.$store.dispatch('signout');
+      if (!this.validate() === true) {
+        this.dialog = false;
+        this.$store.dispatch('createDeadline', this.newDeadline);
         this.uploadCloud();
       }
     },
