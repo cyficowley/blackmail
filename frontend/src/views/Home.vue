@@ -16,7 +16,7 @@
     </v-container>
     <v-container v-else>
       <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
-        <Deadline v-bind="deadline" />
+        <Deadline v-bind="deadline"/>
       </v-row>
     </v-container>
     <v-row justify="center">
@@ -71,16 +71,13 @@
 import { Datetime } from 'vue-datetime';
 import Deadline from '@/components/Deadline.vue';
 import FileUpload from '@/components/FileUpload.vue';
-
-const fb = require('../plugins/firebase');
+import { mapState } from 'vuex';
 
 export default {
   name: 'Landing',
 
   data: () => ({
-    loading: true,
     formMessage: 'Upload Blackmail File',
-    deadlines: [],
     // vdialog: '',
     datetime12: '',
     checkbox1: '',
@@ -94,7 +91,7 @@ export default {
   }),
 
   created() {
-    this.fetchData();
+    this.$store.dispatch('getAllDeadlines');
   },
 
   watch: {
@@ -102,33 +99,14 @@ export default {
     $route: 'fetchData',
   },
 
+  computed: mapState({
+    deadlines: 'deadlines',
+    loading: 'loadingDeadlines',
+  }),
+
   methods: {
-    async fetchData() {
-      const { uid } = this.$store.state.currentUser;
-      console.log(uid);
-
-      const deadlines = [];
-      const getDeadlines = fb.users.doc(uid).collection('deadlines');
-      try {
-        const snapshot = await getDeadlines.get();
-        snapshot.forEach((doc) => {
-          deadlines.push(doc.data());
-        });
-        this.loading = false;
-        this.deadlines = deadlines;
-      } catch (err) {
-        console.log(err);
-      }
-    },
-
-    async signOut() {
-      try {
-        await fb.auth.signOut();
-        this.$store.commit('setCurrentUser', undefined);
-        this.$router.push('/');
-      } catch (err) {
-        console.log(err);
-      }
+    signOut() {
+      this.$store.dispatch('signout');
     },
   },
 

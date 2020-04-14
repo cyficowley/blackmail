@@ -33,7 +33,7 @@
             <p>{{proofDescription}}</p>
           </div>
           <div>
-            <FileUpload v-bind:message="formMessage" :width="fileWidth" :height="fileHeight"/>
+            <FileUpload :message="formMessage" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
       </v-col>
@@ -49,7 +49,7 @@ import FileUpload from '@/components/FileUpload.vue';
 export default {
   name: 'Deadline',
 
-  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status'],
+  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id'],
 
   data: () => ({
     formMessage: 'Upload proof',
@@ -58,7 +58,12 @@ export default {
   }),
 
   methods: {
-    submit() {
+    uploadedProof(file) {
+      const payload = {
+        id: this.id,
+        file,
+      };
+      this.$store.dispatch('uploadDeadlineProof', payload);
     },
   },
 

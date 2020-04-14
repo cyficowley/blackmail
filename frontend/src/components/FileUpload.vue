@@ -3,7 +3,7 @@
     <div class="large-12 medium-12 small-12 cell">
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <div class="dropbox">
-          <input type="file" multiple :name="uploadFieldName" :disabled="isSaving"
+          <input type="file" :name="uploadFieldName" :disabled="isSaving"
             @change="filesChange($event.target.name, $event.target.files);
             fileCount = $event.target.files.length"
             accept="image/*" class="input-file">
@@ -13,7 +13,13 @@
               {{message}}
             </p>
             <p v-if="isSaving">
-              Uploading {{ fileCount }} files...
+              Uploading file...
+            </p>
+            <p v-if="isSuccess">
+              Uploaded
+            </p>
+            <p v-if="isSuccess">
+              Upload Failed
             </p>
           </div>
         </div>
@@ -32,7 +38,7 @@ const STATUS_FAILED = 3;
 
 export default {
   name: 'FileUpload',
-  props: ['message', 'width', 'height'],
+  props: ['message', 'uploadPath', 'uploadCallback'],
 
   data() {
     return {
@@ -69,10 +75,11 @@ export default {
       this.uploadedFiles = [];
       this.uploadError = null;
     },
-    save(formData) {
+    save(file) {
       // upload data to the server
       this.currentStatus = STATUS_SAVING;
-      console.log(formData);
+      this.uploadCallback(file);
+      this.currentStatus = STATUS_SUCCESS;
     },
     setDimensions() {
       // sets width and height to val of passed in props
@@ -85,18 +92,8 @@ export default {
       }
     },
     filesChange(fieldName, fileList) {
-      // handle file changes
-      const formData = new FormData();
-
       if (!fileList.length) return;
-
-      // append the files to FormData
-      Array
-        .from(Array(fileList.length).keys())
-        .map((x) => formData.append(fieldName, fileList[x], fileList[x].name));
-
-      // save it
-      this.save(formData);
+      this.save(fileList[0]);
     },
   },
   mounted() {
