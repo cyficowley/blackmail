@@ -58,7 +58,11 @@
               </v-container>
               <v-checkbox class="dialogConfirm" v-model="confirmed" label="I understand that this
               image will be sent to the recepient if I do not provide proof of
+<<<<<<< HEAD
               completing the task by the deadline ." :rules="[rules.required]">
+=======
+              completing the task by the deadline.">
+>>>>>>> b746a095e398eccaa88abb1a64abd19eeda36709
               </v-checkbox>
             </v-card-text>
             <v-card-actions>
