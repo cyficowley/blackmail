@@ -32,7 +32,7 @@
             <p><strong>Proof Description:</strong></p>
             <p>{{proofDescription}}</p>
           </div>
-          <div>
+          <div v-if="this.status=='incomplete'">
             <FileUpload :message="formMessage" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
