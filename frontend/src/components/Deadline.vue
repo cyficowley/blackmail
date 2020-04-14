@@ -33,7 +33,7 @@
             <p>{{proofDescription}}</p>
           </div>
           <div v-if="this.status=='incomplete'">
-            <FileUpload :message="formMessage" :uploadCallback="uploadedProof"/>
+            <FileUpload message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
       </v-col>
@@ -50,12 +50,6 @@ export default {
   name: 'Deadline',
 
   props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id'],
-
-  data: () => ({
-    formMessage: 'Upload proof',
-    width: -1,
-    height: -1,
-  }),
 
   methods: {
     uploadedProof(file) {

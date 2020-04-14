@@ -48,7 +48,7 @@
                     :rules="rules.emailText" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <fileUpload :message="formMessage"/>
+                    <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
                   </v-col>
                   <v-col cols="6">
                     <v-text-field v-model="newDeadline.name"
@@ -84,17 +84,17 @@ export default {
   name: 'Landing',
 
   data: () => ({
-    formMessage: 'Upload Blackmail File',
     newDeadline: {
       name: '',
       proofDescription: '',
       recipient: '',
       dueStamp: {
-        seconds: null,
+        seconds: undefined,
       },
       status: 'incomplete',
+      file: undefined,
     },
-    valid: null,
+    valid: undefined,
     datetime12: '',
     checkbox1: '',
     dialog: false,
@@ -123,6 +123,10 @@ export default {
       this.$store.dispatch('signout');
     },
 
+    getBlackmailFile(file) {
+      this.newDeadline.file = file;
+    },
+
     ValidateEmail(mail) {
       // eslint-disable-next-line no-useless-escape
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
@@ -132,11 +136,11 @@ export default {
     },
 
     validate() {
-      if (this.newDeadline.proofDescription === '') {
+      if (!this.newDeadline.proofDescription) {
         alert('Valid goal required');
         return false;
       }
-      if (this.datetime12 === '') {
+      if (!this.datetime12) {
         alert('Valid Date required');
         return false;
       }
@@ -154,7 +158,7 @@ export default {
       console.log(secondsVal2);
       this.newDeadline.dueStamp.seconds = secondsVal2;
 
-      if (this.newDeadline.recipient === '') {
+      if (!this.newDeadline.recipient) {
         alert('Valid email required');
         return false;
       }
@@ -163,14 +167,20 @@ export default {
         return false;
       }
 
-      if (this.newDeadline.name === '') {
+      if (!this.newDeadline.name) {
         alert('Valid Title required');
         return false;
       }
-      if (this.checkbox1 !== true) {
+      if (!this.checkbox1) {
         alert('Please check the box marking you understand this is permanent.');
         return false;
       }
+
+      if (this.newDeadline.file) {
+        alert('please upload some blackmail');
+        return false;
+      }
+
       return true;
     },
 
