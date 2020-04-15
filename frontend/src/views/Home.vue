@@ -10,61 +10,61 @@
       Sign Out
     </v-btn>
 
-      <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Create a New Deadline</v-btn>
-      </template>
-      <v-form ref="newDeadline"
-        v-model="valid"
-        lazy-validation
-      >
-        <v-card>
-          <v-card-title>
-            <span class="headline">Create a new Deadline</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field v-model="newDeadline.name" :rules="[rules.required]"
-                    label="Goal name"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <Datetime placeholder = "Select Deadline Date and Time" use12-hour
-                  class = "dateBox" type="datetime" v-model="newDeadlineDate"
-                  :min-datetime="currentTime" input-style="width:100%;"
-                  :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
-                  <p v-if="(!validDate.validity && newDeadlineDatex=='')"
-                  class = "dateError">{{ validDate.err }}</p>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
-                  :rules="rules.emailText" ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
+       <v-dialog v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on }">
+          <v-btn color="primary" dark v-on="on">Create a New Deadline</v-btn>
+        </template>
+        <v-form ref="newDeadline"
+          v-model="valid"
+          lazy-validation
+        >
+          <v-card>
+            <v-card-title>
+              <span class="headline">Create a new Deadline</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field v-model="newDeadline.name" :rules="[rules.required]"
+                     label="Goal name"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <Datetime placeholder = "Select Deadline Date and Time" use12-hour
+                    class = "dateBox" type="datetime" v-model="newDeadlineDate"
+                    :min-datetime="currentTime" input-style="width:100%;"
+                    :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
+                    <p v-if="(!validDate.validity && newDeadlineDatex=='')"
+                    class = "dateError">Please select a date.</p>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
+                    :rules="rules.emailText" ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
 
-                  <p v-if="fileError" class = "fileMessage">Upload a file dumbass</p>
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea v-model="newDeadline.proofDescription" :rules="[rules.required]"
-                  label="Description of proof of completion" rows="3" auto-grow></v-textarea>
-                </v-col>
-              </v-row>
-            </v-container>
-            <v-checkbox class="dialogConfirm" v-model="confirmed" label="I understand that this
-            image will be sent to the recepient if I do not provide proof of
-            completing the task by the deadline." :rules="[rules.required]">
-            </v-checkbox>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
-    </v-dialog>
+                    <p v-if="fileError" class = "fileMessage">Upload a file to continue.</p>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea v-model="newDeadline.proofDescription" :rules="[rules.required]"
+                    label="Description of proof of completion" rows="3" auto-grow></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-checkbox class="dialogConfirm" v-model="confirmed" label="I understand that this
+              image will be sent to the recepient if I do not provide proof of
+              completing the task by the deadline." :rules="[rules.required]">
+              </v-checkbox>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+              <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </v-dialog>
     <v-snackbar
         v-model="goodSnackbar"
         :timeout="timeout"
@@ -110,11 +110,9 @@ export default {
       status: 'incomplete',
       file: undefined,
     },
-    deadlineDelay: 0,
     valid: true,
     validDate: {
       validity: true,
-      err: '',
     },
     newDeadlineDate: '',
     confirmed: '',
@@ -156,6 +154,7 @@ export default {
       }
       return false;
     },
+
     badSnackbar() {
       if (this.uploadStatus === -1) {
         const payload = {
@@ -188,22 +187,13 @@ export default {
     },
 
     validateDate() {
-      const payload = {
-        validity: true,
-        err: '',
-      };
-      if (!this.newDeadlineDate) {
-        payload.validity = false;
-        payload.err = 'Please select a date';
-        return payload;
-      }
-      return payload;
+      return !(!this.newDeadlineDate);
     },
 
     submit() {
       this.validDate = this.validateDate();
       const valid = this.$refs.newDeadline.validate()
-        && this.newDeadline.file && this.validDate.validity;
+        && this.newDeadline.file && this.validDate;
       if (valid) {
         this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
         this.$store.dispatch('createDeadline', this.newDeadline);
