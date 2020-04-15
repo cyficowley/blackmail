@@ -74,59 +74,59 @@ exports.manualSend = functions.https.onRequest(async (req, res) => {
 
 
 // truly really for debugging, don't deploy with this
-exports.addFakeData = functions.https.onRequest(async (req, res) => {
+// exports.addFakeData = functions.https.onRequest(async (req, res) => {
 
-  const date = new Date();
-  const did = "Ai7XCK6uKdvHjQg6hGSx";
-  const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+//   const date = new Date();
+//   const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
 
-  await db.collection('expiring').add({
-    date:date,
-    did:did,
-    uid:uid,
-  })
-  const date2 = new Date();
-  date2.setDate(date.getDate() + 1);
+//   await db.collection('expiring').add({
+//     date:date,
+//     did:did,
+//     uid:uid,
+//   })
+//   const date2 = new Date();
+//   date2.setDate(date.getDate() + 1);
 
-  await db.collection('expiring').add({
-    date:date2,
-    did:did2,
-    uid:uid,
-  })
+//   await db.collection('expiring').add({
+//     date:date2,
+//     did:did2,
+//     uid:uid,
+//   })
 
-  await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
-    name:"yeeeet",
-    recipient:"footballshane@gmail.com",
-    status:'unfinished'
-  })
+//   await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
+//     name:"yeeeet",
+//     recipient:"footballshane@gmail.com",
+//     status:'unfinished'
+//   })
 
-  await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
-    name:"yeeeet2",
-    recipient:"footballshane@gmail.com",
-    status:'unfinished'
-  })
+//   await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
+//     name:"yeeeet2",
+//     recipient:"footballshane@gmail.com",
+//     status:'unfinished'
+//   })
 
-  const result = await db.collection('expiring').get();
-  result.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  res.send("ok");
-});
+//   const result = await db.collection('expiring').get();
+//   result.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   res.send("ok");
+// });
 
-exports.wtf = functions.https.onRequest(async (req, res) => {
-  // const did = "Ai7XCK6uKdvHjQg6hGSx";
-  // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+// exports.wtf = functions.https.onRequest(async (req, res) => {
+//   // const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
   
-  const result = await db.collection('expiring').get();
-  result.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  console.log("users");
-  const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
-  yiken.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  res.send("ok");
-});
+//   const result = await db.collection('expiring').get();
+//   result.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   console.log("users");
+//   const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
+//   yiken.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   res.send("ok");
+// });
