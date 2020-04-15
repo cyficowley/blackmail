@@ -36,7 +36,7 @@
                     :min-datetime="currentTime" input-style="width:100%;"
                     :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
                     <p v-if="(!validDate.validity && newDeadlineDatex=='')"
-                    class = "dateError">{{ validDate.err }}</p>
+                    class = "dateError">Please select a date.</p>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
@@ -45,7 +45,7 @@
                   <v-col cols="12" sm="6">
                     <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
 
-                    <p v-if="fileError" class = "fileMessage">Upload a file dumbass</p>
+                    <p v-if="fileError" class = "fileMessage">Upload a file to continue.</p>
                   </v-col>
                   <v-col cols="12">
                     <v-textarea v-model="newDeadline.proofDescription" :rules="[rules.required]"
@@ -112,11 +112,9 @@ export default {
       status: 'incomplete',
       file: undefined,
     },
-    deadlineDelay: 0,
     valid: true,
     validDate: {
       validity: true,
-      err: '',
     },
     newDeadlineDate: '',
     confirmed: '',
@@ -158,6 +156,7 @@ export default {
       }
       return false;
     },
+
     badSnackbar() {
       if (this.uploadStatus === -1) {
         const payload = {
@@ -190,22 +189,13 @@ export default {
     },
 
     validateDate() {
-      const payload = {
-        validity: true,
-        err: '',
-      };
-      if (!this.newDeadlineDate) {
-        payload.validity = false;
-        payload.err = 'Please select a date';
-        return payload;
-      }
-      return payload;
+      return !(!this.newDeadlineDate);
     },
 
     submit() {
       this.validDate = this.validateDate();
       const valid = this.$refs.newDeadline.validate()
-        && this.newDeadline.file && this.validDate.validity;
+        && this.newDeadline.file && this.validDate;
       if (valid) {
         this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
         this.$store.dispatch('createDeadline', this.newDeadline);
