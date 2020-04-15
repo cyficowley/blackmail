@@ -57,16 +57,16 @@ let updateEntries = async (deadlines) => {
 
 
 // For actually running on schedule
-// exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(() => {
-//   const deadlines = grabPassedDeadlines();
-//   sendEmails(deadlines);
-// });
+exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(() => {
+  const deadlines = grabPassedDeadlines();
+  sendEmails(deadlines);
+  updateEntries(deadlines);
+});
 
 // For debugging
 exports.manualSend = functions.https.onRequest(async (req, res) => {
-  const deadlines = await grabPassedDeadlines();
-  const output = await sendEmails(deadlines);
-  console.log(output);
+  const deadlines = grabPassedDeadlines();
+  sendEmails(deadlines);
   updateEntries(deadlines);
   res.send("ok");
 });

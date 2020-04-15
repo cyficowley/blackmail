@@ -10,7 +10,6 @@
       Sign Out
     </v-btn>
 
-    <v-row justify="center">
        <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">Create a New Deadline</v-btn>
@@ -66,7 +65,6 @@
           </v-card>
         </v-form>
       </v-dialog>
-    </v-row>
     <v-snackbar
         v-model="goodSnackbar"
         :timeout="timeout"
@@ -79,7 +77,7 @@
         :timeout="timeout"
         color="red"
         top
-      >Deadling Submission failed :(
+      >Deadline Submission failed :(
       </v-snackbar>
 
     <v-container v-if="loading">
