@@ -50,7 +50,7 @@ const store = new Vuex.Store({
         await fileRef.put(file);
         dispatch('updateDeadline', { id, status: 'approving' });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
 
@@ -59,15 +59,17 @@ const store = new Vuex.Store({
       const submittedDeadline = { ...deadline };
       delete submittedDeadline.file;
       try {
-        const { id } = await fb.users.doc(state.currentUser.uid).collection('deadlines').add(submittedDeadline);
+        const { uid } = state.currentUser;
+        const { id } = await fb.users.doc(uid).collection('deadlines').add(submittedDeadline);
+        await fb.db.collection('expiring').add({ uid, did: id, date: submittedDeadline.dueStamp });
         submittedDeadline.id = id;
-        const uploadPath = [state.currentUser.uid, id, 'blackmail', file.name].join('/');
+        const uploadPath = [uid, id, 'blackmail', file.name].join('/');
         const fileRef = fb.storage.child(uploadPath);
         await fileRef.put(file);
         commit('addDeadlines', [submittedDeadline]);
         commit('updateUploadStatus', 1);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         commit('updateUploadStatus', -1);
       }
     },
@@ -90,7 +92,7 @@ const store = new Vuex.Store({
         await ref.update(deadline);
         commit('updateDeadline', deadline);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
 
