@@ -69,6 +69,7 @@ export default {
       { q: 'Is this legal?', a: "Honestly, we're not sure but we had you sign the terms and conditions when you sign up so I'm pretty sure that means you can't sue us." },
       { q: 'Is the email anonymous?', a: 'No, when we sent out your picture to the person you specified, we explain why they are getting that photo and who it came from. ' },
       { q: 'What kind of blackmail can I upload?', a: 'We accept photo or video blackmail with file type .pdf, .png, .jpeg, .mp4, .mov ' },
+      { q: 'Does the recipient need to be registered at blackmail.io?', a: 'No, you can enter the email of anyone you know, whether or not they are registered with our website. ' },
     ],
   }),
 

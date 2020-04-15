@@ -13,7 +13,7 @@
     <v-row justify="center">
        <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+          <v-btn color="primary" dark v-on="on">Create a New Deadline</v-btn>
         </template>
         <v-form ref="newDeadline"
           v-model="valid"
@@ -35,6 +35,8 @@
                     class = "dateBox" type="datetime" v-model="newDeadlineDate"
                     :min-datetime="currentTime" input-style="width:100%;"
                     :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
+                    <p v-if="!validDate.validity"
+                    class = "dateError">{{ validDate.err }}</p>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
@@ -42,6 +44,8 @@
                   </v-col>
                   <v-col cols="12" sm="6">
                     <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
+
+                    <p v-if="fileError" class = "fileMessage">Upload a file dumbass</p>
                   </v-col>
                   <v-col cols="12">
                     <v-textarea v-model="newDeadline.proofDescription" :rules="[rules.required]"
@@ -63,12 +67,26 @@
         </v-form>
       </v-dialog>
     </v-row>
+    <v-snackbar
+        v-model="goodSnackbar"
+        :timeout="timeout"
+        color="green"
+        top
+      > Deadline Submitted Succesfully!
+      </v-snackbar>
+       <v-snackbar
+        v-model="badSnackbar"
+        :timeout="timeout"
+        color="red"
+        top
+      >Deadling Submission failed :(
+      </v-snackbar>
 
     <v-container v-if="loading">
       <h1>Loading</h1>
     </v-container>
     <v-container v-else>
-      <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
+      <v-row v-for="deadline in sortedDeadlines" :key="deadline.id" style="margin-bottom:12px;">
         <Deadline v-bind="deadline"/>
       </v-row>
     </v-container>
@@ -97,10 +115,15 @@ export default {
       file: undefined,
     },
     valid: true,
+    validDate: {
+      validity: true,
+      err: '',
+    },
     newDeadlineDate: '',
     confirmed: '',
+    fileError: false,
     dialog: false,
-
+    timeout: 3000,
     rules: {
       emailText: [
         (v) => !!v || 'E-mail is required',
@@ -120,28 +143,92 @@ export default {
   computed: {
     currentTime: () => new Date().toISOString(),
     ...mapState({
-      deadlines: 'deadlines',
       loading: 'loadingDeadlines',
     }),
+    uploadStatus() {
+      return this.$store.state.uploadStatus;
+    },
+    goodSnackbar() {
+      if (this.uploadStatus === 1) {
+        const payload = {
+          val: 0,
+          delay: true,
+        };
+        this.$store.dispatch('updateUploadStatus', payload);
+        return true;
+      }
+      return false;
+    },
+    badSnackbar() {
+      if (this.uploadStatus === -1) {
+        const payload = {
+          val: 0,
+          delay: true,
+        };
+        this.$store.dispatch('updateUploadStatus', payload);
+        return true;
+      }
+      return false;
+    },
+
+    sortedDeadlines() {
+      const sortedDeadlines = [...this.$store.state.deadlines];
+      sortedDeadlines.sort(this.compare);
+      return sortedDeadlines;
+    },
   },
 
   methods: {
     signOut() {
-      this.$store.dispatch('signout');
+      this.$store.dispatch('signOut');
+    },
+
+    fileUploaded() { this.fileError = false; },
+
+    compare(a, b) {
+      if (a.dueStamp.seconds < b.dueStamp.seconds) { return -1; }
+      if (a.dueStamp.seconds > b.dueStamp.seconds) { return 1; }
+      return 0;
     },
 
     getBlackmailFile(file) {
       this.newDeadline.file = file;
+      this.fileError = false;
+    },
+
+    validateDate() {
+      const payload = {
+        validity: true,
+        err: '',
+      };
+      if (!this.newDeadlineDate) {
+        payload.validity = false;
+        payload.err = 'Please select a date';
+        return payload;
+      }
+
+      const fiveMin = new Date(Date.now() + 5 * 60000);
+      const deadlineMills = new Date(this.newDeadlineDate);
+      if (fiveMin > deadlineMills) {
+        payload.validity = false;
+        payload.err = 'Please select a deadline more than 5 minutes into the future.';
+        return payload;
+      }
+      return payload;
     },
 
     submit() {
+      this.validDate = this.validateDate();
       const valid = this.$refs.newDeadline.validate()
-        && this.newDeadline.file && this.newDeadlineDate;
+        && this.newDeadline.file && this.validDate.validity;
       if (valid) {
         this.newDeadline.dueStamp.seconds = new Date(this.newDeadlineDate).getTime() / 1000;
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
       } else {
+        if (!this.newDeadline.file) {
+          this.fileError = true;
+        }
         console.log('something is invalid');
       }
     },
@@ -175,5 +262,14 @@ export default {
   }
   .dialogConfirm{
     font-size: 12px;
+  }
+  .dateError{
+    text-align: left;
+    color: #ff5252;
+  }
+  .fileMessage{
+    text-align: left;
+    color: #ff5252;
+    margin-left: 12px;
   }
 </style>

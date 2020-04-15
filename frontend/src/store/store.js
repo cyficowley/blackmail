@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     currentUser: null,
     deadlines: [],
     loadingDeadlines: true,
+    uploadStatus: 0,
   },
 
   actions: {
@@ -50,7 +51,7 @@ const store = new Vuex.Store({
         console.log(error);
       }
     },
-    // commit mutation dispatch action
+
     async createDeadline({ commit, state }, deadline) {
       const { file } = deadline;
       const submittedDeadline = { ...deadline };
@@ -62,11 +63,22 @@ const store = new Vuex.Store({
         const fileRef = fb.storage.child(uploadPath);
         await fileRef.put(file);
         commit('addDeadlines', [submittedDeadline]);
+        commit('updateUploadStatus', 1);
       } catch (error) {
         console.log(error);
+        commit('updateUploadStatus', -1);
       }
     },
 
+    updateUploadStatus({ commit }, payload) {
+      console.log(payload.delay);
+      if (payload.delay) {
+        console.log('we delayed');
+        setTimeout(() => commit('updateUploadStatus', payload.val), 3100);
+      } else {
+        commit('updateUploadStatus', payload.val);
+      }
+    },
 
     async updateDeadline({ commit, state }, deadline) {
       console.log(state.currentUser.uid);
@@ -98,6 +110,11 @@ const store = new Vuex.Store({
 
     setLoadingDeadlines(state, val) {
       state.loadingDeadlines = val;
+    },
+    updateUploadStatus(state, val) {
+      state.uploadStatus = val;
+      console.log('store');
+      console.log(state.uploadStatus);
     },
 
     updateDeadline(state, newDeadline) {

@@ -73,6 +73,7 @@ export default {
       this.currentStatus = STATUS_SAVING;
       this.uploadCallback(file);
       this.currentStatus = STATUS_SUCCESS;
+      this.$emit('fileUploaded');
     },
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;
