@@ -35,7 +35,7 @@
                     class = "dateBox" type="datetime" v-model="newDeadlineDate"
                     :min-datetime="currentTime" input-style="width:100%;"
                     :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
-                    <p v-if="!validDate.validity"
+                    <p v-if="(!validDate.validity && newDeadlineDatex=='')"
                     class = "dateError">{{ validDate.err }}</p>
                   </v-col>
                   <v-col cols="12" sm="6">
@@ -112,6 +112,7 @@ export default {
       status: 'incomplete',
       file: undefined,
     },
+    deadlineDelay: 0,
     valid: true,
     validDate: {
       validity: true,
@@ -139,7 +140,7 @@ export default {
   },
 
   computed: {
-    currentTime: () => new Date().toISOString(),
+    currentTime: () => new Date(Date.now() + 0 * 60000).toISOString(),
     ...mapState({
       loading: 'loadingDeadlines',
     }),
@@ -196,14 +197,6 @@ export default {
       if (!this.newDeadlineDate) {
         payload.validity = false;
         payload.err = 'Please select a date';
-        return payload;
-      }
-
-      const fiveMin = new Date(Date.now() + 5 * 60000);
-      const deadlineMills = new Date(this.newDeadlineDate);
-      if (fiveMin > deadlineMills) {
-        payload.validity = false;
-        payload.err = 'Please select a deadline more than 5 minutes into the future.';
         return payload;
       }
       return payload;
