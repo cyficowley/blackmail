@@ -6,18 +6,10 @@
       <router-link to="/home">Home</router-link>
     </div>
     <h1>This is an dab page</h1>
-    <v-btn color="black" class="mr-4" @click="signOut">
+    <v-btn @click="signOut">
       Sign Out
     </v-btn>
 
-    <v-container v-if="loading">
-      <h1>Loading</h1>
-    </v-container>
-    <v-container v-else>
-      <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
-        <Deadline v-bind="deadline"/>
-      </v-row>
-    </v-container>
     <v-row justify="center">
        <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
@@ -34,35 +26,32 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="newDeadline.proofDescription" :rules="[rules.required]"
-                     label="Goal to complete"></v-text-field>
+                  <v-col cols="12" sm="6">
+                    <v-text-field v-model="newDeadline.name" :rules="[rules.required]"
+                     label="Goal name"></v-text-field>
                   </v-col>
-                  <v-col cols="6">
-                    <datetime placeholder = "Select Deadline Date and Time" use12-hour
+                  <v-col cols="12" sm="6">
+                    <Datetime placeholder = "Select Deadline Date and Time" use12-hour
                     class = "dateBox" type="datetime" v-model="newDeadlineDate"
-                    :min-datetime="currentTime"/>
+                    :min-datetime="currentTime" input-style="width:100%;"
+                    :phrases="{ok: 'Continue', cancel: 'Exit'}" auto/>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" sm="6">
                     <v-text-field label="Email of recipient" v-model="newDeadline.recipient"
                     :rules="rules.emailText" ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
                   </v-col>
-                  <v-col cols="6">
-                    <v-text-field v-model="newDeadline.name" :rules="[rules.required]"
-                    label="Name of Blackmail"></v-text-field>
+                  <v-col cols="12">
+                    <v-textarea v-model="newDeadline.proofDescription" :rules="[rules.required]"
+                    label="Description of proof of completion" rows="3" auto-grow></v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
               <v-checkbox class="dialogConfirm" v-model="confirmed" label="I understand that this
               image will be sent to the recepient if I do not provide proof of
-<<<<<<< HEAD
-              completing the task by the deadline ." :rules="[rules.required]">
-=======
-              completing the task by the deadline.">
->>>>>>> b746a095e398eccaa88abb1a64abd19eeda36709
+              completing the task by the deadline." :rules="[rules.required]">
               </v-checkbox>
             </v-card-text>
             <v-card-actions>
@@ -74,6 +63,15 @@
         </v-form>
       </v-dialog>
     </v-row>
+
+    <v-container v-if="loading">
+      <h1>Loading</h1>
+    </v-container>
+    <v-container v-else>
+      <v-row v-for="deadline in deadlines" :key="deadline.id" style="margin-bottom:12px;">
+        <Deadline v-bind="deadline"/>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
 
@@ -141,9 +139,10 @@ export default {
         && this.newDeadline.file && this.newDeadlineDate;
       if (valid) {
         this.newDeadline.dueStamp.seconds = new Date(this.newDeadlineDate).getTime() / 1000;
-        console.log('should submit');
+        this.$store.dispatch('createDeadline', this.newDeadline);
+        this.dialog = false;
       } else {
-        console.log('should not submit');
+        console.log('something is invalid');
       }
     },
   },

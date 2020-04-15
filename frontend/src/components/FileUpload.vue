@@ -81,7 +81,6 @@ export default {
   },
   mounted() {
     this.reset();
-    this.setDimensions();
   },
 };
 </script>
@@ -113,6 +112,9 @@ export default {
   }
 
   .dropbox:hover {
+    background: #ddd  ; /* when mouse over to the drop zone, change color */
+  }
+  .dropbox:focus-within {
     background: #ddd  ; /* when mouse over to the drop zone, change color */
   }
 </style>

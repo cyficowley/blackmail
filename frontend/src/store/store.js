@@ -52,8 +52,19 @@ const store = new Vuex.Store({
     },
     // commit mutation dispatch action
     async createDeadline({ commit, state }, deadline) {
-      commit('addDeadlines', [deadline]);
-      fb.users.doc(state.currentUser.uid).collection('deadlines').add(deadline);
+      const { file } = deadline;
+      const submittedDeadline = { ...deadline };
+      delete submittedDeadline.file;
+      try {
+        const { id } = await fb.users.doc(state.currentUser.uid).collection('deadlines').add(submittedDeadline);
+        submittedDeadline.id = id;
+        const uploadPath = [state.currentUser.uid, id, 'blackmail', file.name].join('/');
+        const fileRef = fb.storage.child(uploadPath);
+        await fileRef.put(file);
+        commit('addDeadlines', [submittedDeadline]);
+      } catch (error) {
+        console.log(error);
+      }
     },
 
 
