@@ -64,10 +64,10 @@ export default {
 
   computed: {
     timeRemaining() {
-      return moment.unix(this.dueStamp.seconds).fromNow();
+      return moment(this.dueStamp).fromNow();
     },
     dateString() {
-      return moment.unix(this.dueStamp.seconds).format('[Midnight] MMMM Do YYYY');
+      return moment(this.dueStamp).format('[Midnight] MMMM Do YYYY');
     },
     statusColor() {
       if (this.status === 'finished') {

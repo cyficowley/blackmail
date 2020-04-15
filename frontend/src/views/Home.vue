@@ -108,9 +108,7 @@ export default {
       name: '',
       proofDescription: '',
       recipient: '',
-      dueStamp: {
-        seconds: undefined,
-      },
+      dueStamp: undefined,
       status: 'incomplete',
       file: undefined,
     },
@@ -173,7 +171,7 @@ export default {
 
     sortedDeadlines() {
       const sortedDeadlines = [...this.$store.state.deadlines];
-      sortedDeadlines.sort(this.compare);
+      sortedDeadlines.sort();
       return sortedDeadlines;
     },
   },
@@ -184,12 +182,6 @@ export default {
     },
 
     fileUploaded() { this.fileError = false; },
-
-    compare(a, b) {
-      if (a.dueStamp.seconds < b.dueStamp.seconds) { return -1; }
-      if (a.dueStamp.seconds > b.dueStamp.seconds) { return 1; }
-      return 0;
-    },
 
     getBlackmailFile(file) {
       this.newDeadline.file = file;
@@ -222,7 +214,7 @@ export default {
       const valid = this.$refs.newDeadline.validate()
         && this.newDeadline.file && this.validDate.validity;
       if (valid) {
-        this.newDeadline.dueStamp.seconds = new Date(this.newDeadlineDate).getTime() / 1000;
+        this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
       } else {

@@ -28,7 +28,9 @@ const store = new Vuex.Store({
         const deadlines = [];
         const snapshot = await getDeadlines.get();
         snapshot.forEach((doc) => {
-          deadlines.push({ id: doc.id, ...doc.data() });
+          const docData = { id: doc.id, ...doc.data() };
+          docData.dueStamp = docData.dueStamp.toDate();
+          deadlines.push(docData);
         });
         this.loading = false;
         this.deadlines = deadlines;
