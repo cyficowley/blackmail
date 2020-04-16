@@ -189,6 +189,10 @@ export default {
     validateDate() {
       return !(!this.newDeadlineDate);
     },
+    resetForm() {
+      this.$refs.newDeadline.reset();
+      this.newDeadlineDate = '';
+    },
 
     submit() {
       this.validDate = this.validateDate();
@@ -198,6 +202,7 @@ export default {
         this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
+        this.resetForm();
       } else {
         if (!this.newDeadline.file) {
           this.fileError = true;
