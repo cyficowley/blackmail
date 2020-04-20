@@ -7,9 +7,9 @@
       <router-link to="/home">Home</router-link>
     </div>
     <h1>This is an dab page</h1>
-    <!-- <v-btn @click="signOut">
+    <v-btn @click="signOut">
       Sign Out
-    </v-btn> -->
+    </v-btn>
     <v-row>
         <v-menu offset-y>
         <template v-slot:activator="{ on }">
