@@ -6,13 +6,15 @@ const fb = require('../plugins/firebase');
 
 Vue.use(Vuex);
 
+const getDefaultState = () => ({
+  currentUser: null,
+  deadlines: [],
+  loadingDeadlines: true,
+  uploadStatus: 0,
+});
+
 const store = new Vuex.Store({
-  state: {
-    currentUser: null,
-    deadlines: [],
-    loadingDeadlines: true,
-    uploadStatus: 0,
-  },
+  state: getDefaultState(),
 
   actions: {
     async getAllDeadlines({ commit, state }) {
@@ -99,7 +101,7 @@ const store = new Vuex.Store({
     async signOut({ commit }) {
       try {
         await fb.auth.signOut();
-        commit('setCurrentUser', undefined);
+        commit('resetState');
         router.push('/');
       } catch (err) {
         console.log(err);
@@ -110,6 +112,10 @@ const store = new Vuex.Store({
   mutations: {
     setCurrentUser(state, val) {
       state.currentUser = val;
+    },
+
+    resetState(state) {
+      Object.assign(state, getDefaultState());
     },
 
     setLoadingDeadlines(state, val) {

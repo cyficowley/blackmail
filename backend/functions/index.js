@@ -2,8 +2,6 @@ const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail');
 const serviceAccount = require("./.serviceAccountKey.json");
 const admin = require('firebase-admin');
-// const { tmpdir } = require("os");
-
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
@@ -38,6 +36,7 @@ let grabPassedDeadlines = async () => {
 
 // singular deadline
 let grabBlackmail = async (deadline) => {
+  console.log("grabbing");
   blackmails = []
   const {uid, did} = deadline;
   const path = [uid, did, 'blackmail'].join('/');
@@ -60,6 +59,7 @@ let grabBlackmail = async (deadline) => {
     })  
   }
 
+  console.log("finished grabbing");
   return attachments;
 }
 
@@ -79,10 +79,13 @@ let sendEmail = async (deadline, attachments) => {
 
 // Do it one at a time so we don't run out of ram, who cares if its slow
 let downloadAndSend = async (deadlines) => {
-  deadlines.forEach(async (deadline) => {
+  for (let i = 0; i < deadlines.length; i++) {
+    const deadline = deadlines[i];
+    // eslint-disable-next-line no-await-in-loop
     attachments = await grabBlackmail(deadline);
+    // eslint-disable-next-line no-await-in-loop
     await sendEmail(deadline, attachments);
-  });
+  }
 }
 
 let updateEntries = async (deadlines) => {
@@ -95,12 +98,24 @@ let updateEntries = async (deadlines) => {
   await Promise.all(promises);
 }
 
+let deleteStorageObjects = async (deadlines) => {
+  console.log("deleting");
+  const promises = [];
+  deadlines.forEach((deadline) => {
+    const {uid, did} = deadline;
+    const path = [uid, did].join('/');
+    promises.push(bucket.deleteFiles({prefix:path}));
+  });
+
+  await Promise.all(promises);
+}
 
 // For actually running on schedule
 exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(async () => {
   const deadlines = await grabPassedDeadlines();
-  downloadAndSend(deadlines);
-  updateEntries(deadlines);
+  await downloadAndSend(deadlines);
+  await updateEntries(deadlines);
+  await deleteStorageObjects(deadlines);
 });
 
 // For debugging
@@ -108,16 +123,17 @@ exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(async () => {
 //   const deadlines = await grabPassedDeadlines();
 //   await downloadAndSend(deadlines);
 //   await updateEntries(deadlines);
+//   await deleteStorageObjects(deadlines);
 //   res.send("ok");
 // });
 
 
 
-// // truly really for debugging, don't deploy with this
+// // // truly really for debugging, don't deploy with this
 // exports.addFakeData = functions.https.onRequest(async (req, res) => {
 
 //   const date = new Date();
-//   const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   const did = "C7OSG8VLWHyW55Jjq3HZ";
 //   const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
 //   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
 
