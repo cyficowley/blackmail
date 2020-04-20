@@ -48,7 +48,7 @@ const store = new Vuex.Store({
       const fileRef = fb.storage.child(uploadPath);
       try {
         await fileRef.put(file);
-        dispatch('updateDeadline', { id, status: 'approving' });
+        dispatch('updateDeadline', { id, status: 'Pending' });
       } catch (error) {
         console.error(error);
       }

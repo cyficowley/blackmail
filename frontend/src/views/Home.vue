@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 
 <template>
   <v-app id="home">
@@ -6,13 +7,56 @@
       <router-link to="/home">Home</router-link>
     </div>
     <h1>This is an dab page</h1>
-    <v-btn @click="signOut">
+    <!-- <v-btn @click="signOut">
       Sign Out
-    </v-btn>
-
-       <v-dialog v-model="dialog" persistent max-width="600px">
+    </v-btn> -->
+    <v-row>
+        <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">Create a New Deadline</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-on="on"
+            >
+            Sort by
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in sortMethods"
+            :key="index"
+            @click="currentSort=item.id;"
+          >
+            <v-list-item-title>{{item.method}}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <h2>Filter Deadlines: </h2>
+      <v-btn-toggle
+            v-model="filterList"
+            multiple
+          >
+            <v-btn>
+              <p>Incomplete</p>
+            </v-btn>
+            <v-btn>
+              <p>Pending</p>
+            </v-btn>
+            <v-btn>
+              <p>Completed</p>
+            </v-btn>
+            <v-btn>
+              <p>Sent</p>
+            </v-btn>
+          </v-btn-toggle>
+Model: {{ filterList }}
+
+    </v-row>
+
+       <v-dialog id="dialogBox" v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on }">
+          <v-btn color="primary" dark
+           v-on="on">Create a New Deadline</v-btn>
         </template>
         <v-form ref="newDeadline"
           v-model="valid"
@@ -42,7 +86,8 @@
                     :rules="rules.emailText" ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <FileUpload message="Upload File" :uploadCallback="getBlackmailFile"/>
+                    <FileUpload :key="fileComponentKey" message="Upload File"
+                    :uploadCallback="getBlackmailFile"/>
 
                     <p v-if="fileError" class = "fileMessage">Upload a file to continue.</p>
                   </v-col>
@@ -60,7 +105,8 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-              <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
+              <v-btn color="blue darken-1" text @click="submit"
+              :disabled="!valid">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
@@ -79,7 +125,6 @@
         top
       >Deadline Submission failed :(
       </v-snackbar>
-
     <v-container v-if="loading">
       <h1>Loading</h1>
     </v-container>
@@ -102,12 +147,15 @@ export default {
   name: 'Landing',
 
   data: () => ({
+    filterList: [],
+    currentSort: 0,
+    sortMethods: [{ method: 'Date', id: 0 }, { method: 'Alphabetical', id: 1 }],
     newDeadline: {
       name: '',
       proofDescription: '',
       recipient: '',
       dueStamp: undefined,
-      status: 'incomplete',
+      status: 'Incomplete',
       file: undefined,
     },
     valid: true,
@@ -119,6 +167,7 @@ export default {
     fileError: false,
     dialog: false,
     timeout: 3000,
+    fileComponentKey: 0,
     rules: {
       emailText: [
         (v) => !!v || 'E-mail is required',
@@ -127,6 +176,7 @@ export default {
       required: (value) => !!value || 'Required',
       min: (v) => v.length >= 8 || 'Min 8 characters',
     },
+
   }),
 
   created() {
@@ -168,8 +218,13 @@ export default {
     },
 
     sortedDeadlines() {
-      const sortedDeadlines = [...this.$store.state.deadlines];
-      sortedDeadlines.sort();
+      let sortedDeadlines = [...this.$store.state.deadlines];
+      sortedDeadlines = this.filter(sortedDeadlines);
+      if (this.currentSort === 0) {
+        sortedDeadlines.sort(this.compareDate);
+      } else if (this.currentSort === 1) {
+        sortedDeadlines.sort(this.compareAlphabet);
+      }
       return sortedDeadlines;
     },
   },
@@ -177,6 +232,54 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch('signOut');
+    },
+
+    filter(sortedDeadlines) {
+      // es lint sucks ass
+      console.log(this.filterList);
+      let sortedDeadlinesCopy = sortedDeadlines;
+      if (this.filterList.length === 0) {
+        return sortedDeadlinesCopy;
+      }
+      if (!this.filterList.includes(0)) {
+        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Incomplete');
+      }
+      if (!this.filterList.includes(1)) {
+        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Pending');
+      }
+      if (!this.filterList.includes(2)) {
+        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Completed');
+      }
+      if (!this.filterList.includes(3)) {
+        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Sent');
+      }
+      return sortedDeadlinesCopy;
+    },
+
+
+    removeStatus(sortedDeadlines, message) {
+      if (sortedDeadlines.length !== 0) {
+        const arr = sortedDeadlines.map((x) => x.status);
+        let index = arr.indexOf(message);
+        while (index !== -1) {
+          arr.splice(index, 1);
+          sortedDeadlines.splice(index, 1);
+          index = arr.indexOf(message);
+        }
+        return sortedDeadlines;
+      }
+      return sortedDeadlines;
+    },
+
+    compareDate(a, b) {
+      if (a.dueStamp.seconds < b.dueStamp.seconds) { return -1; }
+      if (a.dueStamp.seconds > b.dueStamp.seconds) { return 1; }
+      return 0;
+    },
+    compareAlphabet(a, b) {
+      if (a.name < b.name) { return -1; }
+      if (a.name > b.name) { return 1; }
+      return 0;
     },
 
     fileUploaded() { this.fileError = false; },
@@ -192,6 +295,7 @@ export default {
     resetForm() {
       this.$refs.newDeadline.reset();
       this.newDeadlineDate = '';
+      this.fileComponentKey += 1;
     },
 
     submit() {

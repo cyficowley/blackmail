@@ -32,7 +32,7 @@
             <p><strong>Proof Description:</strong></p>
             <p>{{proofDescription}}</p>
           </div>
-          <div v-if="this.status=='incomplete'">
+          <div v-if="this.status=='Incomplete'">
             <FileUpload message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
@@ -70,14 +70,17 @@ export default {
       return moment(this.dueStamp).format('[Midnight] MMMM Do YYYY');
     },
     statusColor() {
-      if (this.status === 'finished') {
+      if (this.status === 'complete') {
         return 'green';
-      } if (this.status === 'incomplete') {
+      } if (this.status === 'Incomplete') {
         return 'red';
-      } if (this.status === 'approving') {
+      } if (this.status === 'pending') {
         return 'blue';
       }
-      return 'orange';
+      if (this.status === 'Sent') {
+        return 'orange';
+      }
+      return 'purple';
     },
   },
 
