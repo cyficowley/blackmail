@@ -6,13 +6,15 @@ const fb = require('../plugins/firebase');
 
 Vue.use(Vuex);
 
+const getDefaultState = () => ({
+  currentUser: null,
+  deadlines: [],
+  loadingDeadlines: true,
+  uploadStatus: 0,
+});
+
 const store = new Vuex.Store({
-  state: {
-    currentUser: null,
-    deadlines: [],
-    loadingDeadlines: true,
-    uploadStatus: 0,
-  },
+  state: getDefaultState(),
 
   actions: {
     async getAllDeadlines({ commit, state }) {
@@ -43,12 +45,19 @@ const store = new Vuex.Store({
     },
 
     async uploadDeadlineProof({ state, dispatch }, { id, file }) {
-      const uploadPath = [state.currentUser.uid, id, 'proof', file.name].join('/');
+      const { uid } = state.currentUser;
+      const uploadPath = [uid, id, 'proof', file.name].join('/');
 
       const fileRef = fb.storage.child(uploadPath);
       try {
         await fileRef.put(file);
         dispatch('updateDeadline', { id, status: 'Pending' });
+
+        const expiringRef = fb.db.collection('expiring');
+        const snapshot = await expiringRef.where('uid', '==', uid).where('did', '==', id).get();
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
       } catch (error) {
         console.error(error);
       }
@@ -99,7 +108,7 @@ const store = new Vuex.Store({
     async signOut({ commit }) {
       try {
         await fb.auth.signOut();
-        commit('setCurrentUser', undefined);
+        commit('resetState');
         router.push('/');
       } catch (err) {
         console.log(err);
@@ -110,6 +119,10 @@ const store = new Vuex.Store({
   mutations: {
     setCurrentUser(state, val) {
       state.currentUser = val;
+    },
+
+    resetState(state) {
+      Object.assign(state, getDefaultState());
     },
 
     setLoadingDeadlines(state, val) {

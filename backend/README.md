@@ -6,7 +6,7 @@
 2. firebase login
 3. then just npm install in the directory
 
-## To run
+## To deploy
 
 1. firebase deploy --only functions
 2. Go to the url given to you to manually run it
@@ -14,5 +14,7 @@
 
 ## To test
 
-1. [install firebase local emulator](https://firebase.google.com/docs/functions/local-emulator)
-2. run `firebase emulators:start`
+1. uncomment the testing code
+2. [install firebase local emulator](https://firebase.google.com/docs/functions/local-emulator)
+3. run `firebase emulators:start`
+4. click the links
