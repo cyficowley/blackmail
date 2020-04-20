@@ -45,12 +45,19 @@ const store = new Vuex.Store({
     },
 
     async uploadDeadlineProof({ state, dispatch }, { id, file }) {
-      const uploadPath = [state.currentUser.uid, id, 'proof', file.name].join('/');
+      const { uid } = state.currentUser;
+      const uploadPath = [uid, id, 'proof', file.name].join('/');
 
       const fileRef = fb.storage.child(uploadPath);
       try {
         await fileRef.put(file);
         dispatch('updateDeadline', { id, status: 'approving' });
+
+        const expiringRef = fb.db.collection('expiring');
+        const snapshot = await expiringRef.where('uid', '==', uid).where('did', '==', id).get();
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
       } catch (error) {
         console.error(error);
       }
