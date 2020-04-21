@@ -2,10 +2,10 @@
   <v-app id="landing">
     <v-content>
       <v-container fluid class="fullwindow">
-        <v-row id="landing-row" class="fullwindow">
-          <v-col cols="12" lg="4">
+        <v-row id="landing-row" class="fullwindow dark-1">
+          <v-col cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card color="rgba(255,255,255,.8)" flat>
+              <v-card class="light-1" flat>
                 <h1 id="header">BLACKMAIL</h1>
                 <p id="tagline">No one can motivate you better than you</p>
                 <p id="tagpara">
@@ -15,16 +15,15 @@
               </v-card>
             </div>
           </v-col>
-          <v-col cols="4">
-            <v-btn style="top:90vh;" class="d-none d-md-inline" depressed
-              color="rgba(255,255,255,.8)"
+          <v-col d-none md="4">
+            <v-btn style="top:90vh;" class="d-none d-md-inline accent-1" depressed
               align-bottom @click="$vuetify.goTo('#row2', {duration:800})">
               More Questions?
             </v-btn>
           </v-col>
-          <v-col cols="12" lg="4">
+          <v-col cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card color="rgba(255,255,255,.8)" style="padding:20px; text-align:left" flat>
+              <v-card class="light-2" style="padding:20px; text-align:left" flat>
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
@@ -32,7 +31,7 @@
             </div>
           </v-col>
         </v-row>
-        <v-row id="row2" class='text-left'>
+        <v-row id="row2" class='text-left dark-2'>
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
@@ -112,8 +111,8 @@ export default {
     font-weight: 400;
   }
   #landing-row{
-    background-image: url("../assets/landing.jpg");
-    background-size: cover;
+    /* background-image: url("../assets/landing.jpg");
+    background-size: cover; */
   }
   .bigTitle{
     font-size: 100px;
@@ -131,6 +130,6 @@ export default {
     padding-left: 10px;
   }
   .cardAnswer{
-      padding-left: 10px;
+    padding-left: 10px;
   }
 </style>

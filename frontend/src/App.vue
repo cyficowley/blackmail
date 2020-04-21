@@ -6,11 +6,32 @@
 
 <style>
 #app {
+  --dark-1: #EAE7DC;
+  --dark-2: #D8C3A5;
+  --light-1: #8E8D8A;
+  --light-2: #E98074;
+  --accent: #E85A4F;
+
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+}
+
+.dark-1{
+  background-color: var(--dark-1) !important;
+}
+.dark-2{
+  background-color: var(--dark-2) !important;
+}
+.light-1{
+  background-color: var(--light-1) !important;
+}
+.light-2{
+  background-color: var(--light-2) !important;
+}
+.accent-1{
+  background-color: var(--accent) !important;
 }
 
 #nav {
@@ -19,11 +40,6 @@
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
