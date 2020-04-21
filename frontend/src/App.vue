@@ -6,11 +6,11 @@
 
 <style>
 #app {
-  --dark-1: #EAE7DC;
-  --dark-2: #D8C3A5;
-  --light-1: #8E8D8A;
-  --light-2: #E98074;
-  --accent: #E85A4F;
+  --dark-1: white;
+  --dark-2: white;
+  --light-1: white;
+  --light-2: white;
+  --accent: white;
 
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

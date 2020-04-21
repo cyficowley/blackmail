@@ -11,6 +11,10 @@
                 <p id="tagpara">
                   You will be more motivated then you ever have been in your entire miserable life.
                   Please use our product we want ad revenue.
+                  You will be more motivated then you ever have been in your entire miserable life.
+                  Please use our product we want ad revenue.
+                  You will be more motivated then you ever have been in your entire miserable life.
+                  Please use our product we want ad revenue.
                 </p>
               </v-card>
             </div>
@@ -87,6 +91,9 @@ export default {
       height:auto !important;
     }
   }
+  p{
+    /* color:white; */
+  }
 
   .fullwindow{
     padding-top:0;
@@ -111,8 +118,8 @@ export default {
     font-weight: 400;
   }
   #landing-row{
-    /* background-image: url("../assets/landing.jpg");
-    background-size: cover; */
+    background-image: url("../assets/landing.jpg");
+    background-size: cover;
   }
   .bigTitle{
     font-size: 100px;
