@@ -7,31 +7,11 @@
 <style>
 #app {
 
-/* 4 */
-
---dark-1: #303C6C;
-  --dark-2: #B4dFe5;
-  --light-1: #F27D42;
-  --light-2: #F4976C;
-  --accent: #D2FDFF;
-
-/*
-camp site
---dark-1: #022449;
-  --dark-2: #B4dFe5;
-  --light-1: #F27D42;
-  --light-2: #558DCA;
-  --accent: #96FFFF; */
-  /* C8Eff9 */
-
-
-  /*
-  5???
-   --dark-1: #374785;
-  --dark-2: #24305E;
-  --light-1: #F76c6c;
-  --light-2: #F76c6c;
-  --accent: #A8D0E6; */
+  --dark-1: #02244A;
+  --dark-2: #164869;
+  --light-1: #8CE5F5;
+  --light-2: #55BDCA;
+  --accent: #DF622C;
 
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -51,8 +31,15 @@ camp site
 .light-2{
   background-color: var(--light-2) !important;
 }
+.light-3{
+  background-color: var(--light-3) !important;
+}
 .accent-1{
   background-color: var(--accent) !important;
+}
+
+.my-app.v-application .primary--text {
+  color: white !important;
 }
 
 #nav {

@@ -1,11 +1,11 @@
 <template>
   <v-app id="landing">
     <v-content>
-      <v-container fluid class="fullwindow">
-        <v-row id="landing-row" class="fullwindow dark-1">
-          <v-col cols="12" md="4">
+      <v-container fluid class="fullwindow" style="z-index:0;">
+        <v-row id="landing-row" class="fullwindow">
+          <v-col class="forward" cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card class="light-1" flat>
+              <v-card class="light-2">
                 <h1 id="header">BLACKMAIL</h1>
                 <p id="tagline">No one can motivate you better than you</p>
                 <p id="tagpara">
@@ -19,23 +19,33 @@
               </v-card>
             </div>
           </v-col>
-          <v-col d-none md="4">
-            <v-btn style="top:90vh;" class="d-none d-md-inline accent-1" depressed
-              align-bottom @click="$vuetify.goTo('#row2', {duration:800})">
-              More Questions?
-            </v-btn>
+          <v-col class="forward d-none d-md-inline" md="4">
+            <div style="height:0px;">
+              <v-btn style="top:90vh;" class="d-none d-md-inline accent-1"
+                @click="$vuetify.goTo('#row2', {duration:800})">
+                More Questions?
+              </v-btn>
+            </div>
+            <v-row>
+              <img src="../assets/landingGirl.svg" style="width:100%; padding-top:80px;">
+            </v-row>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col class="forward" cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card class="light-2" style="padding:20px; text-align:left" flat>
+              <v-card class="light-2" style="padding:20px; text-align:left">
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
               </v-card>
             </div>
           </v-col>
+
+          <div class="stripe2">
+          </div>
+          <div class="stripe">
+          </div>
         </v-row>
-        <v-row id="row2" class='text-left dark-2'>
+        <v-row id="row2" class='forward text-left light-2'>
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
@@ -91,15 +101,29 @@ export default {
       height:auto !important;
     }
   }
-  p{
-    /* color:white; */
-  }
-
   .fullwindow{
     padding-top:0;
     padding-bottom:0;
     height: 100vh;
-    background-color:lightcyan;
+  }
+  .stripe {
+    width:100vw;
+    height:50vh;
+    position:absolute;
+    left:0;
+    bottom:0;
+    background-image: linear-gradient(to right bottom, rgba(0,0,0,0) 50%, var(--light-2) 50%);
+  }
+  .stripe2 {
+    width:70vw;
+    height:70vh;
+    position:absolute;
+    left:0;
+    bottom:0;
+    background-image: linear-gradient(to left bottom, rgba(0,0,0,0) 50%, var(--light-1) 50%);
+  }
+  .forward{
+    z-index:2;
   }
   #tagpara{
     text-align:left;
@@ -118,8 +142,10 @@ export default {
     font-weight: 400;
   }
   #landing-row{
-    background-image: url("../assets/landing.jpg");
-    background-size: cover;
+
+    background-image: linear-gradient(to bottom, var(--dark-1), var(--dark-2));
+    /* background-image: url("../assets/landing.jpg");
+    background-size: cover; */
   }
   .bigTitle{
     font-size: 100px;
@@ -130,9 +156,6 @@ export default {
     list-style: none;
   }
 
-  #row2{
-    background-color: #f4f4f4;
-  }
   .cardQuestion{
     padding-left: 10px;
   }
