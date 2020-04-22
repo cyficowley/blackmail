@@ -8,14 +8,11 @@
             <div style="padding:20px; padding-top:80px;">
               <v-card class="light-2">
                 <h1 id="header">BLACKMAIL</h1>
-                <p id="tagline">No one can motivate you better than you</p>
+                <p id="tagline">Necessity is the mother of invention</p>
                 <p id="tagpara">
-                  You will be more motivated then you ever have been in your entire miserable life.
-                  Please use our product we want ad revenue.
-                  You will be more motivated then you ever have been in your entire miserable life.
-                  Please use our product we want ad revenue.
-                  You will be more motivated then you ever have been in your entire miserable life.
-                  Please use our product we want ad revenue.
+                  You have a goal.  You can't make yourself do it. <br/><br/>
+                  Find an embarrasing file and someone you would never want to see it.<br/><br/>
+                  Upload proof that you completed your goal by your deadline or we send the file.
                 </p>
               </v-card>
             </div>
@@ -46,11 +43,11 @@
           <div class="stripe">
           </div>
         </v-row>
-        <v-row id="row2" class='forward text-left light-1'>
+        <v-row id="row2" class='forward text-left light-2'>
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
-                  <v-expansion-panel style = "background-color: #F6F6F6"
+                  <v-expansion-panel style="background-color:var(--dark-2)"
                   v-for="question in questions" :key="question.q">
                     <v-expansion-panel-header><strong>{{ question.q }}</strong>
                     </v-expansion-panel-header>
