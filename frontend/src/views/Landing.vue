@@ -1,3 +1,4 @@
+
 <template>
   <v-app id="landing">
     <v-content>
@@ -67,10 +68,13 @@
   </v-app>
 </template>
 
+
 <script>
 // @ is an alias to /src
 import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
+
+document.body.style.backgroundColor = '#303C6C';
 
 export default {
   name: 'Landing',
@@ -161,5 +165,8 @@ export default {
   }
   .cardAnswer{
     padding-left: 10px;
+  }
+  html{
+    background-color:1 red;
   }
 </style>

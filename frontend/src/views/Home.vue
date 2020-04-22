@@ -1,61 +1,23 @@
 /* eslint-disable no-plusplus */
 
-<template>
-  <v-app id="home">
-    <div id="nav">
-      <router-link to="/">Landing</router-link> |
-      <router-link to="/home">Home</router-link>
-    </div>
-    <h1>This is an dab page</h1>
-    <v-btn @click="signOut">
+<template >
+<body>
+
+  <v-app id="home" class="darkOne">
+
+
+    <div class = "svgImage">
+    <div id="nav" class="transparent">
+       <v-btn class = "logoutButton"  @click="signOut">
       Sign Out
     </v-btn>
-    <v-row>
-        <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            color="primary"
-            dark
-            v-on="on"
-            >
-            Sort by
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(item, index) in sortMethods"
-            :key="index"
-            @click="currentSort=item.id;"
-          >
-            <v-list-item-title>{{item.method}}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <h2>Filter Deadlines: </h2>
-      <v-btn-toggle
-            v-model="filterList"
-            multiple
-          >
-            <v-btn>
-              <p>Incomplete</p>
-            </v-btn>
-            <v-btn>
-              <p>Pending</p>
-            </v-btn>
-            <v-btn>
-              <p>Completed</p>
-            </v-btn>
-            <v-btn>
-              <p>Sent</p>
-            </v-btn>
-          </v-btn-toggle>
-Model: {{ filterList }}
-
-    </v-row>
-
-       <v-dialog id="dialogBox" v-model="dialog" persistent max-width="600px">
-        <template v-slot:activator="{ on }">
+    </div>
+    <h1  class="transparent">Home</h1>
+    <v-row class = "topRow transparent">
+    <v-dialog id="dialogBox" v-model="dialog" persistent max-width="600px">
+        <template  v-slot:activator="{ on }">
           <v-btn color="primary" dark
+          style="text-align: center;"
            v-on="on">Create a New Deadline</v-btn>
         </template>
         <v-form ref="newDeadline"
@@ -111,6 +73,52 @@ Model: {{ filterList }}
           </v-card>
         </v-form>
       </v-dialog>
+    </v-row>
+
+    <v-row class = "secondRow transparent">
+
+      <h2 class = "filterText">Filter Deadlines: </h2>
+      <v-btn-toggle class = "filterMenu"
+            v-model="filterList"
+            multiple
+          >
+            <v-btn>
+              <p>Incomplete</p>
+            </v-btn>
+            <v-btn>
+              <p>Pending</p>
+            </v-btn>
+            <v-btn>
+              <p>Completed</p>
+            </v-btn>
+            <v-btn>
+              <p>Sent</p>
+            </v-btn>
+          </v-btn-toggle>
+
+          <v-menu offset-y>
+        <template class = "sortBy" v-slot:activator="{ on }">
+          <v-btn
+            class = "sortBy"
+            color="primary"
+            dark
+            v-on="on"
+            >Sort by ▼</v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in sortMethods"
+            :key="index"
+            @click="currentSort=item.id;"
+          >
+            <v-list-item-title>{{item.method}}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+
+    </v-row>
+
     <v-snackbar
         v-model="goodSnackbar"
         :timeout="timeout"
@@ -125,15 +133,21 @@ Model: {{ filterList }}
         top
       >Deadline Submission failed :(
       </v-snackbar>
+       <div class = "transparent">
     <v-container v-if="loading">
       <h1>Loading</h1>
     </v-container>
-    <v-container v-else>
-      <v-row v-for="deadline in sortedDeadlines" :key="deadline.id" style="margin-bottom:12px;">
+
+     <v-container  class = "deadlines" v-else>
+      <v-row v-for="deadline in sortedDeadlines" :key="deadline.id" style="margin-bottom:30px;">
         <Deadline v-bind="deadline"/>
       </v-row>
     </v-container>
+    </div>
+    </div>
+
   </v-app>
+  </body>
 </template>
 
 
@@ -142,6 +156,8 @@ import { Datetime } from 'vue-datetime';
 import Deadline from '@/components/Deadline.vue';
 import FileUpload from '@/components/FileUpload.vue';
 import { mapState } from 'vuex';
+
+document.body.style.backgroundColor = '#303C6C';
 
 export default {
   name: 'Landing',
@@ -162,6 +178,7 @@ export default {
     validDate: {
       validity: true,
     },
+
     newDeadlineDate: '',
     confirmed: '',
     fileError: false,
@@ -178,6 +195,7 @@ export default {
     },
 
   }),
+
 
   created() {
     if (this.$store.state.deadlines.length === 0) {
@@ -336,6 +354,39 @@ export default {
     text-align: left;
 
   }
+  .logoutButton{
+    width: "8%";
+    position:fixed;
+   right:20px;
+   top:20px;
+
+  }
+  .deadlines{
+    vertical-align: top;
+  }
+  .secondRow{
+    width: 100%;
+    max-height: 50px;
+  }
+  .topRow{
+   display: flex;
+  justify-content: center;
+  max-height: 50px;
+  }
+  .svgImage{
+    background-image: url(../assets/landingGirl.svg);
+    background-attachment: fixed;
+  }
+
+  .sortBy{
+    position: absolute;
+    right: 20px;
+  }
+  .filterText{
+    color: black;
+    padding-left: 30px;
+    padding-right: 20px;
+  }
   .dateBox input{
     width: 50%;
   }
@@ -353,5 +404,19 @@ export default {
     text-align: left;
     color: #ff5252;
     margin-left: 12px;
+  }
+  .filterMenu{
+    align-content: right;
+  }
+  .transparent{
+    background-color: rgba(0,0,0,1);
+  }
+
+  .darkOne{
+  background:#303C6C !important;
+
+  }
+  html{
+    background-color:#303C6C!important;
   }
 </style>
