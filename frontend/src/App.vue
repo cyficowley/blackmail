@@ -38,9 +38,6 @@
   background-color: var(--accent) !important;
 }
 
-.my-app.v-application .primary--text {
-  color: white !important;
-}
 
 #nav {
   padding: 30px;

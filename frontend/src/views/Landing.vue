@@ -45,7 +45,7 @@
           <div class="stripe">
           </div>
         </v-row>
-        <v-row id="row2" class='forward text-left light-2'>
+        <v-row id="row2" class='forward text-left light-1'>
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
