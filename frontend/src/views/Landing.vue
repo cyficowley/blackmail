@@ -45,11 +45,11 @@
           <div class="stripe">
           </div>
         </v-row>
-        <v-row id="row2" class='forward text-left light-1'>
+        <v-row id="row2" class='forward text-left light-2'>
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
-                  <v-expansion-panel style = "background-color: #F6F6F6"
+                  <v-expansion-panel style="background-color:var(--dark-2)"
                   v-for="question in questions" :key="question.q">
                     <v-expansion-panel-header><strong>{{ question.q }}</strong>
                     </v-expansion-panel-header>
