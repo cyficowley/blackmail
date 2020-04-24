@@ -6,7 +6,7 @@
         <v-row id="landing-row" class="fullwindow">
           <v-col class="forward" cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card class="light-2">
+              <v-card class="">
                 <h1 id="header">BLACKMAIL</h1>
                 <p id="tagline">Necessity is the mother of invention</p>
                 <p id="tagpara">
@@ -30,7 +30,7 @@
           </v-col>
           <v-col class="forward" cols="12" md="4">
             <div style="padding:20px; padding-top:80px;">
-              <v-card class="light-2" style="padding:20px; text-align:left">
+              <v-card class="" style="padding:20px; text-align:left">
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
@@ -47,7 +47,7 @@
           <div style="width:70vw; margin:0 auto;">
             <h1 class="text-left bigTitle">FAQ</h1>
                 <v-expansion-panels accordion multiple>
-                  <v-expansion-panel style="background-color:var(--dark-2)"
+                  <v-expansion-panel class="light-1"
                   v-for="question in questions" :key="question.q">
                     <v-expansion-panel-header><strong>{{ question.q }}</strong>
                     </v-expansion-panel-header>
@@ -162,8 +162,5 @@ export default {
   }
   .cardAnswer{
     padding-left: 10px;
-  }
-  html{
-    background-color:1 red;
   }
 </style>

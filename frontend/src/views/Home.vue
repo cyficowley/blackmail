@@ -257,40 +257,28 @@ export default {
     },
 
     filter(sortedDeadlines) {
-      // es lint sucks ass
-      console.log(this.filterList);
-      let sortedDeadlinesCopy = sortedDeadlines;
+      const filteredDeadlines = [];
+
+      const statuses = {
+        0: 'Incomplete',
+        1: 'Pending',
+        2: 'Completed',
+        3: 'Sent',
+      };
+
       if (this.filterList.length === 0) {
-        return sortedDeadlinesCopy;
-      }
-      if (!this.filterList.includes(0)) {
-        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Incomplete');
-      }
-      if (!this.filterList.includes(1)) {
-        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Pending');
-      }
-      if (!this.filterList.includes(2)) {
-        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Completed');
-      }
-      if (!this.filterList.includes(3)) {
-        sortedDeadlinesCopy = this.removeStatus(sortedDeadlinesCopy, 'Sent');
-      }
-      return sortedDeadlinesCopy;
-    },
-
-
-    removeStatus(sortedDeadlines, message) {
-      if (sortedDeadlines.length !== 0) {
-        const arr = sortedDeadlines.map((x) => x.status);
-        let index = arr.indexOf(message);
-        while (index !== -1) {
-          arr.splice(index, 1);
-          sortedDeadlines.splice(index, 1);
-          index = arr.indexOf(message);
-        }
         return sortedDeadlines;
       }
-      return sortedDeadlines;
+
+      const currentStatuses = new Set(this.filterList.map((x) => statuses[x]));
+
+      sortedDeadlines.forEach((deadline) => {
+        if (currentStatuses.has(deadline.status)) {
+          filteredDeadlines.push(deadline);
+        }
+      });
+
+      return filteredDeadlines;
     },
 
     compareDate(a, b) {

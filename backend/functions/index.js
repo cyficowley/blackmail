@@ -10,6 +10,10 @@ admin.initializeApp({
   storageBucket: 'blackmail-ec269.appspot.com'
 });
 
+const runtimeOpts = {
+  timeoutSeconds: 540,
+}
+
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
 
@@ -68,7 +72,7 @@ let sendEmail = async (deadline, attachments) => {
   const {recipient, name} = deadline;
   const msg = {
     to: recipient,
-    from: 'ccowley@ucsd.edu',
+    from: 'team@blackmailer.xyz',
     subject: `Someone failed their goal of ${name} and wanted you to see this`,
     text: 'They never uploaded their proof to blackmail.io so you now get to see this',
     attachments: attachments,
@@ -111,7 +115,7 @@ let deleteStorageObjects = async (deadlines) => {
 }
 
 // For actually running on schedule
-exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(async () => {
+exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * * *').onRun(async () => {
   const deadlines = await grabPassedDeadlines();
   await downloadAndSend(deadlines);
   await updateEntries(deadlines);
@@ -119,76 +123,76 @@ exports.autoSend = functions.pubsub.schedule('0 */2 * * *').onRun(async () => {
 });
 
 // For debugging
-// exports.manualSend = functions.https.onRequest(async (req, res) => {
-//   const deadlines = await grabPassedDeadlines();
-//   await downloadAndSend(deadlines);
-//   await updateEntries(deadlines);
-//   await deleteStorageObjects(deadlines);
-//   res.send("ok");
-// });
+exports.manualSend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
+  const deadlines = await grabPassedDeadlines();
+  await downloadAndSend(deadlines);
+  await updateEntries(deadlines);
+  await deleteStorageObjects(deadlines);
+  res.send("ok");
+});
 
 
 
-// // // truly really for debugging, don't deploy with this
-// exports.addFakeData = functions.https.onRequest(async (req, res) => {
+// // truly really for debugging, don't deploy with this
+exports.addFakeData = functions.https.onRequest(async (req, res) => {
 
-//   const date = new Date();
-//   const did = "C7OSG8VLWHyW55Jjq3HZ";
-//   const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+  const date = new Date();
+  const did = "C7OSG8VLWHyW55Jjq3HZ";
+  const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
 
-//   // const f1 = await fs.readFileSync('./.gitignore')
-//   // console.log(f1);
-//   // console.log(f1.name);
-//   // const uploadPath = [uid, did, 'blackmail', './.gitignore'].join('/');
-//   // await storage.upload('./.gitignore', {destination:uploadPath});
+  // const f1 = await fs.readFileSync('./.gitignore')
+  // console.log(f1);
+  // console.log(f1.name);
+  // const uploadPath = [uid, did, 'blackmail', './.gitignore'].join('/');
+  // await storage.upload('./.gitignore', {destination:uploadPath});
 
-//   await db.collection('expiring').add({
-//     date:date,
-//     did:did,
-//     uid:uid,
-//   })
-//   const date2 = new Date();
-//   date2.setDate(date.getDate() + 1);
+  await db.collection('expiring').add({
+    date:date,
+    did:did,
+    uid:uid,
+  })
+  const date2 = new Date();
+  date2.setDate(date.getDate() + 1);
 
-//   await db.collection('expiring').add({
-//     date:date2,
-//     did:did2,
-//     uid:uid,
-//   })
+  await db.collection('expiring').add({
+    date:date2,
+    did:did2,
+    uid:uid,
+  })
 
-//   await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
-//     name:"yeeeet",
-//     recipient:"cyficowley@gmail.com",
-//     status:'unfinished'
-//   })
+  await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
+    name:"yeeeet",
+    recipient:"cyficowley@gmail.com",
+    status:'unfinished'
+  })
 
-//   await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
-//     name:"yeeeet2",
-//     recipient:"cyficowley@gmail.com",
-//     status:'unfinished'
-//   })
+  await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
+    name:"yeeeet2",
+    recipient:"cyficowley@gmail.com",
+    status:'unfinished'
+  })
 
-//   const result = await db.collection('expiring').get();
-//   result.forEach(yeet => {
-//     console.log(yeet.data());
-//   })
-//   res.send("ok");
-// });
+  const result = await db.collection('expiring').get();
+  result.forEach(yeet => {
+    console.log(yeet.data());
+  })
+  res.send("ok");
+});
 
-// exports.wtf = functions.https.onRequest(async (req, res) => {
-//   // const did = "Ai7XCK6uKdvHjQg6hGSx";
-//   // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+exports.wtf = functions.https.onRequest(async (req, res) => {
+  // const did = "Ai7XCK6uKdvHjQg6hGSx";
+  // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
   
-//   const result = await db.collection('expiring').get();
-//   result.forEach(yeet => {
-//     console.log(yeet.data());
-//   })
-//   console.log("users");
-//   const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
-//   yiken.forEach(yeet => {
-//     console.log(yeet.data());
-//   })
-//   res.send("ok");
-// });
+  const result = await db.collection('expiring').get();
+  result.forEach(yeet => {
+    console.log(yeet.data());
+  })
+  console.log("users");
+  const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
+  yiken.forEach(yeet => {
+    console.log(yeet.data());
+  })
+  res.send("ok");
+});
