@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail');
 const serviceAccount = require("./.serviceAccountKey.json");
 const admin = require('firebase-admin');
+const {emailString} = require("./emailTemplate");
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
@@ -69,12 +70,12 @@ let grabBlackmail = async (deadline) => {
 
 // singular email
 let sendEmail = async (deadline, attachments) => {
-  const {recipient, name} = deadline;
+  const {recipient, name, sender, dueStamp} = deadline;
   const msg = {
     to: recipient,
     from: 'team@blackmailer.xyz',
-    subject: `Someone failed their goal of ${name} and wanted you to see this`,
-    text: 'They never uploaded their proof to blackmail.io so you now get to see this',
+    subject: `${sender.split('@')[0]} failed their goal.`,
+    html: emailString(sender, name, dueStamp.toDate()),
     attachments: attachments,
   };
   console.log("about to send msg");
@@ -82,7 +83,7 @@ let sendEmail = async (deadline, attachments) => {
 }
 
 // Do it one at a time so we don't run out of ram, who cares if its slow
-let downloadAndSend = async (deadlines) => {
+let downloadAndSend = async (deadlines) => {  
   for (let i = 0; i < deadlines.length; i++) {
     const deadline = deadlines[i];
     // eslint-disable-next-line no-await-in-loop
@@ -114,6 +115,8 @@ let deleteStorageObjects = async (deadlines) => {
   await Promise.all(promises);
 }
 
+
+
 // For actually running on schedule
 exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * * *').onRun(async () => {
   const deadlines = await grabPassedDeadlines();
@@ -123,76 +126,81 @@ exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * * *')
 });
 
 // For debugging
-exports.manualSend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-  const deadlines = await grabPassedDeadlines();
-  await downloadAndSend(deadlines);
-  await updateEntries(deadlines);
-  await deleteStorageObjects(deadlines);
-  res.send("ok");
-});
+// exports.manualSend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
+//   const deadlines = await grabPassedDeadlines();
+//   await downloadAndSend(deadlines);
+//   await updateEntries(deadlines);
+//   await deleteStorageObjects(deadlines);
+//   res.send("ok");
+// });
 
 
 
-// // truly really for debugging, don't deploy with this
-exports.addFakeData = functions.https.onRequest(async (req, res) => {
+// // // truly really for debugging, don't deploy with this
+// exports.addFakeData = functions.https.onRequest(async (req, res) => {
 
-  const date = new Date();
-  const did = "C7OSG8VLWHyW55Jjq3HZ";
-  const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+//   const date = new Date();
+//   const did = "C7OSG8VLWHyW55Jjq3HZ";
+//   const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+//   const sender = "cyficowley@gmail.com";
 
-  // const f1 = await fs.readFileSync('./.gitignore')
-  // console.log(f1);
-  // console.log(f1.name);
-  // const uploadPath = [uid, did, 'blackmail', './.gitignore'].join('/');
-  // await storage.upload('./.gitignore', {destination:uploadPath});
+//   // const f1 = await fs.readFileSync('./.gitignore')
+//   // console.log(f1);
+//   // console.log(f1.name);
+//   // const uploadPath = [uid, did, 'blackmail', './.gitignore'].join('/');
+//   // await storage.upload('./.gitignore', {destination:uploadPath});
 
-  await db.collection('expiring').add({
-    date:date,
-    did:did,
-    uid:uid,
-  })
-  const date2 = new Date();
-  date2.setDate(date.getDate() + 1);
+//   await db.collection('expiring').add({
+//     date:date,
+//     did:did,
+//     uid:uid,
+//   })
+//   const date2 = new Date();
+//   date2.setDate(date.getDate() + 1);
 
-  await db.collection('expiring').add({
-    date:date2,
-    did:did2,
-    uid:uid,
-  })
+//   await db.collection('expiring').add({
+//     date:date2,
+//     did:did2,
+//     uid:uid,
+//   })
 
-  await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
-    name:"yeeeet",
-    recipient:"cyficowley@gmail.com",
-    status:'unfinished'
-  })
+//   await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
+//     name:"yeeeet",
+//     recipient:"cyficowley@gmail.com",
+//     status:'unfinished',
+//     sender:sender,
+//     dueStamp:date,
+//   })
 
-  await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
-    name:"yeeeet2",
-    recipient:"cyficowley@gmail.com",
-    status:'unfinished'
-  })
+//   await db.collection('users').doc(uid).collection('deadlines').doc(did2).set({
+//     name:"yeeeet2",
+//     recipient:"cyficowley@gmail.com",
+//     status:'unfinished',
+//     sender:sender,
+//     dueStamp:date,
+//   })
 
-  const result = await db.collection('expiring').get();
-  result.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  res.send("ok");
-});
+//   const result = await db.collection('expiring').get();
+//   result.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   res.send("ok");
+// });
 
-exports.wtf = functions.https.onRequest(async (req, res) => {
-  // const did = "Ai7XCK6uKdvHjQg6hGSx";
-  // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
-  const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+// exports.wtf = functions.https.onRequest(async (req, res) => {
+//   // const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
   
-  const result = await db.collection('expiring').get();
-  result.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  console.log("users");
-  const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
-  yiken.forEach(yeet => {
-    console.log(yeet.data());
-  })
-  res.send("ok");
-});
+//   const result = await db.collection('expiring').get();
+//   result.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   console.log("users");
+//   const yiken = await db.collection('users').doc(uid).collection('deadlines').get();
+//   yiken.forEach(yeet => {
+//     console.log(yeet.data());
+//   })
+//   res.send("ok");
+// });
