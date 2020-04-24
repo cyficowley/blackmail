@@ -140,7 +140,8 @@
     </v-container>
 
      <v-container  class = "deadlines" v-else>
-      <v-row v-for="deadline in sortedDeadlines" :key="deadline.id" style="margin-bottom:30px;">
+      <v-row v-for="deadline in sortedDeadlines" :key="deadline.id"
+      style="margin-bottom:40px; margin-top: 40px;">
         <Deadline v-bind="deadline"/>
       </v-row>
     </v-container>
@@ -284,13 +285,13 @@ export default {
     },
 
     compareDate(a, b) {
-      if (a.dueStamp.seconds < b.dueStamp.seconds) { return -1; }
-      if (a.dueStamp.seconds > b.dueStamp.seconds) { return 1; }
+      if (a.dueStamp.getTime() < b.dueStamp.getTime()) { return -1; }
+      if (a.dueStamp.getTime() > b.dueStamp.getTime()) { return 1; }
       return 0;
     },
     compareAlphabet(a, b) {
-      if (a.name < b.name) { return -1; }
-      if (a.name > b.name) { return 1; }
+      if (a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+      if (a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
       return 0;
     },
 
