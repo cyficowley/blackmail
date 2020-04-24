@@ -12,12 +12,13 @@
       Sign Out
     </v-btn>
     </div>
-    <h1  class="transparent">Home</h1>
+    <h1  class="transparent home">Home</h1>
     <v-row class = "topRow transparent">
     <v-dialog id="dialogBox" v-model="dialog" persistent max-width="600px">
         <template  v-slot:activator="{ on }">
-          <v-btn color="primary" dark
+          <v-btn  dark
           style="text-align: center;"
+          class = "accent-1"
            v-on="on">Create a New Deadline</v-btn>
         </template>
         <v-form ref="newDeadline"
@@ -162,6 +163,7 @@ document.body.style.backgroundColor = '#303C6C';
 export default {
   name: 'Landing',
 
+
   data: () => ({
     filterList: [],
     currentSort: 0,
@@ -172,6 +174,7 @@ export default {
       dueStamp: undefined,
       status: 'Incomplete',
       file: undefined,
+      sender: null,
     },
     valid: true,
     validDate: {
@@ -203,6 +206,7 @@ export default {
       required: (value) => !!value || 'Required',
       min: (v) => v.length >= 8 || 'Min 8 characters',
     };
+    this.newDeadline.sender = this.$store.state.currentUser.email;
   },
 
   computed: {
@@ -373,7 +377,7 @@ export default {
     right: 20px;
   }
   .filterText{
-    color: black;
+    color: white;
     padding-left: 30px;
     padding-right: 20px;
   }
@@ -394,6 +398,9 @@ export default {
     text-align: left;
     color: #ff5252;
     margin-left: 12px;
+  }
+  .home{
+    font-size: 70px;
   }
   .filterMenu{
     align-content: right;

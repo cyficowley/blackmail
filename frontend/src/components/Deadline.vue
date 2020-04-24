@@ -5,9 +5,9 @@
       <v-col cols="12" lg="4">
         <v-row style="margin:-12px;">
           <v-col cols="12">
-            <v-card>
-              <p><strong>Due Date:</strong></p>
-              <p>{{dateString}},<br/>
+            <v-card class = "whiteBack">
+              <p class = "blackText"><strong>Due Date:</strong></p>
+              <p  class = "blackText">{{dateString}},<br/>
               {{timeRemaining}}
               </p>
             </v-card>
@@ -15,8 +15,9 @@
         </v-row>
         <v-row>
           <v-col cols="12" md="8" lg="8">
-            <v-card>
-              <p style="width:100%;"><strong>Recipient:</strong> {{recipient}}</p>
+            <v-card color class = "whiteBack">
+              <p class ="blackText" style="width:100%;">
+                <strong>Recipient:</strong> {{recipient}}</p>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" lg="4">
@@ -27,13 +28,14 @@
         </v-row>
       </v-col>
       <v-col cols="12" lg="8">
-        <v-card style="display:flex;">
+        <v-card class = "whiteBack" style="display:flex;">
           <div style="flex-grow:1;">
-            <p><strong>Proof Description:</strong></p>
-            <p>{{proofDescription}}</p>
+            <p class = "blackText"><strong>Proof Description:</strong></p>
+            <p class = "blackText">{{proofDescription}}</p>
           </div>
           <div v-if="this.status=='Incomplete'">
-            <FileUpload message="Upload proof" :uploadCallback="uploadedProof"/>
+            <FileUpload class = "blackText"
+             message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
       </v-col>
@@ -107,7 +109,12 @@ export default {
     text-align: left;
     overflow: auto;
   }
-
+  .blackText{
+    color: black;
+  }
+  .whiteBack{
+    background-color: rgb(167, 167, 167);
+  }
   .green{
     background-color: green;
   }
