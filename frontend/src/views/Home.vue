@@ -354,7 +354,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import "/node_modules/vue-datetime/dist/vue-datetime.css";
 .dateBox {
   margin-top: 26px;
 
