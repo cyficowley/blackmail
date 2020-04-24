@@ -165,7 +165,6 @@ export default {
   data: () => ({
     filterList: [],
     currentSort: 0,
-    sortMethods: [{ method: 'Date', id: 0 }, { method: 'Alphabetical', id: 1 }],
     newDeadline: {
       name: '',
       proofDescription: '',
@@ -183,16 +182,7 @@ export default {
     confirmed: '',
     fileError: false,
     dialog: false,
-    timeout: 3000,
     fileComponentKey: 0,
-    rules: {
-      emailText: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
-      required: (value) => !!value || 'Required',
-      min: (v) => v.length >= 8 || 'Min 8 characters',
-    },
 
   }),
 
@@ -201,6 +191,18 @@ export default {
     if (this.$store.state.deadlines.length === 0) {
       this.$store.dispatch('getAllDeadlines');
     }
+    this.timeout = 3000;
+
+    this.sortMethods = [{ method: 'Date', id: 0 }, { method: 'Alphabetical', id: 1 }];
+
+    this.rules = {
+      emailText: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      required: (value) => !!value || 'Required',
+      min: (v) => v.length >= 8 || 'Min 8 characters',
+    };
   },
 
   computed: {
