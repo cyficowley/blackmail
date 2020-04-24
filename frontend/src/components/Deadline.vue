@@ -129,7 +129,7 @@ export default {
   }
   .outer-card{
     width:100%;
-    background-color: rgba(85,189,202, .9);
+    background-color: rgba(85,189,202, .97);
     overflow:hidden;
     padding:10px 20px 10px 20px;
   }
