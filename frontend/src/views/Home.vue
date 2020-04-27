@@ -28,8 +28,8 @@
           max-width="600px"
           style="float: center;"
         >
-          <template v-slot:activator="{ on }">
-            <v-btn dark style="text-align: center;" class="accent-1"
+          <template style="float: center;" v-slot:activator="{ on }">
+            <v-btn  dark class="accent-1"
             v-on="on">Create a New Deadline</v-btn>
           </template>
           <v-form ref="newDeadline" v-model="valid" lazy-validation>
