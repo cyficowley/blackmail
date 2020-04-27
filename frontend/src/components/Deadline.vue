@@ -1,6 +1,6 @@
 <template>
   <v-card class="outer-card">
-    <h2>{{name}}</h2>
+    <h2 class = "whiteText">{{name}}</h2>
     <v-row>
       <v-col cols="12" lg="4">
         <v-row style="margin:-12px;">
@@ -112,8 +112,11 @@ export default {
   .blackText{
     color: black;
   }
+  .whiteText{
+    color: white;
+  }
   .whiteBack{
-    background-color: rgb(167, 167, 167);
+    background-color: rgb(255,255,255);
   }
   .green{
     background-color: green;
@@ -129,7 +132,8 @@ export default {
   }
   .outer-card{
     width:100%;
-    background-color: rgba(85,189,202, .97);
+
+    background-color: rgba(22, 72, 105, .97);
     overflow:hidden;
     padding:10px 20px 10px 20px;
   }

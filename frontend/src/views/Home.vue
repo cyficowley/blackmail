@@ -4,32 +4,17 @@
       <div id="nav" class="transparent">
         <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
       </div>
-      <h1 class="transparent home">Home</h1>
-      <v-row class="topRow transparent">
-        <h2 class="filterText">Filter Deadlines:</h2>
-        <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
-          <v-btn>
-            <p>Incomplete</p>
-          </v-btn>
-          <v-btn>
-            <p>Pending</p>
-          </v-btn>
-          <v-btn>
-            <p>Completed</p>
-          </v-btn>
-          <v-btn>
-            <p>Sent</p>
-          </v-btn>
-        </v-btn-toggle>
-        <v-dialog
+      <h1 class="transparent home">My Deaddys</h1>
+       <v-dialog
           id="dialogBox"
           v-model="dialog"
           persistent
           max-width="600px"
           style="float: center;"
         >
-          <template style="float: center;" v-slot:activator="{ on }">
-            <v-btn  dark class="accent-1"
+          <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
+            <v-btn
+             dark class="accent-1 deadlineCreate"
             v-on="on">Create a New Deadline</v-btn>
           </template>
           <v-form ref="newDeadline" v-model="valid" lazy-validation>
@@ -108,9 +93,32 @@
             </v-card>
           </v-form>
         </v-dialog>
-        <v-menu style="float: right;" offset-y>
-          <template class="sortBy" v-slot:activator="{ on }">
-            <v-btn class="sortBy" color="primary" dark v-on="on">Sort by ▼</v-btn>
+       <v-container>
+      <v-row class="topRow transparent">
+        <v-col cols="12" sm="6" style = "padding-left: 0px;">
+        <h2 class="filterText">Filter Deadlines</h2>
+        <v-btn-toggle class="filterMenu" v-model="filterList" multiple
+        dark
+
+        >
+          <v-btn class = "filterItem">
+            <p>Incomplete</p>
+          </v-btn>
+          <v-btn  class = "filterItem">
+            <p>Pending</p>
+          </v-btn>
+          <v-btn  class = "filterItem">
+            <p>Completed</p>
+          </v-btn>
+          <v-btn  class = "filterItem">
+            <p>Sent</p>
+          </v-btn>
+        </v-btn-toggle>
+        </v-col>
+
+        <v-menu style=""  offset-y>
+          <template  v-slot:activator="{ on }">
+            <v-btn class = "sortBy"  v-on="on">Sort by ▼</v-btn>
           </template>
           <v-list>
             <v-list-item
@@ -122,7 +130,9 @@
             </v-list-item>
           </v-list>
         </v-menu>
+
       </v-row>
+      </v-container>
 
       <v-row class="secondRow transparent"></v-row>
 
@@ -367,6 +377,8 @@ export default {
   position: fixed;
   right: 20px;
   top: 20px;
+  font-size:19px;
+
 }
 .deadlines {
   vertical-align: top;
@@ -378,6 +390,7 @@ export default {
 .topRow {
   display: flex;
   max-height: 50px;
+  margin-bottom: 10px;
 }
 .svgImage {
   background-image: url(../assets/homeGirl.svg);
@@ -386,14 +399,17 @@ export default {
 }
 
 .sortBy {
-  position: absolute;
-  right: 20px;
+  margin-left:auto;
+  margin-right:0;
+  margin-top: 40px;
+  background-color:rgba(22, 72, 105,1) !important;
+  color: white;
 }
 .filterText {
   color: black;
-  padding-left: 30px;
   padding-right: 20px;
   float: left;
+  padding-left: 0px !important;
 }
 .dateBox input {
   width: 50%;
@@ -413,17 +429,29 @@ export default {
   color: #ff5252;
   margin-left: 12px;
 }
+.deadlineCreate{
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .home {
   font-size: 70px;
 }
 .filterMenu {
-  align-content: right;
+
+  float: left;
+}
+.filterItem{
+  color: white !important;
+  background-color:rgba(22, 72, 105,1) !important;
+
 }
 .transparent {
   background-color: rgba(0, 0, 0, 1);
 }
 
 .darkOne {
-  background: white !important;
+  background: rgb(230, 230, 230);
+
 }
 </style>
