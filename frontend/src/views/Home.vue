@@ -60,7 +60,7 @@
                         auto
                       />
                       <p
-                        v-if="(!validDate.validity && newDeadlineDatex=='')"
+                        v-if="(!validDate.validity && newDeadlineDate=='')"
                         class="dateError"
                       >Please select a date.</p>
                     </v-col>

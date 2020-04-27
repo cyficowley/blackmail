@@ -58,6 +58,7 @@ export default {
       const payload = {
         id: this.id,
         file,
+        date: this.dueStamp,
       };
       this.$store.dispatch('uploadDeadlineProof', payload);
     },
