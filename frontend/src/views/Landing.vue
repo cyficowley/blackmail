@@ -5,9 +5,10 @@
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
           <v-col class="forward" cols="12" md="4">
-            <div style="padding:20px; padding-top:80px;">
+            <div class="title-card">
               <v-card class="">
-                <h1 id="header">BLACKMAIL</h1>
+                <h1 id="header-desktop">BLACKMAIL</h1>
+                <h1 id="header-mobile">BLACKMAIL</h1>
                 <p id="tagline">Necessity is the mother of invention</p>
                 <p id="tagpara">
                   You have a goal.  You can't make yourself do it. <br/><br/>
@@ -29,7 +30,7 @@
             </v-row>
           </v-col>
           <v-col class="forward" cols="12" md="4">
-            <div style="padding:20px; padding-top:80px;">
+            <div class="title-card">
               <v-card class="" style="padding:20px; text-align:left">
                 <Signup/>
                 <v-divider style="margin:10px;"/>
@@ -43,19 +44,37 @@
           <div class="stripe">
           </div>
         </v-row>
-        <v-row id="row2" class='forward text-left light-2'>
-          <div style="width:70vw; margin:0 auto;">
+        <v-row id="row2" class='forward light-2'>
+          <v-container>
+            <v-row>
+              <h1 class="bigTitle">WORKFLOW</h1>
+            </v-row>
+            <v-row>
+              <v-col class="forward" cols="12" md="4">
+                FIND A FRINED
+              </v-col>
+              <v-col class="forward" cols="12" md="4">
+                dabba
+              </v-col>
+              <v-col class="forward" cols="12" md="4">
+                do
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-row>
+        <v-row class='forward text-left light-2'>
+          <div id="faq-container">
             <h1 class="text-left bigTitle">FAQ</h1>
-                <v-expansion-panels accordion multiple>
-                  <v-expansion-panel class="light-1"
-                  v-for="question in questions" :key="question.q">
-                    <v-expansion-panel-header><strong>{{ question.q }}</strong>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      {{ question.a}}
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels>
+            <v-expansion-panels accordion multiple>
+              <v-expansion-panel class="light-1"
+              v-for="question in questions" :key="question.q">
+                <v-expansion-panel-header><strong>{{ question.q }}</strong>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  {{ question.a}}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
             <a class="emailLink" ref = "mailto: footballshane@gmail.com">
               More Questions? Email us!</a>
           </div>
@@ -75,17 +94,43 @@ document.body.style.backgroundColor = '#303C6C';
 
 export default {
   name: 'Landing',
-  data: () => ({
-    questions: [
-      { q: 'Do we ever look at your photos?', a: 'No, once we have them, we store them in our database, and delete them once you have submitted proof of completion of task, or the deadline has passed and we have sent the photo.' },
-      { q: 'What kind of proof can I submit ', a: 'We except proof in the following formats: .jpg, .png, .pdf, .mp4, and .gif. The more important thing is that the proof clearly shows completiion of the task. ' },
-      { q: "What happens if I don't meet the deadline?", a: 'We send the photo that you submitted out to the person you specified.' },
-      { q: 'Is this legal?', a: "Honestly, we're not sure but we had you sign the terms and conditions when you sign up so I'm pretty sure that means you can't sue us." },
-      { q: 'Is the email anonymous?', a: 'No, when we sent out your picture to the person you specified, we explain why they are getting that photo and who it came from. ' },
-      { q: 'What kind of blackmail can I upload?', a: 'We accept photo or video blackmail with file type .pdf, .png, .jpeg, .mp4, .mov ' },
-      { q: 'Does the recipient need to be registered at blackmail.io?', a: 'No, you can enter the email of anyone you know, whether or not they are registered with our website. ' },
-    ],
-  }),
+
+  created() {
+    this.questions = [
+      {
+        q: 'How much will you email me?',
+        a: 'We will never email you, only the recipients of your blackmail',
+      },
+      {
+        q: 'Do we ever look at your photos?',
+        a: 'No, they are deleted immediatly once your proof has been aproved or the deadline has passed, and are never viewed by our approvers',
+      },
+      {
+        q: 'What kind of proof can I submit?',
+        a: 'We except proof in the following formats: .jpg, .png, .pdf, .mp4, and .gif. The most important thing is that the proof clearly shows completiion of the task',
+      },
+      {
+        q: 'Who approves the proof?',
+        a: 'Shane or I are the only approvers',
+      },
+      {
+        q: 'What happens if I don\'t meet the deadline?',
+        a: 'We send the photo that you submitted out to the person you specified',
+      },
+      {
+        q: 'Is blackmail email anonymous?',
+        a: 'No, we explain why they are getting that photo and what email it came from',
+      },
+      {
+        q: 'What kind of blackmail can I upload?',
+        a: 'Whatever type of nonexecutable file you want',
+      },
+      {
+        q: 'Does the recipient need to be registered at blackmail.io?',
+        a: 'No, you can enter the email of anyone you know',
+      },
+    ];
+  },
 
   components: {
     Login,
@@ -97,16 +142,17 @@ export default {
 </script>
 
 <style scoped>
-  @media only screen and (max-width: 1263px) {
-    .fullwindow{
-      height:auto !important;
-    }
-  }
   .fullwindow{
     padding-top:0;
     padding-bottom:0;
     height: 100vh;
   }
+
+  .title-card{
+    padding: 20px;
+    padding-top: 80px;
+  }
+
   .stripe {
     width:100vw;
     height:50vh;
@@ -134,9 +180,14 @@ export default {
     padding-right: 40px;
     padding-bottom: 40px;
   }
-  #header{
+  #header-desktop{
     font-size: 6em;
     font-weight: 600;
+  }
+  #header-mobile{
+    font-size: 3em;
+    font-weight: 600;
+    display: none;
   }
   #tagline{
     font-size: 2.3em;
@@ -153,6 +204,11 @@ export default {
     padding-left: 20px;
   }
 
+  #faq-container{
+    width:70vw;
+    margin:0 auto;
+  }
+
   .faqList{
     list-style: none;
   }
@@ -162,5 +218,42 @@ export default {
   }
   .cardAnswer{
     padding-left: 10px;
+  }
+  @media only screen and (max-width: 1850px) {
+    #header-desktop{
+      font-size: 5em;
+    }
+  }
+  @media only screen and (max-width: 1536px) {
+    #header-desktop{
+      font-size: 4em;
+    }
+    #tagpara{
+      font-size: 1.2em;
+    }
+  }
+  @media only screen and (max-width: 1263px) {
+    .fullwindow{
+      height:auto !important;
+      position: relative;
+    }
+    #header-desktop{
+      display: none;
+    }
+    #header-mobile{
+      display: inline;
+    }
+    #tagline{
+      font-size: 1.7em;
+      font-weight: 400;
+    }
+    .title-card{
+      padding: 10px;
+    }
+    #faq-container{
+      width:100%;
+      padding: 10px;
+      margin:0 auto;
+    }
   }
 </style>
