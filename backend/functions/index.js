@@ -118,7 +118,7 @@ let deleteStorageObjects = async (deadlines) => {
 
 
 // For actually running on schedule
-exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * * *').onRun(async () => {
+exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('*/5 * * * *').onRun(async () => {
   const deadlines = await grabPassedDeadlines();
   await downloadAndSend(deadlines);
   await updateEntries(deadlines);

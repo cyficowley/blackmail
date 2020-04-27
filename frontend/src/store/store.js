@@ -45,6 +45,39 @@ const store = new Vuex.Store({
       }
     },
 
+    async denyApproval({ dispatch }, {
+      id, did, uid, date,
+    }) {
+      const ref = fb.users.doc(uid).collection('deadlines').doc(did);
+      try {
+        await fb.db.collection('expiring').add({ uid, did: id, date });
+        await ref.update({ status: 'Rejected' });
+        dispatch('removeApproval', { id });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async approveApproval({ dispatch }, { id, did, uid }) {
+      const ref = fb.users.doc(uid).collection('deadlines').doc(did);
+      try {
+        await ref.update({ status: 'Approved' });
+        dispatch('removeApproval', { id });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async removeApproval({ commit }, { id }) {
+      const ref = fb.db.collection('approvals').doc(id);
+      try {
+        await ref.delete();
+        commit('removeApproval', { id });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async getAllApprovals({ commit }) {
       const snapshot = await fb.db.collection('approvals').get();
       const approvals = [];
@@ -56,7 +89,7 @@ const store = new Vuex.Store({
           name: '',
           fileDetails: [],
         };
-        docData.dueStamp = docData.date.toDate();
+        docData.date = docData.date.toDate();
         approvals.push(docData);
       });
       commit('addApprovals', approvals);
@@ -199,6 +232,11 @@ const store = new Vuex.Store({
       // Will break if new properties are added (https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)
       const objIndex = state.approvals.findIndex(((obj) => obj.id === newApproval.id));
       Object.assign(state.approvals[objIndex], newApproval);
+    },
+
+    removeApproval(state, { id }) {
+      const objIndex = state.approvals.findIndex(((obj) => obj.id === id));
+      state.approvals.splice(objIndex);
     },
   },
 });
