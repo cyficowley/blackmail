@@ -50,7 +50,7 @@ const store = new Vuex.Store({
     }) {
       const ref = fb.users.doc(uid).collection('deadlines').doc(did);
       try {
-        await fb.db.collection('expiring').add({ uid, did: id, date });
+        await fb.db.collection('expiring').add({ uid, did, date });
         await ref.update({ status: 'Rejected' });
         dispatch('removeApproval', { id });
       } catch (error) {
