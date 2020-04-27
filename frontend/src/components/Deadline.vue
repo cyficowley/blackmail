@@ -33,7 +33,7 @@
             <p class = "blackText"><strong>Proof Description:</strong></p>
             <p class = "blackText">{{proofDescription}}</p>
           </div>
-          <div v-if="this.status=='Incomplete'">
+          <div v-if="this.status=='Incomplete' || this.status=='Rejected'">
             <FileUpload class = "blackText"
              message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
@@ -58,6 +58,7 @@ export default {
       const payload = {
         id: this.id,
         file,
+        date: this.dueStamp,
       };
       this.$store.dispatch('uploadDeadlineProof', payload);
     },
