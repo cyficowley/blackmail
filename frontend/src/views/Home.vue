@@ -105,16 +105,20 @@
       </v-row>
       <v-row class="topRow transparent">
         <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
-          <v-btn class = "filterItem">
+          <v-btn v-bind:class="{'filterItem': !clicked1, 'filterItemClicked': clicked1}"
+              v-on:click ="clicked1 = !clicked1">
             <p class = "centered">Incomplete</p>
           </v-btn>
-          <v-btn  class = "filterItem">
+          <v-btn  v-bind:class="{'filterItem': !clicked2, 'filterItemClicked': clicked2}"
+              v-on:click ="clicked2 = !clicked2">
             <p>Pending</p>
           </v-btn>
-          <v-btn  class = "filterItem">
+          <v-btn v-bind:class="{'filterItem': !clicked3, 'filterItemClicked': clicked3}"
+              v-on:click ="clicked3 = !clicked3">
             <p>Completed</p>
           </v-btn>
-          <v-btn  class = "filterItem">
+          <v-btn v-bind:class="{'filterItem': !clicked4, 'filterItemClicked': clicked4}"
+              v-on:click ="clicked4 = !clicked4">
             <p>Sent</p>
           </v-btn>
         </v-btn-toggle>
@@ -160,7 +164,7 @@
           <v-row
             v-for="deadline in sortedDeadlines"
             :key="deadline.id"
-            style="margin-bottom:40px; margin-top: 40px;"
+            style="margin-bottom:80px; margin-top: 0px;"
           >
             <Deadline v-bind="deadline" />
           </v-row>
@@ -184,6 +188,10 @@ export default {
 
   data: () => ({
     filterList: [],
+    clicked1: false,
+    clicked2: false,
+    clicked3: false,
+    clicked4: false,
     currentSort: 0,
     newDeadline: {
       name: '',
@@ -375,6 +383,7 @@ export default {
   border-color: rgba(0, 0, 0, 0.4);
   text-align: left;
 }
+
 .logoutButton {
   width: "8%";
   position: fixed;
@@ -395,6 +404,11 @@ export default {
   display: flex;
   max-height: 50px;
   margin-bottom: 0px;
+  margin-top: 0px;
+
+}
+.topperRow{
+  margin-top: 60px;
 }
 .svgImage {
   background-image: url(../assets/homeGirl.svg);
@@ -405,7 +419,7 @@ export default {
 .sortBy {
   margin-left:auto;
   margin-right:0;
-  margin-top: 40px;
+  margin-top: 10px;
   background-color:rgba(22, 72, 105,1) !important;
   color: white;
 }
@@ -454,11 +468,18 @@ export default {
 }
 .filterMenu {
   float: left;
+  background-color:rgba(22, 72, 105,0) !important;
 }
 .filterItem{
-  background-color:rgba(22, 72, 105,1) !important;
+  background-color:rgba(22, 72, 105, 1.0) !important;
+  color: white !important;
    text-align: center;
-  line-height: 1em;
+   opacity: 1.0 !important;
+}
+.filterItemClicked{
+  background-color:rgba(22, 72, 105, .7) !important;
+  color: white !important;
+   text-align: center;
 
 }
 .transparent {
