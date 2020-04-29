@@ -456,7 +456,6 @@ export default {
   float: left;
 }
 .filterItem{
-  color: white !important;
   background-color:rgba(22, 72, 105,1) !important;
    text-align: center;
   line-height: 1em;
