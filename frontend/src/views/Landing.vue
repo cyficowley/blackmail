@@ -143,10 +143,19 @@
                     With your newfound motivation you can go out and finish your goal.<br/>
                     If at any time you forget your goals you can
                     come back here and view them all.<br/>
+                    Your goals will look somewhat like this:
+                    <Deadline class="dark-1"
+                      name="Clean room"
+                      :dueStamp="this.exampleDate"
+                      proofDescription="A picture of me in my clean room"
+                      recipient="mom@gmail.com"
+                      status="Incomplete"
+                      disabled
+                      />
 
-                    Once you have finished your goal you come back here and upload your proof.<br/>
-                    At which point it will be sent off to our approvers to validate that you have
-                    successfully been motivated and completed your goal.<br/>
+                    Once you have finished your goal you click the upload button
+                     and upload your proof.<br/>
+                    It will be sent off to our approvers who validate that you completed your goal.
                   </p>
                 </v-card>
               </v-col>
@@ -155,17 +164,26 @@
               <v-col class="forward" cols="12" md="10">
                 <v-card class="workflow white">
                   <h1>Consequences</h1>
-                  <p>
-                    We will validate with relative leniancy,
-                    we are trying to motivate you not screw you over.<br/>
-                    However if your proof doesn't seem to match your description it will be rejected
-                    and you will have to fix and reupload it.<br/>
+                  <v-row>
+                    <v-col md="6" cols="12">
+                      <p>
+                        We will validate with relative leniancy,
+                        we are trying to motivate you not screw you over.<br/>
+                        However if your proof doesn't seem to match your
+                        description it will be rejected
+                        and you will have to fix and reupload it.<br/><br/>
 
-                    If you finish your goal, congragulations! You broke through your motivation!
+                        If you finish your goal, congragulations!<br/>
+                        You broke through your lazyness!<br/><br/>
 
-                    However if not your recipient will get an email looking something like this...
-                  </p>
-                  <img src="../assets/email.png">
+                        However if not your recipient will get an email
+                        looking something like this...
+                      </p>
+                    </v-col>
+                    <v-col md="6" cols="12">
+                      <img src="../assets/email.png">
+                    </v-col>
+                  </v-row>
                 </v-card>
               </v-col>
               <v-spacer></v-spacer>
@@ -199,6 +217,7 @@
 // @ is an alias to /src
 import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
+import Deadline from '@/components/Deadline.vue';
 
 document.body.style.backgroundColor = '#303C6C';
 
@@ -240,12 +259,14 @@ export default {
         a: 'No, you can enter the email of anyone you know',
       },
     ];
+    this.exampleDate = new Date();
+    this.exampleDate.setDate(this.exampleDate.getDate() + 3);
   },
 
   components: {
     Login,
     Signup,
-
+    Deadline,
   },
 };
 

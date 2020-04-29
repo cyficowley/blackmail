@@ -34,7 +34,7 @@
             <p class = "blackText">{{proofDescription}}</p>
           </div>
           <div v-if="this.status=='Incomplete' || this.status=='Rejected'">
-            <FileUpload class = "blackText"
+            <FileUpload class = "blackText" :disabled="disabled"
              message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
@@ -51,7 +51,7 @@ import FileUpload from '@/components/FileUpload.vue';
 export default {
   name: 'Deadline',
 
-  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id'],
+  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id', 'disabled'],
 
   methods: {
     uploadedProof(file) {
@@ -102,7 +102,7 @@ export default {
     font-size: 1.2em;
     padding:5px;
     float:left;
-    margin-bottom: 0px;
+    margin-bottom: 0px !important;
     /* width: 100%; */
   }
 
