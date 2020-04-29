@@ -50,15 +50,125 @@
               <h1 class="bigTitle">WORKFLOW</h1>
             </v-row>
             <v-row>
-              <v-col class="forward" cols="12" md="4">
-                FIND A FRINED
+              <v-col class="forward" cols="12" md="10">
+                <v-card class="workflow white">
+                  <h1>Free motivation</h1>
+                  <ol>
+                    <li>
+                      Take your goal and decide when you want it done by.
+                    </li>
+                    <li>
+                      Go out and find some sort of embarrasing file.
+                    </li>
+                    <li>
+                      Find someone you'd never want to see the file.
+                    </li>
+                    <li>
+                      Describe how you would prove that you finished your goal in an image.
+                    </li>
+                  </ol>
+                  <h2>Examples:</h2>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <v-card outlined>
+                        <v-card-text>
+                          <h2>
+                            You haven't cleaned your room in a month
+                          </h2>
+                          <table>
+                            <tr>
+                              <td style="padding-right:10px;">Goal:</td>
+                              <td>Clean room</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Blackmail Material:</td>
+                              <td>A picture of yourself in your disgusting room</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Recipient:</td>
+                              <td>Your mother</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Proof description:</td>
+                              <td>A picture of me in my clean room</td>
+                            </tr>
+                          </table>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+
+                    <v-col cols="12" md="6">
+                      <v-card outlined>
+                        <v-card-text>
+                          <h2>
+                            You haven't started your lab report
+                          </h2>
+                          <table>
+                            <tr>
+                              <td style="padding-right:10px;">Goal:</td>
+                              <td>Finish hypothesis and materials section by 3 days</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Blackmail Material:</td>
+                              <td>A text file saying what you actually think about biology
+                                  and your teacher</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Recipient:</td>
+                              <td>Your teacher</td>
+                            </tr>
+                            <tr>
+                              <td style="padding-right:10px;">Proof description:</td>
+                              <td>A picture of a completed hypothesis and materials section</td>
+                            </tr>
+                          </table>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <p>
+                    Once you have these you can upload to our platform and instantly be
+                    motivated by terror.
+                  </p>
+                </v-card>
               </v-col>
-              <v-col class="forward" cols="12" md="4">
-                dabba
+              <v-spacer></v-spacer>
+            </v-row>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col class="forward" cols="12" md="10">
+                <v-card class="workflow white">
+                  <h1>Completing your goal</h1>
+                  <p>
+                    With your newfound motivation you can go out and finish your goal.<br/>
+                    If at any time you forget your goals you can
+                    come back here and view them all.<br/>
+
+                    Once you have finished your goal you come back here and upload your proof.<br/>
+                    At which point it will be sent off to our approvers to validate that you have
+                    successfully been motivated and completed your goal.<br/>
+                  </p>
+                </v-card>
               </v-col>
-              <v-col class="forward" cols="12" md="4">
-                do
+            </v-row>
+            <v-row>
+              <v-col class="forward" cols="12" md="10">
+                <v-card class="workflow white">
+                  <h1>Consequences</h1>
+                  <p>
+                    We will validate with relative leniancy,
+                    we are trying to motivate you not screw you over.<br/>
+                    However if your proof doesn't seem to match your description it will be rejected
+                    and you will have to fix and reupload it.<br/>
+
+                    If you finish your goal, congragulations! You broke through your motivation!
+
+                    However if not your recipient will get an email looking something like this...
+                  </p>
+                  <img src="../assets/email.png">
+                </v-card>
               </v-col>
+              <v-spacer></v-spacer>
             </v-row>
           </v-container>
         </v-row>
@@ -218,6 +328,26 @@ export default {
   }
   .cardAnswer{
     padding-left: 10px;
+  }
+
+  p{
+    color:black;
+    font-size: 1.2em;
+  }
+  table{
+    color:black;
+    font-size: 1.2em;
+    border-spacing: 0 8px;
+  }
+
+  li{
+    color:black;
+    font-size: 1.2em;
+  }
+
+  .workflow{
+    padding: 10px;
+    text-align: left;
   }
   @media only screen and (max-width: 1850px) {
     #header-desktop{

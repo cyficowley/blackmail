@@ -19,6 +19,9 @@
   text-align: center;
 }
 
+.white{
+  background-color: white !important;
+}
 .dark-1{
   background-color: var(--dark-1) !important;
 }
