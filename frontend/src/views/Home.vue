@@ -4,7 +4,12 @@
       <div id="nav" class="transparent">
         <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
       </div>
-      <h1 class="transparent home">My Deaddys</h1>
+      <v-row>
+      <v-card class = "title">
+        <h1 class="transparent home"> My Deadlines </h1>
+      </v-card>
+      </v-row>
+
        <v-dialog
           id="dialogBox"
           v-model="dialog"
@@ -15,7 +20,7 @@
           <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
             <v-btn
              dark class="accent-1 deadlineCreate"
-            v-on="on">Create a New Deadline</v-btn>
+            v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
           </template>
           <v-form ref="newDeadline" v-model="valid" lazy-validation>
             <v-card>
@@ -67,6 +72,7 @@
                     </v-col>
                     <v-col cols="12">
                       <v-textarea
+                        filled
                         v-model="newDeadline.proofDescription"
                         :rules="[rules.required]"
                         label="Description of proof of completion"
@@ -94,15 +100,13 @@
           </v-form>
         </v-dialog>
        <v-container>
-      <v-row class="topRow transparent">
-        <v-col cols="12" sm="6" style = "padding-left: 0px;">
+      <v-row class = "topperRow transparent">
         <h2 class="filterText">Filter Deadlines</h2>
-        <v-btn-toggle class="filterMenu" v-model="filterList" multiple
-        dark
-
-        >
+      </v-row>
+      <v-row class="topRow transparent">
+        <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
           <v-btn class = "filterItem">
-            <p>Incomplete</p>
+            <p class = "centered">Incomplete</p>
           </v-btn>
           <v-btn  class = "filterItem">
             <p>Pending</p>
@@ -114,7 +118,6 @@
             <p>Sent</p>
           </v-btn>
         </v-btn-toggle>
-        </v-col>
 
         <v-menu style=""  offset-y>
           <template  v-slot:activator="{ on }">
@@ -378,6 +381,7 @@ export default {
   right: 20px;
   top: 20px;
   font-size:19px;
+  z-index: 99;
 
 }
 .deadlines {
@@ -390,7 +394,7 @@ export default {
 .topRow {
   display: flex;
   max-height: 50px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 .svgImage {
   background-image: url(../assets/homeGirl.svg);
@@ -414,6 +418,14 @@ export default {
 .dateBox input {
   width: 50%;
 }
+.title{
+  display: inline-block;
+  height: 100px;
+  background-color: rgba(255,255,255,.5);
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
 .vdatetime-input input {
   width: 100% !important;
 }
@@ -433,17 +445,21 @@ export default {
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
+
 }
 .home {
   font-size: 70px;
+  text-align: center;
+  line-height: 100px;
 }
 .filterMenu {
-
   float: left;
 }
 .filterItem{
   color: white !important;
   background-color:rgba(22, 72, 105,1) !important;
+   text-align: center;
+  line-height: 1em;
 
 }
 .transparent {

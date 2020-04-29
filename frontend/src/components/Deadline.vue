@@ -134,7 +134,7 @@ export default {
   .outer-card{
     width:100%;
 
-    background-color: rgba(22, 72, 105, .97);
+    background-color: rgba(22, 72, 105, .98);
     overflow:hidden;
     padding:10px 20px 10px 20px;
   }
