@@ -47,7 +47,7 @@
         <v-row id="row2" class='forward light-2'>
           <v-container>
             <v-row>
-              <h1 class="bigTitle">WORKFLOW</h1>
+              <h1 class="bigTitle">HOW IT WORKS</h1>
             </v-row>
             <v-row>
               <v-col class="forward" cols="12" md="10">
@@ -67,7 +67,7 @@
                       Describe how you would prove that you finished your goal in an image.
                     </li>
                   </ol>
-                  <h2>Examples:</h2>
+                  <h2 style="padding-top:15px;">Examples:</h2>
                   <v-row>
                     <v-col cols="12" md="6">
                       <v-card outlined>
@@ -206,9 +206,15 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
-            <a class="emailLink" ref = "mailto: footballshane@gmail.com">
-              More Questions? Email us!</a>
           </div>
+        </v-row>
+        <v-row>
+          <v-col>
+            <span style="color:rgba(255,255,255,.6)">&copy; 2020 Blackmailer.xyz</span>
+            <span style="color:white; padding-left:20px;">
+              Created by Shane Folden and Cyrus Cowley
+            </span>
+          </v-col>
         </v-row>
       </v-container>
       <modal name="hello-world" :width="600" :height="800">
@@ -288,6 +294,9 @@ export default {
 </script>
 
 <style scoped>
+  .footer{
+  }
+
   .fullwindow{
     padding-top:0;
     padding-bottom:0;
@@ -353,6 +362,7 @@ export default {
   #faq-container{
     width:70vw;
     margin:0 auto;
+    margin-bottom:20px;
   }
 
   .faqList{
