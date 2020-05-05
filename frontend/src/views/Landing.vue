@@ -165,7 +165,13 @@
                 <v-card class="workflow white">
                   <h1>Consequences</h1>
                   <v-row>
-                    <v-col md="6" cols="12">
+                    <v-col cols="3" clas="d-none d-md-inline">
+                      <img src="../assets/email.png" @click="show" style="width:100%">
+                    </v-col>
+                    <v-col cols="12" class="d-none d-md-none">
+                      <img src="../assets/email.png" style="width:100%">
+                    </v-col>
+                    <v-col cols="12" md="9">
                       <p>
                         We will validate with relative leniancy,
                         we are trying to motivate you not screw you over.<br/>
@@ -179,9 +185,6 @@
                         However if not your recipient will get an email
                         looking something like this...
                       </p>
-                    </v-col>
-                    <v-col md="6" cols="12">
-                      <img src="../assets/email.png">
                     </v-col>
                   </v-row>
                 </v-card>
@@ -208,6 +211,9 @@
           </div>
         </v-row>
       </v-container>
+      <modal name="hello-world" :width="600" :height="800">
+        <img src="../assets/email.png" style="width:100%; maxHeight:100vh;">
+      </modal>
     </v-content>
   </v-app>
 </template>
@@ -261,6 +267,15 @@ export default {
     ];
     this.exampleDate = new Date();
     this.exampleDate.setDate(this.exampleDate.getDate() + 3);
+  },
+
+  methods: {
+    show() {
+      this.$modal.show('hello-world');
+    },
+    hide() {
+      this.$modal.hide('hello-world');
+    },
   },
 
   components: {
