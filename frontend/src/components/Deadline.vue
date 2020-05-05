@@ -14,13 +14,13 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="8" lg="8">
+          <v-col cols="12" md="8" lg="12" xl="8">
             <v-card color class = "whiteBack">
               <p class ="blackText" style="width:100%;">
                 <strong>Recipient:</strong> {{recipient}}</p>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4" lg="4">
+          <v-col cols="12" md="4" lg="12" xl="4">
             <v-card :class="statusColor" style="text-align:center;">
               <p style="width:100%;">{{status}}</p>
             </v-card>

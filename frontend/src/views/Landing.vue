@@ -9,12 +9,18 @@
               <v-card class="">
                 <h1 id="header-desktop">BLACKMAIL</h1>
                 <h1 id="header-mobile">BLACKMAIL</h1>
-                <p id="tagline">Necessity is the mother of invention</p>
-                <p id="tagpara">
-                  You have a goal.  You can't make yourself do it. <br/><br/>
-                  Find an embarrasing file and someone you would never want to see it.<br/><br/>
-                  Upload proof that you completed your goal by your deadline or we send the file.
-                </p>
+                <p id="tagline">Incentivize yourself to complete tasks</p>
+                <ol id="tagpara">
+                  <li style="margin-bottom:15px;">
+                    You have a goal that you can't make yourself complete.
+                  </li>
+                  <li style="margin-bottom:15px;">
+                    Find an embarrasing file and someone you wouldn't want to see it.
+                  </li>
+                  <li style="margin-bottom:15px;">
+                    Upload proof that you completed your goal or we send the file.
+                  </li>
+                </ol>
               </v-card>
             </div>
           </v-col>
@@ -35,6 +41,8 @@
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
+                <v-divider style="margin:10px;"/>
+                <Google/>
               </v-card>
             </div>
           </v-col>
@@ -50,140 +58,124 @@
               <h1 class="bigTitle">HOW IT WORKS</h1>
             </v-row>
             <v-row>
-              <v-col class="forward" cols="12" md="10">
+              <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Free motivation</h1>
-                  <ol>
-                    <li>
-                      Take your goal and decide when you want it done by.
-                    </li>
-                    <li>
-                      Go out and find some sort of embarrasing file.
-                    </li>
-                    <li>
-                      Find someone you'd never want to see the file.
-                    </li>
-                    <li>
-                      Describe how you would prove that you finished your goal in an image.
-                    </li>
-                  </ol>
-                  <h2 style="padding-top:15px;">Examples:</h2>
                   <v-row>
-                    <v-col cols="12" md="6">
-                      <v-card outlined>
-                        <v-card-text>
-                          <h2>
-                            You haven't cleaned your room in a month
-                          </h2>
-                          <table>
-                            <tr>
-                              <td style="padding-right:10px;">Goal:</td>
-                              <td>Clean room</td>
-                            </tr>
-                            <tr>
-                              <td style="padding-right:10px;">Blackmail Material:</td>
-                              <td>A picture of yourself in your disgusting room</td>
-                            </tr>
-                            <tr>
-                              <td style="padding-right:10px;">Recipient:</td>
-                              <td>Your mother</td>
-                            </tr>
-                            <tr>
-                              <td style="padding-right:10px;">Proof description:</td>
-                              <td>A picture of me in my clean room</td>
-                            </tr>
-                          </table>
-                        </v-card-text>
-                      </v-card>
-                    </v-col>
+                    <v-col md="6" cols="12">
+                      <h1>Find your goal</h1>
+                      <p style="font-size: 22px;">
+                        Come up with a task that you want to complete.
+                        This can be related to anything: Work, school, or personal life.
+                        or big fat weeeny smeeeny
+                        <br/>
+                        <br/>
+                        Once you have a goal in mind,
+                        describe how you would upload proof of its completion.
+                        Then choose the image you want to blackmail yourself with,
+                        and the potential recipient.
 
-                    <v-col cols="12" md="6">
-                      <v-card outlined>
+                      </p>
+                      <p style="font-size: 22px;">
+
+                      </p>
+
+                    </v-col>
+                    <v-col md="6" cols="12">
+                      <h1>Example</h1>
+                      <v-card outlined class="gray">
                         <v-card-text>
-                          <h2>
-                            You haven't started your lab report
+                          <h2 style="padding-bottom:10px">
+                            You need to finish your math homework by next Tuesday.
                           </h2>
                           <table>
                             <tr>
-                              <td style="padding-right:10px;">Goal:</td>
-                              <td>Finish hypothesis and materials section by 3 days</td>
+                              <td class="table-cell">
+                                Goal:
+                              </td>
+                              <td>Finish Math Homework</td>
                             </tr>
                             <tr>
-                              <td style="padding-right:10px;">Blackmail Material:</td>
-                              <td>A text file saying what you actually think about biology
-                                  and your teacher</td>
+                              <td class="table-cell">
+                                Blackmail Material:
+                              </td>
+                              <td>An embarassing selfie you took last weekend</td>
                             </tr>
                             <tr>
-                              <td style="padding-right:10px;">Recipient:</td>
-                              <td>Your teacher</td>
+                              <td class="table-cell">
+                                Recipient:
+                              </td>
+                              <td>Your ex that you haven't spoken to in 2 and a half months</td>
                             </tr>
                             <tr>
-                              <td style="padding-right:10px;">Proof description:</td>
-                              <td>A picture of a completed hypothesis and materials section</td>
+                              <td class="table-cell">
+                                Proof description:
+                              </td>
+                              <td>A picture of your fully completed math homework</td>
                             </tr>
                           </table>
                         </v-card-text>
                       </v-card>
                     </v-col>
                   </v-row>
-                  <p>
-                    Once you have these you can upload to our platform and instantly be
-                    motivated by terror.
-                  </p>
                 </v-card>
               </v-col>
               <v-spacer></v-spacer>
             </v-row>
             <v-row>
               <v-spacer></v-spacer>
-              <v-col class="forward" cols="12" md="10">
+              <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Completing your goal</h1>
-                  <p>
-                    With your newfound motivation you can go out and finish your goal.<br/>
-                    If at any time you forget your goals you can
-                    come back here and view them all.<br/>
-                    Your goals will look somewhat like this:
-                    <Deadline class="dark-1"
-                      name="Clean room"
-                      :dueStamp="this.exampleDate"
-                      proofDescription="A picture of me in my clean room"
-                      recipient="mom@gmail.com"
-                      status="Incomplete"
-                      disabled
-                      />
+                  <h1>Complete your goal</h1>
 
-                    Once you have finished your goal you click the upload button
-                     and upload your proof.<br/>
-                    It will be sent off to our approvers who validate that you completed your goal.
+                  <Deadline class="dark-1"
+                    name="Finish Math Homework"
+                    :dueStamp="this.exampleDate"
+                    proofDescription="A picture of your fully completed math homework"
+                    recipient="WhyDidYouLeaveMe@aol.com"
+                    status="Incomplete"
+                    disabled
+                    />
+                  <p style="padding-top: 20px; font-size: 22px;">
+                    Once you have an uploaded deadline, it will have a status of 'Incomplete'.
+                    To change this, upload proof of completion that matches your proof description.
+                    This will change the status to 'Pending'.
                   </p>
                 </v-card>
               </v-col>
             </v-row>
             <v-row>
-              <v-col class="forward" cols="12" md="10">
+              <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Consequences</h1>
+                  <h1>Validate your goal</h1>
                   <v-row>
                     <v-col cols="3" clas="d-none d-md-inline">
-                      <img src="../assets/email.png" @click="show" style="width:100%">
+                      <img src="../assets/email.png" id="email-pic"
+                      @click="show" style="width:100%; cursor: pointer;">
                     </v-col>
                     <v-col cols="12" class="d-none d-md-none">
-                      <img src="../assets/email.png" style="width:100%">
+                      <img src="../assets/email.png" style="width:100%" id="email-pic">
                     </v-col>
                     <v-col cols="12" md="9">
-                      <p>
-                        We will validate with relative leniancy,
-                        we are trying to motivate you not screw you over.<br/>
-                        However if your proof doesn't seem to match your
-                        description it will be rejected
-                        and you will have to fix and reupload it.<br/><br/>
+                      <p style="font-size: 22px;">
+                        We will validate your proof within 24 hours. You will get an
+                        email from us letting you know if it was 'Approved' or 'Rejected'
+                        once we process it.
+                        <br/>
+                        <br/>
+                        If your proof is rejected, you will have 24 hours to resubmit proof.
+                        If you fail to resubmit proof, or miss your deadline altogether,
+                        your deadline will receive the 'Blackmailed' status,
+                        and your blackmail material
+                        will be sent to your recipient.
+                        <br/>
+                        <br/>
 
-                        If you finish your goal, congragulations!<br/>
-                        You broke through your lazyness!<br/><br/>
+                        We will be lenient in our validation, we are trying to motivate you,
+                        not ruin your life. We are willing to work with you to ensure that
+                        we accurately assess whether or not you have successfully completed
+                        your goal. However, if it is obvious the goal has not ben completed,
+                        your recipient will recieve an email like this.
 
-                        However if not your recipient will get an email
-                        looking something like this...
                       </p>
                     </v-col>
                   </v-row>
@@ -208,7 +200,7 @@
             </v-expansion-panels>
           </div>
         </v-row>
-        <v-row>
+        <v-row class="dark-1">
           <v-col>
             <span style="color:rgba(255,255,255,.6)">&copy; 2020 Blackmailer.xyz</span>
             <span style="color:white; padding-left:20px;">
@@ -218,7 +210,7 @@
         </v-row>
       </v-container>
       <modal name="hello-world" :width="600" :height="800">
-        <img src="../assets/email.png" style="width:100%; maxHeight:100vh;">
+        <img src="../assets/email.png" style="width:100%;max-height:100vh;">
       </modal>
     </v-content>
   </v-app>
@@ -230,6 +222,7 @@
 import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
 import Deadline from '@/components/Deadline.vue';
+import Google from '@/components/Google.vue';
 
 document.body.style.backgroundColor = '#303C6C';
 
@@ -288,13 +281,24 @@ export default {
     Login,
     Signup,
     Deadline,
+    Google,
   },
 };
 
 </script>
 
 <style scoped>
-  .footer{
+
+  #email-pic{
+    box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    border-radius:4px;
+  }
+
+  .table-cell{
+    padding-right:10px;
+    color:rgba(0,0,0,.7)
   }
 
   .fullwindow{
@@ -331,7 +335,7 @@ export default {
     text-align:left;
     margin-top:80px;
     font-size: 1.5em;
-    padding-left: 40px;
+    padding-left: 60px;
     padding-right: 40px;
     padding-bottom: 40px;
   }
@@ -392,7 +396,7 @@ export default {
   }
 
   .workflow{
-    padding: 10px;
+    padding: 20px;
     text-align: left;
   }
   @media only screen and (max-width: 1850px) {
