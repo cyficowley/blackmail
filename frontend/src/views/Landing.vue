@@ -66,7 +66,7 @@
                       <p style="font-size: 22px;">
                         Come up with a task that you want to complete.
                         This can be related to anything: Work, school, or personal life.
-                        or big fat weeeny smeeeny
+                        
                         <br/>
                         <br/>
                         Once you have a goal in mind,
