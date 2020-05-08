@@ -14,13 +14,13 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="8" lg="8">
+          <v-col cols="12" md="8" lg="12" xl="8">
             <v-card color class = "whiteBack">
               <p class ="blackText" style="width:100%;">
                 <strong>Recipient:</strong> {{recipient}}</p>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4" lg="4">
+          <v-col cols="12" md="4" lg="12" xl="4">
             <v-card :class="statusColor" style="text-align:center;">
               <p style="width:100%;">{{status}}</p>
             </v-card>
@@ -34,7 +34,7 @@
             <p class = "blackText">{{proofDescription}}</p>
           </div>
           <div v-if="this.status=='Incomplete' || this.status=='Rejected'">
-            <FileUpload class = "blackText"
+            <FileUpload class = "blackText" :disabled="disabled"
              message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
@@ -51,7 +51,7 @@ import FileUpload from '@/components/FileUpload.vue';
 export default {
   name: 'Deadline',
 
-  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id'],
+  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id', 'disabled'],
 
   methods: {
     uploadedProof(file) {
@@ -102,7 +102,7 @@ export default {
     font-size: 1.2em;
     padding:5px;
     float:left;
-    margin-bottom: 0px;
+    margin-bottom: 0px !important;
     /* width: 100%; */
   }
 

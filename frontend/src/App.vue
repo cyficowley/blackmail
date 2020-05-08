@@ -11,6 +11,7 @@
   --dark-2: #164869;
   --light-1: #8CE5F5;
   --light-2: #55BDCA;
+  --gray: #f6f6f6;
   --accent: #DF622C;
 
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -19,6 +20,12 @@
   text-align: center;
 }
 
+.white{
+  background-color: white !important;
+}
+.gray{
+  background-color: var(--gray) !important;
+}
 .dark-1{
   background-color: var(--dark-1) !important;
 }

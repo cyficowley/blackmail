@@ -3,7 +3,7 @@
     <div class="large-12 medium-12 small-12 cell">
       <form enctype="multipart/form-data">
         <div class="dropbox">
-          <input type="file" :name="uploadFieldName" :disabled="isSaving"
+          <input type="file" :name="uploadFieldName" :disabled="isSaving || disabled"
             @change="filesChange($event.target.name, $event.target.files);
             fileCount = $event.target.files.length"
             accept="image/*" class="input-file">
@@ -38,7 +38,7 @@ const STATUS_FAILED = 3;
 
 export default {
   name: 'FileUpload',
-  props: ['message', 'uploadPath', 'uploadCallback'],
+  props: ['message', 'uploadPath', 'uploadCallback', 'disabled'],
 
   data: () => ({
     currentStatus: null,

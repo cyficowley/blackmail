@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Datetime } from 'vue-datetime';
+import VModal from 'vue-js-modal';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
@@ -10,6 +11,7 @@ const fb = require('./plugins/firebase.js');
 
 Vue.config.productionTip = false;
 Vue.use(Datetime);
+Vue.use(VModal);
 
 
 let app;

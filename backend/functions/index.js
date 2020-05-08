@@ -97,7 +97,7 @@ let updateEntries = async (deadlines) => {
   const promises = [];
   deadlines.forEach((deadline) => {
     const {uid, did, expiringId} = deadline;
-    promises.push(db.collection('users').doc(uid).collection('deadlines').doc(did).update({status:"Sent"}));
+    promises.push(db.collection('users').doc(uid).collection('deadlines').doc(did).update({status:"Blackmailed"}));
     promises.push(db.collection('expiring').doc(expiringId).delete());
   });
   await Promise.all(promises);

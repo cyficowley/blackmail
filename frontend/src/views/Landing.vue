@@ -9,12 +9,18 @@
               <v-card class="">
                 <h1 id="header-desktop">BLACKMAIL</h1>
                 <h1 id="header-mobile">BLACKMAIL</h1>
-                <p id="tagline">Necessity is the mother of invention</p>
-                <p id="tagpara">
-                  You have a goal.  You can't make yourself do it. <br/><br/>
-                  Find an embarrasing file and someone you would never want to see it.<br/><br/>
-                  Upload proof that you completed your goal by your deadline or we send the file.
-                </p>
+                <p id="tagline">Incentivize yourself to complete tasks</p>
+                <ol id="tagpara">
+                  <li style="margin-bottom:15px;">
+                    You have a goal that you can't make yourself complete.
+                  </li>
+                  <li style="margin-bottom:15px;">
+                    Find an embarrasing file and someone you wouldn't want to see it.
+                  </li>
+                  <li style="margin-bottom:15px;">
+                    Upload proof that you completed your goal or we send the file.
+                  </li>
+                </ol>
               </v-card>
             </div>
           </v-col>
@@ -35,6 +41,8 @@
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
+                <v-divider style="margin:10px;"/>
+                <Google/>
               </v-card>
             </div>
           </v-col>
@@ -47,18 +55,133 @@
         <v-row id="row2" class='forward light-2'>
           <v-container>
             <v-row>
-              <h1 class="bigTitle">WORKFLOW</h1>
+              <h1 class="bigTitle">HOW IT WORKS</h1>
             </v-row>
             <v-row>
-              <v-col class="forward" cols="12" md="4">
-                FIND A FRINED
+              <v-col class="forward" cols="12" xl="10">
+                <v-card class="workflow white">
+                  <v-row>
+                    <v-col md="6" cols="12">
+                      <h1>Find your goal</h1>
+                      <p style="font-size: 22px;">
+                        Come up with a task that you want to complete.
+                        This can be related to anything: Work, school, or personal life.
+                        or big fat weeeny smeeeny
+                        <br/>
+                        <br/>
+                        Once you have a goal in mind,
+                        describe how you would upload proof of its completion.
+                        Then choose the image you want to blackmail yourself with,
+                        and the potential recipient.
+
+                      </p>
+                      <p style="font-size: 22px;">
+
+                      </p>
+
+                    </v-col>
+                    <v-col md="6" cols="12">
+                      <h1>Example</h1>
+                      <v-card outlined class="gray">
+                        <v-card-text>
+                          <h2 style="padding-bottom:10px">
+                            You need to finish your math homework by next Tuesday.
+                          </h2>
+                          <table>
+                            <tr>
+                              <td class="table-cell">
+                                Goal:
+                              </td>
+                              <td>Finish Math Homework</td>
+                            </tr>
+                            <tr>
+                              <td class="table-cell">
+                                Blackmail Material:
+                              </td>
+                              <td>An embarassing selfie you took last weekend</td>
+                            </tr>
+                            <tr>
+                              <td class="table-cell">
+                                Recipient:
+                              </td>
+                              <td>Your ex that you haven't spoken to in 2 and a half months</td>
+                            </tr>
+                            <tr>
+                              <td class="table-cell">
+                                Proof description:
+                              </td>
+                              <td>A picture of your fully completed math homework</td>
+                            </tr>
+                          </table>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-col>
-              <v-col class="forward" cols="12" md="4">
-                dabba
+              <v-spacer></v-spacer>
+            </v-row>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col class="forward" cols="12" xl="10">
+                <v-card class="workflow white">
+                  <h1>Complete your goal</h1>
+
+                  <Deadline class="dark-1"
+                    name="Finish Math Homework"
+                    :dueStamp="this.exampleDate"
+                    proofDescription="A picture of your fully completed math homework"
+                    recipient="WhyDidYouLeaveMe@aol.com"
+                    status="Incomplete"
+                    disabled
+                    />
+                  <p style="padding-top: 20px; font-size: 22px;">
+                    Once you have an uploaded deadline, it will have a status of 'Incomplete'.
+                    To change this, upload proof of completion that matches your proof description.
+                    This will change the status to 'Pending'.
+                  </p>
+                </v-card>
               </v-col>
-              <v-col class="forward" cols="12" md="4">
-                do
+            </v-row>
+            <v-row>
+              <v-col class="forward" cols="12" xl="10">
+                <v-card class="workflow white">
+                  <h1>Validate your goal</h1>
+                  <v-row>
+                    <v-col cols="3" clas="d-none d-md-inline">
+                      <img src="../assets/email.png" id="email-pic"
+                      @click="show" style="width:100%; cursor: pointer;">
+                    </v-col>
+                    <v-col cols="12" class="d-none d-md-none">
+                      <img src="../assets/email.png" style="width:100%" id="email-pic">
+                    </v-col>
+                    <v-col cols="12" md="9">
+                      <p style="font-size: 22px;">
+                        We will validate your proof within 24 hours. You will get an
+                        email from us letting you know if it was 'Approved' or 'Rejected'
+                        once we process it.
+                        <br/>
+                        <br/>
+                        If your proof is rejected, you will have 24 hours to resubmit proof.
+                        If you fail to resubmit proof, or miss your deadline altogether,
+                        your deadline will receive the 'Blackmailed' status,
+                        and your blackmail material
+                        will be sent to your recipient.
+                        <br/>
+                        <br/>
+
+                        We will be lenient in our validation, we are trying to motivate you,
+                        not ruin your life. We are willing to work with you to ensure that
+                        we accurately assess whether or not you have successfully completed
+                        your goal. However, if it is obvious the goal has not ben completed,
+                        your recipient will recieve an email like this.
+
+                      </p>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-col>
+              <v-spacer></v-spacer>
             </v-row>
           </v-container>
         </v-row>
@@ -75,11 +198,20 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
-            <a class="emailLink" ref = "mailto: footballshane@gmail.com">
-              More Questions? Email us!</a>
           </div>
         </v-row>
+        <v-row class="dark-1">
+          <v-col>
+            <span style="color:rgba(255,255,255,.6)">&copy; 2020 Blackmailer.xyz</span>
+            <span style="color:white; padding-left:20px;">
+              Created by Shane Folden and Cyrus Cowley
+            </span>
+          </v-col>
+        </v-row>
       </v-container>
+      <modal name="hello-world" :width="600" :height="800">
+        <img src="../assets/email.png" style="width:100%;max-height:100vh;">
+      </modal>
     </v-content>
   </v-app>
 </template>
@@ -89,6 +221,8 @@
 // @ is an alias to /src
 import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
+import Deadline from '@/components/Deadline.vue';
+import Google from '@/components/Google.vue';
 
 document.body.style.backgroundColor = '#303C6C';
 
@@ -130,18 +264,43 @@ export default {
         a: 'No, you can enter the email of anyone you know',
       },
     ];
+    this.exampleDate = new Date();
+    this.exampleDate.setDate(this.exampleDate.getDate() + 3);
+  },
+
+  methods: {
+    show() {
+      this.$modal.show('hello-world');
+    },
+    hide() {
+      this.$modal.hide('hello-world');
+    },
   },
 
   components: {
     Login,
     Signup,
-
+    Deadline,
+    Google,
   },
 };
 
 </script>
 
 <style scoped>
+
+  #email-pic{
+    box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    border-radius:4px;
+  }
+
+  .table-cell{
+    padding-right:10px;
+    color:rgba(0,0,0,.7)
+  }
+
   .fullwindow{
     padding-top:0;
     padding-bottom:0;
@@ -176,7 +335,7 @@ export default {
     text-align:left;
     margin-top:80px;
     font-size: 1.5em;
-    padding-left: 40px;
+    padding-left: 60px;
     padding-right: 40px;
     padding-bottom: 40px;
   }
@@ -207,6 +366,7 @@ export default {
   #faq-container{
     width:70vw;
     margin:0 auto;
+    margin-bottom:20px;
   }
 
   .faqList{
@@ -218,6 +378,26 @@ export default {
   }
   .cardAnswer{
     padding-left: 10px;
+  }
+
+  p{
+    color:black;
+    font-size: 1.2em;
+  }
+  table{
+    color:black;
+    font-size: 1.2em;
+    border-spacing: 0 8px;
+  }
+
+  li{
+    color:black;
+    font-size: 1.2em;
+  }
+
+  .workflow{
+    padding: 20px;
+    text-align: left;
   }
   @media only screen and (max-width: 1850px) {
     #header-desktop{
