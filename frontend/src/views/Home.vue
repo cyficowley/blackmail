@@ -1,6 +1,6 @@
 <template >
   <v-app id="home" class="darkOne">
-    <div class="svgImage">
+    <div id = "girlImage" class="svgImage">
       <div id="nav" class="transparent">
         <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
       </div>
@@ -8,6 +8,9 @@
       <v-card class = "title">
         <h1 class="transparent home"> My Deadlines </h1>
       </v-card>
+      </v-row>
+       <v-row class = "title2">
+        <h1 class="transparent home title2"> My Deadlines </h1>
       </v-row>
 
        <v-dialog
@@ -111,15 +114,15 @@
           </v-btn>
           <v-btn  v-bind:class="{'filterItem': !clicked2, 'filterItemClicked': clicked2}"
               v-on:click ="clicked2 = !clicked2">
-            <p>Pending</p>
+            <p  class = "centered" >Pending</p>
           </v-btn>
           <v-btn v-bind:class="{'filterItem': !clicked3, 'filterItemClicked': clicked3}"
               v-on:click ="clicked3 = !clicked3">
-            <p>Completed</p>
+            <p  class = "centered">Completed</p>
           </v-btn>
           <v-btn v-bind:class="{'filterItem': !clicked4, 'filterItemClicked': clicked4}"
               v-on:click ="clicked4 = !clicked4">
-            <p>Sent</p>
+            <p  class = "centered">Sent</p>
           </v-btn>
         </v-btn-toggle>
 
@@ -164,7 +167,7 @@
           <v-row
             v-for="deadline in sortedDeadlines"
             :key="deadline.id"
-            style="margin-bottom:80px; margin-top: 0px;"
+            style="margin-bottom:40px; margin-top: 0px;"
           >
             <Deadline v-bind="deadline" />
           </v-row>
@@ -357,11 +360,8 @@ export default {
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
         this.resetForm();
-      } else {
-        if (!this.newDeadline.file) {
-          this.fileError = true;
-        }
-        console.log('something is invalid');
+      } else if (!this.newDeadline.file) {
+        this.fileError = true;
       }
     },
   },
@@ -395,6 +395,7 @@ export default {
 }
 .deadlines {
   vertical-align: top;
+  width: 90%;
 }
 .secondRow {
   width: 100%;
@@ -475,12 +476,17 @@ export default {
   color: white !important;
    text-align: center;
    opacity: 1.0 !important;
+   line-height: 22px;
 }
 .filterItemClicked{
   background-color:rgba(22, 72, 105, .7) !important;
   color: white !important;
    text-align: center;
+   line-height: 22px !important;
 
+}
+.centered{
+  line-height: 42px;
 }
 .transparent {
   background-color: rgba(0, 0, 0, 1);
@@ -488,6 +494,35 @@ export default {
 
 .darkOne {
   background: rgb(230, 230, 230);
+
+}
+
+@media (min-width: 1200px) {
+ .title2{
+  display: none;
+ }
+}
+@media (max-width: 1199px) {
+  #girlImage{
+  background: none;
+  height: 100%;
+ }
+ .title{
+  display: none;
+ }
+ .title2{
+   text-align: center;
+   margin:auto;
+ }
+}
+
+@media (max-width: 700px) {
+ .home{
+   font-size: 30px;
+ }
+ .logoutButton{
+   font-size: 10px;
+ }
 
 }
 </style>
