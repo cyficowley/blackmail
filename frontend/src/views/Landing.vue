@@ -199,14 +199,7 @@
             </v-expansion-panels>
           </div>
         </v-row>
-        <v-row class="dark-1">
-          <v-col>
-            <span style="color:rgba(255,255,255,.6)">&copy; 2020 Blackmailer.xyz</span>
-            <span style="color:white; padding-left:20px;">
-              Created by Shane Folden and Cyrus Cowley
-            </span>
-          </v-col>
-        </v-row>
+        <Footer/>
       </v-container>
       <modal name="hello-world" :width="600" :height="800">
         <img src="../assets/email.png" style="width:100%;max-height:100vh;">
@@ -222,6 +215,7 @@ import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
 import Deadline from '@/components/Deadline.vue';
 import Google from '@/components/Google.vue';
+import Footer from '@/components/Footer.vue';
 
 document.body.style.backgroundColor = '#303C6C';
 
@@ -281,6 +275,7 @@ export default {
     Signup,
     Deadline,
     Google,
+    Footer,
   },
 };
 

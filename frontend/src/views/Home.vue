@@ -172,6 +172,7 @@
             <Deadline v-bind="deadline" />
           </v-row>
         </v-container>
+        <Footer v-if="!loading"/>
       </div>
     </div>
   </v-app>
@@ -182,6 +183,7 @@
 import { Datetime } from 'vue-datetime';
 import Deadline from '@/components/Deadline.vue';
 import FileUpload from '@/components/FileUpload.vue';
+import Footer from '@/components/Footer.vue';
 import { mapState } from 'vuex';
 
 document.body.style.backgroundColor = '#303C6C';
@@ -237,6 +239,7 @@ export default {
       min: (v) => v.length >= 8 || 'Min 8 characters',
     };
     this.newDeadline.sender = this.$store.state.currentUser.email;
+    this.loadSleep();
   },
 
   computed: {
@@ -369,6 +372,7 @@ export default {
   components: {
     Deadline,
     Datetime,
+    Footer,
     FileUpload,
   },
 };

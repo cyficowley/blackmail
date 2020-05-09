@@ -1,41 +1,19 @@
 <template>
   <div>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
+    <v-form ref="form" v-model="valid" lazy-validation>
       <h1>Forgot Password?</h1>
       <h3>Enter your email to receive a password reset link</h3>
 
       <v-row>
         <v-col>
-          <v-text-field
-            v-model.trim="email"
-            :rules="rules.emailText"
-            label="E-mail"
-            required
-          ></v-text-field>
+          <v-text-field v-model.trim="email" :rules="rules.emailText"
+          label="E-mail" required></v-text-field>
         </v-col>
-
       </v-row>
       <v-row style="padding-left: 10px;">
-      <v-btn v-if="resetting"
-        disabled
-        color="primary"
-        class="mr-4"
-      >
-        Resetting
-      </v-btn>
+        <v-btn v-if="resetting" disabled color="primary" class="mr-4">Resetting</v-btn>
 
-      <v-btn v-else
-        :disabled="!valid"
-        color="primary"
-        class="mr-4"
-        @click="submit"
-      >
-        Reset
-      </v-btn>
+        <v-btn v-else :disabled="!valid" color="primary" class="mr-4" @click="submit">Reset</v-btn>
       </v-row>
     </v-form>
     <transition name="fade">
@@ -69,7 +47,6 @@ export default {
   }),
 
   methods: {
-
     async forgotPassword() {
       this.resetting = true;
       try {
