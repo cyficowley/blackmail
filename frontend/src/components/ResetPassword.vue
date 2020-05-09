@@ -5,7 +5,8 @@
       v-model="valid"
       lazy-validation
     >
-      <h1>Login</h1>
+      <h1>Forgot Password?</h1>
+      <h3>Enter your email to receive a password reset link</h3>
 
       <v-row>
         <v-col>
@@ -16,26 +17,15 @@
             required
           ></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
-            :type="show ? 'text' : 'password'"
-            label="Password"
-            name="input-10-2"
-            hint="At least 8 characters"
-            v-model.trim="password"
-            @click:append="show = !show">
-          </v-text-field>
-        </v-col>
+
       </v-row>
       <v-row style="padding-left: 10px;">
-      <v-btn v-if="loggingIn"
+      <v-btn v-if="resetting"
         disabled
         color="primary"
         class="mr-4"
       >
-        Logging In
+        Resetting
       </v-btn>
 
       <v-btn v-else
@@ -44,11 +34,7 @@
         class="mr-4"
         @click="submit"
       >
-        Login
-      </v-btn>
-      <v-btn
-      @click = "forgotPassword">
-      <p style="padding-left:30px;">forgot Password?</p>
+        Reset
       </v-btn>
       </v-row>
     </v-form>
@@ -69,8 +55,7 @@ export default {
   data: () => ({
     show: false,
     email: '',
-    password: '',
-    loggingIn: false,
+    resetting: false,
     valid: true,
     errorMsg: '',
     rules: {
@@ -85,31 +70,21 @@ export default {
 
   methods: {
 
-    forgotPassword() {
-      console.log('yeet');
-      this.$router.push('/reset');
-    },
-
-    async login() {
-      this.loggingIn = true;
-      const { email, password } = this;
-
+    async forgotPassword() {
+      this.resetting = true;
       try {
-        const user = await fb.auth.signInWithEmailAndPassword(email, password);
-        this.loggingIn = false;
-        this.$store.commit('setCurrentUser', user.user);
-        this.$router.push('/home');
+        await fb.auth.sendPasswordResetEmail(this.email);
+        this.resetting = false;
       } catch (err) {
-        this.loggingIn = false;
+        this.resetting = false;
         this.email = '';
-        this.password = '';
         this.errorMsg = err.message;
         console.log(err);
       }
     },
 
     submit() {
-      this.login();
+      this.forgotPassword();
     },
   },
 };

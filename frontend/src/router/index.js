@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import firebase from 'firebase';
 import Landing from '../views/Landing.vue';
 
+
 Vue.use(VueRouter);
 
 let isAdmin = false;
@@ -12,6 +13,11 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: Landing,
+  },
+  {
+    path: '/reset',
+    name: 'Reset',
+    component: () => import('../views/Reset.vue'),
   },
   {
     path: '/home',
