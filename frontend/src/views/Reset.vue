@@ -4,9 +4,9 @@
     <v-content>
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
-          <v-col class="forward" cols="12" md="4">
+          <v-col class="forward colParent" cols="12" md="4">
             <div class="title-card">
-              <v-card class="" style="padding:20px;text-align:left">
+              <v-card class="card" style="padding:20px;text-align:left">
                 <ResetPassword/>
               </v-card>
             </div>
@@ -107,6 +107,9 @@ export default {
   p{
     color:black;
     font-size: 1.2em;
+  }
+  .colParent{
+      margin: 0 auto;
   }
 
   @media only screen and (max-width: 1263px) {

@@ -47,8 +47,9 @@
         Login
       </v-btn>
       <v-btn
+      class = "mr-4"
       @click = "forgotPassword">
-      <p style="padding-left:30px;">forgot Password?</p>
+      Forgot Password?
       </v-btn>
       </v-row>
     </v-form>
