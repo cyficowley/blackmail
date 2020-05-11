@@ -20,6 +20,11 @@ const routes = [
     component: () => import('../views/Reset.vue'),
   },
   {
+    path: '/change',
+    name: 'Change',
+    component: () => import('../views/Change.vue'),
+  },
+  {
     path: '/home',
     name: 'Home',
     meta: {
