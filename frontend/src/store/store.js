@@ -63,9 +63,25 @@ const store = new Vuex.Store({
       try {
         await ref.update({ status: 'Approved' });
         dispatch('removeApproval', { id });
+        dispatch('deleteStorage', { did, uid });
       } catch (error) {
         console.error(error);
       }
+    },
+
+    async deleteStorage(_, { did, uid }) {
+      const blackmailPath = [uid, did, 'blackmail'].join('/');
+      const proofPath = [uid, did, 'proof'].join('/');
+
+      const blackmailFiles = await fb.storage.child(blackmailPath).listAll();
+      const proofFiles = await fb.storage.child(proofPath).listAll();
+
+      const deletionPromises = [];
+      [...blackmailFiles.items, ...proofFiles.items].forEach((file) => {
+        deletionPromises.push(file.delete());
+      });
+
+      await Promise.all(deletionPromises);
     },
 
     async removeApproval({ commit }, { id }) {
