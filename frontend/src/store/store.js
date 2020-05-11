@@ -48,10 +48,15 @@ const store = new Vuex.Store({
     async denyApproval({ dispatch }, {
       id, did, uid, date,
     }) {
+      const updatedDate = new Date();
+      updatedDate.setDate(updatedDate.getDate() + 1);
+      if (date.getTime() > updatedDate.getTime()) {
+        updatedDate.setTime(date);
+      }
       const ref = fb.users.doc(uid).collection('deadlines').doc(did);
       try {
-        await fb.db.collection('expiring').add({ uid, did, date });
-        await ref.update({ status: 'Rejected' });
+        await fb.db.collection('expiring').add({ uid, did, updatedDate });
+        await ref.update({ status: 'Rejected', dueStamp: updatedDate });
         dispatch('removeApproval', { id });
       } catch (error) {
         console.error(error);
