@@ -1,16 +1,16 @@
 <template >
-  <v-app id="home" class="darkOne">
-    <div id = "girlImage" class="svgImage">
-      <div id="nav" class="transparent">
+  <v-app style="display:flex; flex-direction:column;">
+    <div id = "girlImage" class="svgImage" style="flex: 1 0 auto;">
+      <div id="nav" class="">
         <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
       </div>
       <v-row>
-      <v-card class = "title">
-        <h1 class="transparent home"> My Deadlines </h1>
-      </v-card>
+      <div class = "title">
+        <h1 class=" home"> My Deadlines </h1>
+      </div>
       </v-row>
        <v-row class = "title2">
-        <h1 class="transparent home title2"> My Deadlines </h1>
+        <h1 class=" home title2"> My Deadlines </h1>
       </v-row>
 
        <v-dialog
@@ -103,26 +103,30 @@
           </v-form>
         </v-dialog>
        <v-container>
-      <v-row class = "topperRow transparent">
+      <v-row class = "topperRow ">
         <h2 class="filterText">Filter Deadlines</h2>
       </v-row>
-      <v-row class="topRow transparent">
+      <v-row class="topRow ">
         <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
-          <v-btn v-bind:class="{'filterItem': !clicked1, 'filterItemClicked': clicked1}"
-              v-on:click ="clicked1 = !clicked1">
+          <v-btn v-bind:class="{'filterItem': !Incomplete, 'filterItemClicked': Incomplete}"
+              v-on:click ="Incomplete = !Incomplete">
             <p class = "centered">Incomplete</p>
           </v-btn>
-          <v-btn  v-bind:class="{'filterItem': !clicked2, 'filterItemClicked': clicked2}"
-              v-on:click ="clicked2 = !clicked2">
+          <v-btn  v-bind:class="{'filterItem': !Pending, 'filterItemClicked': Pending}"
+              v-on:click ="Pending = !Pending">
             <p  class = "centered" >Pending</p>
           </v-btn>
-          <v-btn v-bind:class="{'filterItem': !clicked3, 'filterItemClicked': clicked3}"
-              v-on:click ="clicked3 = !clicked3">
-            <p  class = "centered">Completed</p>
+          <v-btn v-bind:class="{'filterItem': !Rejected, 'filterItemClicked': Rejected}"
+              v-on:click ="Rejected = !Rejected">
+            <p  class = "centered">Rejected</p>
           </v-btn>
-          <v-btn v-bind:class="{'filterItem': !clicked4, 'filterItemClicked': clicked4}"
-              v-on:click ="clicked4 = !clicked4">
-            <p  class = "centered">Sent</p>
+          <v-btn v-bind:class="{'filterItem': !Blackmailed, 'filterItemClicked': Blackmailed}"
+              v-on:click ="Blackmailed = !Blackmailed">
+            <p  class = "centered">Blackmailed</p>
+          </v-btn>
+          <v-btn v-bind:class="{'filterItem': !Approved, 'filterItemClicked': Approved}"
+              v-on:click ="Approved = !Approved">
+            <p  class = "centered">Approved</p>
           </v-btn>
         </v-btn-toggle>
 
@@ -144,7 +148,7 @@
       </v-row>
       </v-container>
 
-      <v-row class="secondRow transparent"></v-row>
+      <v-row class="secondRow "></v-row>
 
       <v-snackbar
         v-model="goodSnackbar"
@@ -158,7 +162,7 @@
         color="red"
         top
       >Deadline Submission failed :(</v-snackbar>
-      <div class="transparent">
+      <div class="">
         <v-container v-if="loading">
           <h1>Loading</h1>
         </v-container>
@@ -169,12 +173,12 @@
             :key="deadline.id"
             style="margin-bottom:40px; margin-top: 0px;"
           >
-            <Deadline v-bind="deadline" />
+            <Deadline v-bind="deadline" class="dark-2"/>
           </v-row>
         </v-container>
-        <Footer v-if="!loading"/>
       </div>
     </div>
+    <Footer v-if="!loading" style="flex-shrink:0;"/>
   </v-app>
 </template>
 
@@ -192,11 +196,12 @@ export default {
   name: 'Landing',
 
   data: () => ({
-    filterList: [],
-    clicked1: false,
-    clicked2: false,
-    clicked3: false,
-    clicked4: false,
+    filterList: [0, 1, 2],
+    Incomplete: true,
+    Pending: true,
+    Rejected: true,
+    Blackmailed: false,
+    Approved: false,
     currentSort: 0,
     newDeadline: {
       name: '',
@@ -297,8 +302,9 @@ export default {
       const statuses = {
         0: 'Incomplete',
         1: 'Pending',
-        2: 'Completed',
-        3: 'Sent',
+        2: 'Rejected',
+        3: 'Blackmailed',
+        4: 'Approved',
       };
 
       if (this.filterList.length === 0) {
@@ -413,7 +419,7 @@ export default {
 
 }
 .topperRow{
-  margin-top: 60px;
+  margin-top: 20px;
 }
 .svgImage {
   background-image: url(../assets/homeGirl.svg);
@@ -440,7 +446,7 @@ export default {
 .title{
   display: inline-block;
   height: 100px;
-  background-color: rgba(255,255,255,.5);
+  background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   margin: 0 auto;
@@ -478,26 +484,22 @@ export default {
 .filterItem{
   background-color:rgba(22, 72, 105, 1.0) !important;
   color: white !important;
-   text-align: center;
-   opacity: 1.0 !important;
-   line-height: 22px;
+  text-align: center;
+  opacity: 1.0 !important;
+  line-height: 22px;
 }
 .filterItemClicked{
   background-color:rgba(22, 72, 105, .7) !important;
   color: white !important;
-   text-align: center;
-   line-height: 22px !important;
-
+  text-align: center;
+  line-height: 22px !important;
 }
 .centered{
   line-height: 42px;
 }
-.transparent {
-  background-color: rgba(0, 0, 0, 1);
-}
 
 .darkOne {
-  background: rgb(230, 230, 230);
+  background: white;
 
 }
 
