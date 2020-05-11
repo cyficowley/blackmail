@@ -23,12 +23,14 @@
         <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
           <v-btn v-if="verified"
             dark class="accent-1 deadlineCreate"
-          v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
-          <v-card class="verify" v-else >
-            <h1>You must verify your email to create a deadline.
-              If you have already verified your email, please refresh this page.
-                If you need another verification email, click here</h1>
-            <v-btn @click="resend"> Resend Email </v-btn>
+          v-on="on">
+          <h2 style = "color:white">Create a New Deadline</h2></v-btn>
+          <v-card class="verify accent-1" v-else >
+            <h1 class = "verifyText" style="padding-top: 15px; color: black;">
+              You must verify your email to create a deadline.
+              If you have already verified your email, please refresh this page. <br/><br/>
+                If you need another verification email, click below.</h1>
+            <v-btn style="margin-top: 15px;" @click="resend"> <h2>Resend Email</h2> </v-btn>
           </v-card>
         </template>
         <v-form ref="newDeadline" v-model="valid" lazy-validation>
@@ -108,7 +110,7 @@
           </v-card>
         </v-form>
       </v-dialog>
-      <v-container style="margin-top:20px;">
+      <v-container style="margin-top:20px;" v-if="verified">
         <v-row class = "d-none d-md-flex">
           <h2 class="filterText">Filter Deadlines</h2>
         </v-row>
@@ -529,6 +531,7 @@ export default {
   padding-left:10px;
   padding-right: 10px;
   width: 60%;
+  padding-bottom: 20px;
 }
 .title2{
   display: none;
@@ -558,6 +561,12 @@ export default {
  }
  .logoutButton{
    font-size: 10px;
+ }
+ .verifyText{
+   font-size: 16px;
+ }
+ .verify{
+   width: 90%;
  }
 
 }
