@@ -87,5 +87,10 @@ export default {
     /* Use the Roboto font that is loaded in the <head> */
     font-family: 'Roboto', sans-serif;
   }
+
+  @media only screen and (max-width: 1536px) {
+    span.buttonText {
+      font-size: 16px;
+    }
+  }
 </style>
-s

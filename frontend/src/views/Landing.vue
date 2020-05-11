@@ -62,7 +62,7 @@
                 <v-card class="workflow white">
                   <v-row>
                     <v-col md="6" cols="12">
-                      <h1>Find your goal</h1>
+                      <h1 class="mobile-padded">Find your goal</h1>
                       <p style="font-size: 22px;">
                         Come up with a task that you want to complete.
                         This can be related to anything: Work, school, or personal life.
@@ -80,7 +80,7 @@
 
                     </v-col>
                     <v-col md="6" cols="12">
-                      <h1>Example</h1>
+                      <h1 class="mobile-padded">Example</h1>
                       <v-card outlined class="gray">
                         <v-card-text>
                           <h2 style="padding-bottom:10px">
@@ -124,7 +124,7 @@
               <v-spacer></v-spacer>
               <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Complete your goal</h1>
+                  <h1 class="mobile-padded">Complete your goal</h1>
 
                   <Deadline class="dark-1"
                     name="Finish Math Homework"
@@ -145,13 +145,13 @@
             <v-row>
               <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Validate your goal</h1>
+                  <h1 class="mobile-padded">Validate your goal</h1>
                   <v-row>
-                    <v-col cols="3" clas="d-none d-md-inline">
+                    <v-col cols="3" class="d-none d-md-inline">
                       <img src="../assets/email.png" id="email-pic"
                       @click="show" style="width:100%; cursor: pointer;">
                     </v-col>
-                    <v-col cols="12" class="d-none d-md-none">
+                    <v-col cols="12" class="d-inline d-md-none">
                       <img src="../assets/email.png" style="width:100%" id="email-pic">
                     </v-col>
                     <v-col cols="12" md="9">
@@ -410,6 +410,12 @@ export default {
     .fullwindow{
       height:auto !important;
       position: relative;
+    }
+    .mobile-padded{
+      padding-bottom:10px;
+    }
+    .bigTitle{
+      font-size: 60px;
     }
     #header-desktop{
       display: none;
