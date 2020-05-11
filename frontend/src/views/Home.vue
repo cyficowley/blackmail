@@ -1,6 +1,6 @@
 <template >
   <v-app style="display:flex; flex-direction:column;">
-    <div id = "girlImage" class="svgImage" style="flex: 1 0 auto;">
+    <div style="flex: 1 0 auto;">
       <div id="nav" class="">
         <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
       </div>
@@ -438,11 +438,6 @@ export default {
 .topperRow{
   margin-top: 20px;
 }
-.svgImage {
-  background-image: url(../assets/homeGirl.svg);
-  background-attachment: fixed;
-  height: 100%;
-}
 
 .sortBy {
   margin-left:auto;
@@ -535,10 +530,6 @@ export default {
  }
 }
 @media (max-width: 1199px) {
-  #girlImage{
-  background: none;
-  height: 100%;
- }
  .title{
   display: none;
  }

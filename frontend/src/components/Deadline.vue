@@ -70,7 +70,7 @@ export default {
       return moment(this.dueStamp).fromNow();
     },
     dateString() {
-      return moment(this.dueStamp).format('[Midnight] MMMM Do YYYY');
+      return moment(this.dueStamp).format('LT MMMM Do YYYY');
     },
     statusColor() {
       if (this.status === 'Approved') {
