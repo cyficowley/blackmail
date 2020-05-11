@@ -8,6 +8,7 @@
 #app {
 
   --dark-1: #02244A;
+  --dark-1-clear: rgba(2, 36, 74, .8);
   --dark-2: #164869;
   --light-1: #8CE5F5;
   --light-2: #55BDCA;

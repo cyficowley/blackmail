@@ -13,145 +13,154 @@
         <h1 class=" home title2"> My Deadlines </h1>
       </v-row>
 
-       <v-dialog
-          id="dialogBox"
-          v-model="dialog"
-          persistent
-          max-width="600px"
-          style="float: center;"
-        >
-          <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
-            <v-btn v-if="verified"
-             dark class="accent-1 deadlineCreate"
-            v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
-            <v-card class="verify" v-else >
-              <h1>You must verify your email to create a deadline.
-                If you have already verified your email, please refresh this page.
-                 If you need another verification email, click here</h1>
-              <v-btn @click="resend"> Resend Email </v-btn>
-            </v-card>
-          </template>
-          <v-form ref="newDeadline" v-model="valid" lazy-validation>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Create a new Deadline</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="newDeadline.name"
-                        :rules="[rules.required]"
-                        label="Goal name"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <Datetime
-                        placeholder="Select Deadline Date and Time"
-                        use12-hour
-                        class="dateBox"
-                        type="datetime"
-                        v-model="newDeadlineDate"
-                        :min-datetime="currentTime"
-                        input-style="width:100%;"
-                        :phrases="{ok: 'Continue', cancel: 'Exit'}"
-                        auto
-                      />
-                      <p
-                        v-if="(!validDate.validity && newDeadlineDate=='')"
-                        class="dateError"
-                      >Please select a date.</p>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        label="Email of recipient"
-                        v-model="newDeadline.recipient"
-                        :rules="rules.emailText"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <FileUpload
-                        :key="fileComponentKey"
-                        message="Upload File"
-                        :uploadCallback="getBlackmailFile"
-                      />
+      <v-dialog
+        id="dialogBox"
+        v-model="dialog"
+        persistent
+        max-width="600px"
+        style="float: center;"
+      >
+        <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
+          <v-btn v-if="verified"
+            dark class="accent-1 deadlineCreate"
+          v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
+          <v-card class="verify" v-else >
+            <h1>You must verify your email to create a deadline.
+              If you have already verified your email, please refresh this page.
+                If you need another verification email, click here</h1>
+            <v-btn @click="resend"> Resend Email </v-btn>
+          </v-card>
+        </template>
+        <v-form ref="newDeadline" v-model="valid" lazy-validation>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Create a new Deadline</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="newDeadline.name"
+                      :rules="[rules.required]"
+                      label="Goal name"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <Datetime
+                      placeholder="Select Deadline Date and Time"
+                      use12-hour
+                      class="dateBox"
+                      type="datetime"
+                      v-model="newDeadlineDate"
+                      :min-datetime="currentTime"
+                      input-style="width:100%;"
+                      :phrases="{ok: 'Continue', cancel: 'Exit'}"
+                      auto
+                    />
+                    <p
+                      v-if="(!validDate.validity && newDeadlineDate=='')"
+                      class="dateError"
+                    >Please select a date.</p>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      label="Email of recipient"
+                      v-model="newDeadline.recipient"
+                      :rules="rules.emailText"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <FileUpload
+                      :key="fileComponentKey"
+                      message="Upload File"
+                      :uploadCallback="getBlackmailFile"
+                    />
 
-                      <p v-if="fileError" class="fileMessage">Upload a file to continue.</p>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-textarea
-                        filled
-                        v-model="newDeadline.proofDescription"
-                        :rules="[rules.required]"
-                        label="Description of proof of completion"
-                        rows="3"
-                        auto-grow
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-container>
-                <v-checkbox
-                  class="dialogConfirm"
-                  v-model="confirmed"
-                  label="I understand that this
-              image will be sent to the recepient if I do not provide proof of
-              completing the task by the deadline."
-                  :rules="[rules.required]"
-                ></v-checkbox>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-form>
-        </v-dialog>
-       <v-container>
-      <v-row class = "topperRow ">
-        <h2 class="filterText">Filter Deadlines</h2>
-      </v-row>
-      <v-row class="topRow ">
-        <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
-          <v-btn v-bind:class="{'filterItem': !Incomplete, 'filterItemClicked': Incomplete}"
-              v-on:click ="Incomplete = !Incomplete">
-            <p class = "centered">Incomplete</p>
-          </v-btn>
-          <v-btn  v-bind:class="{'filterItem': !Pending, 'filterItemClicked': Pending}"
-              v-on:click ="Pending = !Pending">
-            <p  class = "centered" >Pending</p>
-          </v-btn>
-          <v-btn v-bind:class="{'filterItem': !Rejected, 'filterItemClicked': Rejected}"
-              v-on:click ="Rejected = !Rejected">
-            <p  class = "centered">Rejected</p>
-          </v-btn>
-          <v-btn v-bind:class="{'filterItem': !Blackmailed, 'filterItemClicked': Blackmailed}"
-              v-on:click ="Blackmailed = !Blackmailed">
-            <p  class = "centered">Blackmailed</p>
-          </v-btn>
-          <v-btn v-bind:class="{'filterItem': !Approved, 'filterItemClicked': Approved}"
-              v-on:click ="Approved = !Approved">
-            <p  class = "centered">Approved</p>
-          </v-btn>
-        </v-btn-toggle>
+                    <p v-if="fileError" class="fileMessage">Upload a file to continue.</p>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                      filled
+                      v-model="newDeadline.proofDescription"
+                      :rules="[rules.required]"
+                      label="Description of proof of completion"
+                      rows="3"
+                      auto-grow
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-checkbox
+                class="dialogConfirm"
+                v-model="confirmed"
+                label="I understand that this
+            image will be sent to the recepient if I do not provide proof of
+            completing the task by the deadline."
+                :rules="[rules.required]"
+              ></v-checkbox>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+              <v-btn color="blue darken-1" text @click="submit" :disabled="!valid">Submit</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </v-dialog>
+      <v-container style="margin-top:20px;">
+        <v-row class = "d-none d-md-flex">
+          <h2 class="filterText">Filter Deadlines</h2>
+        </v-row>
 
-        <v-menu style=""  offset-y>
-          <template  v-slot:activator="{ on }">
-            <v-btn class = "sortBy"  v-on="on">Sort by ▼</v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in sortMethods"
-              :key="index"
-              @click="currentSort=item.id;"
-            >
-              <v-list-item-title>{{item.method}}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-select
+          v-model="filterItemList"
+          :items="statuses"
+          label="Filter Deadlines"
+          chips
+          multiple
+          class="d-inline d-md-none"
+        ></v-select>
+        <v-row class="topRow">
+          <v-btn-toggle class="filterMenu d-none d-md-flex" v-model="filterIndexList" multiple>
+            <v-btn v-bind:class="{'filterItem': !Incomplete, 'filterItemClicked': Incomplete}"
+                v-on:click ="Incomplete = !Incomplete">
+              <p class = "centered">Incomplete</p>
+            </v-btn>
+            <v-btn  v-bind:class="{'filterItem': !Pending, 'filterItemClicked': Pending}"
+                v-on:click ="Pending = !Pending">
+              <p  class = "centered" >Pending</p>
+            </v-btn>
+            <v-btn v-bind:class="{'filterItem': !Rejected, 'filterItemClicked': Rejected}"
+                v-on:click ="Rejected = !Rejected">
+              <p  class = "centered">Rejected</p>
+            </v-btn>
+            <v-btn v-bind:class="{'filterItem': !Blackmailed, 'filterItemClicked': Blackmailed}"
+                v-on:click ="Blackmailed = !Blackmailed">
+              <p  class = "centered">Blackmailed</p>
+            </v-btn>
+            <v-btn v-bind:class="{'filterItem': !Approved, 'filterItemClicked': Approved}"
+                v-on:click ="Approved = !Approved">
+              <p  class = "centered">Approved</p>
+            </v-btn>
+          </v-btn-toggle>
 
-      </v-row>
+          <v-menu style=""  offset-y>
+            <template  v-slot:activator="{ on }">
+              <v-btn class = "sortBy"  v-on="on">Sort by ▼</v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in sortMethods"
+                :key="index"
+                @click="currentSort=item.id;"
+              >
+                <v-list-item-title>{{item.method}}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+
+        </v-row>
       </v-container>
 
       <v-row class="secondRow "></v-row>
@@ -179,7 +188,7 @@
             :key="deadline.id"
             style="margin-bottom:40px; margin-top: 0px;"
           >
-            <Deadline v-bind="deadline" class="dark-2"/>
+            <Deadline v-bind="deadline" class="dark-1"/>
           </v-row>
         </v-container>
       </div>
@@ -198,16 +207,16 @@ import { mapState } from 'vuex';
 
 const fb = require('../plugins/firebase');
 
-document.body.style.backgroundColor = '#303C6C';
-
 export default {
   name: 'Landing',
 
   data: () => ({
-    filterList: [0, 1, 2],
-    Incomplete: true,
-    Pending: true,
-    Rejected: true,
+    filterIndexList: [],
+    filterItemList: [],
+    statuses: ['Incomplete', 'Pending', 'Rejected', 'Blackmailed', 'Approved'],
+    Incomplete: false,
+    Pending: false,
+    Rejected: false,
     Blackmailed: false,
     Approved: false,
     currentSort: 0,
@@ -316,11 +325,15 @@ export default {
         4: 'Approved',
       };
 
-      if (this.filterList.length === 0) {
+
+      const currentStatuses = new Set(this.filterIndexList.map((x) => statuses[x]));
+      this.filterItemList.forEach((item) => {
+        currentStatuses.add(item);
+      });
+
+      if (currentStatuses.size === 0) {
         return sortedDeadlines;
       }
-
-      const currentStatuses = new Set(this.filterList.map((x) => statuses[x]));
 
       sortedDeadlines.forEach((deadline) => {
         if (currentStatuses.has(deadline.status)) {
@@ -435,15 +448,12 @@ export default {
   margin-top: 0px;
 
 }
-.topperRow{
-  margin-top: 20px;
-}
 
 .sortBy {
   margin-left:auto;
   margin-right:0;
   margin-top: 10px;
-  background-color:rgba(22, 72, 105,1) !important;
+  background-color:var(--dark-1) !important;
   color: white;
 }
 .filterText {
@@ -491,23 +501,26 @@ export default {
 }
 .filterMenu {
   float: left;
-  background-color:rgba(22, 72, 105,0) !important;
+  background-color:white !important;
 }
 .filterItem{
-  background-color:rgba(22, 72, 105, 1.0) !important;
-  color: white !important;
+  background-color:var(--dark-1) !important;
+  color: white;
   text-align: center;
   opacity: 1.0 !important;
-  line-height: 22px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .filterItemClicked{
-  background-color:rgba(22, 72, 105, .7) !important;
+  background-color:var(--dark-1-clear) !important;
   color: white !important;
   text-align: center;
-  line-height: 22px !important;
+  opacity: 1 !important;
+  font-size: 16px;
+  font-weight: bold;
 }
 .centered{
-  line-height: 42px;
+  line-height: 48px;
 }
 .verify{
   margin-left: auto;
@@ -517,26 +530,26 @@ export default {
   padding-right: 10px;
   width: 60%;
 }
-
-.darkOne {
-  background: white;
-
+.title2{
+  display: none;
 }
 
-
-@media (min-width: 1200px) {
- .title2{
-  display: none;
- }
+@media (max-width: 1200px) {
+  .title{
+    display: none;
+  }
+  .title2{
+    text-align: center;
+    margin:auto;
+    display: block;
+  }
 }
-@media (max-width: 1199px) {
- .title{
-  display: none;
- }
- .title2{
-   text-align: center;
-   margin:auto;
- }
+@media (max-width: 959px) {
+  .sortBy{
+    margin-left:20px;
+    margin-right:auto;
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 700px) {
