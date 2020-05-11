@@ -73,14 +73,13 @@ export default {
       return moment(this.dueStamp).format('[Midnight] MMMM Do YYYY');
     },
     statusColor() {
-      if (this.status === 'complete') {
+      if (this.status === 'Approved') {
         return 'green';
-      } if (this.status === 'Incomplete') {
+      } if (this.status === 'Incomplete' || this.status === 'Rejected') {
         return 'red';
-      } if (this.status === 'pending') {
+      } if (this.status === 'Pending') {
         return 'blue';
-      }
-      if (this.status === 'Sent') {
+      } if (this.status === 'Blackmailed') {
         return 'orange';
       }
       return 'purple';
