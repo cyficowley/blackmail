@@ -12,7 +12,6 @@
       </v-row>
       <v-row style="padding-left: 10px;">
         <v-btn v-if="resetting" disabled color="primary" class="mr-4">Resetting</v-btn>
-
         <v-btn v-else :disabled="!valid" color="primary" class="mr-4" @click="submit">Reset</v-btn>
       </v-row>
     </v-form>
