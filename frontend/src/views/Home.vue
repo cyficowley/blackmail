@@ -24,11 +24,12 @@
             <v-btn v-if="verified"
              dark class="accent-1 deadlineCreate"
             v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
-            <v-card class="verify" v-else >
-              <h1>You must verify your email to create a deadline.
+            <v-card class="verify accent-1" v-else >
+              <h1 class = "verifyText" style="padding-top: 15px; color: black;">
+                You must verify your email to create a deadline.
                 If you have already verified your email, please refresh this page.
-                 If you need another verification email, click here</h1>
-              <v-btn @click="resend"> Resend Email </v-btn>
+                 If you need another verification email, click below.</h1>
+              <v-btn style="margin-top: 15px;" @click="resend"> <h2>Resend Email</h2> </v-btn>
             </v-card>
           </template>
           <v-form ref="newDeadline" v-model="valid" lazy-validation>
@@ -109,10 +110,10 @@
           </v-form>
         </v-dialog>
        <v-container>
-      <v-row class = "topperRow ">
+      <v-row  v-if="verified" class = "topperRow ">
         <h2 class="filterText">Filter Deadlines</h2>
       </v-row>
-      <v-row class="topRow ">
+      <v-row  v-if="verified" class="topRow ">
         <v-btn-toggle class="filterMenu" v-model="filterList" multiple>
           <v-btn v-bind:class="{'filterItem': !Incomplete, 'filterItemClicked': Incomplete}"
               v-on:click ="Incomplete = !Incomplete">
@@ -521,6 +522,7 @@ export default {
   padding-left:10px;
   padding-right: 10px;
   width: 60%;
+  padding-bottom: 20px;
 }
 
 .darkOne {
@@ -554,6 +556,12 @@ export default {
  }
  .logoutButton{
    font-size: 10px;
+ }
+ .verifyText{
+   font-size: 16px;
+ }
+ .verify{
+   width: 90%;
  }
 
 }
