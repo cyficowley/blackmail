@@ -21,9 +21,15 @@
           style="float: center;"
         >
           <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
-            <v-btn
+            <v-btn v-if="verified"
              dark class="accent-1 deadlineCreate"
             v-on="on"><h2 style = "color:white">Create a New Deadline</h2></v-btn>
+            <v-card class="verify" v-else >
+              <h1>You must verify your email to create a deadline.
+                If you have already verified your email, please refresh this page.
+                 If you need another verification email, click here</h1>
+              <v-btn @click="resend"> Resend Email </v-btn>
+            </v-card>
           </template>
           <v-form ref="newDeadline" v-model="valid" lazy-validation>
             <v-card>
@@ -172,7 +178,7 @@
             <Deadline v-bind="deadline" />
           </v-row>
         </v-container>
-        <Footer v-if="!loading"/>
+          <Footer class="footer" v-if="!loading"/>
       </div>
     </div>
   </v-app>
@@ -185,6 +191,8 @@ import Deadline from '@/components/Deadline.vue';
 import FileUpload from '@/components/FileUpload.vue';
 import Footer from '@/components/Footer.vue';
 import { mapState } from 'vuex';
+
+const fb = require('../plugins/firebase');
 
 document.body.style.backgroundColor = '#303C6C';
 
@@ -224,6 +232,8 @@ export default {
       this.$store.dispatch('getAllDeadlines');
     }
     this.timeout = 3000;
+    this.verified = this.$store.state.currentUser.emailVerified;
+
 
     this.sortMethods = [
       { method: 'Date', id: 0 },
@@ -239,7 +249,6 @@ export default {
       min: (v) => v.length >= 8 || 'Min 8 characters',
     };
     this.newDeadline.sender = this.$store.state.currentUser.email;
-    this.loadSleep();
   },
 
   computed: {
@@ -351,6 +360,14 @@ export default {
       this.$refs.newDeadline.reset();
       this.newDeadlineDate = '';
       this.fileComponentKey += 1;
+    },
+    async resend() {
+      try {
+        await fb.auth.currentUser.sendEmailVerification();
+      } catch (err) {
+        this.errorMsg = err.message;
+        console.log(err);
+      }
     },
 
     submit() {
@@ -492,6 +509,15 @@ export default {
 .centered{
   line-height: 42px;
 }
+.verify{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  padding-left:10px;
+  padding-right: 10px;
+  width: 60%;
+
+}
 .transparent {
   background-color: rgba(0, 0, 0, 1);
 }
@@ -500,6 +526,7 @@ export default {
   background: rgb(230, 230, 230);
 
 }
+
 
 @media (min-width: 1200px) {
  .title2{
