@@ -34,7 +34,6 @@
 import ResetPassword from '@/components/ResetPassword.vue';
 import Footer from '@/components/Footer.vue';
 
-document.body.style.backgroundColor = '#303C6C';
 
 export default {
   name: 'Reset',
