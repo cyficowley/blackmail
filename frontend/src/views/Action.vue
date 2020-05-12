@@ -4,7 +4,8 @@
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
           <v-col class="forward colParent" cols="12" md="4">
-            <div class="title-card">
+            <h1 v-if="verifyMode">VERIFYING  EMAIL</h1>
+            <div v-else class="title-card">
               <v-card class="card" style="padding:20px;text-align:left">
                 <ChangePassword/>
               </v-card>
@@ -34,14 +35,50 @@
 import ChangePassword from '@/components/ChangePassword.vue';
 import Footer from '@/components/Footer.vue';
 
+const fb = require('../plugins/firebase');
+
 document.body.style.backgroundColor = '#303C6C';
 
 export default {
-  name: 'Reset',
+  name: 'Action',
+
+  data: () => ({
+    verifyMode: false,
+  }),
 
   components: {
     ChangePassword,
     Footer,
+  },
+
+  created() {
+    this.mode = this.getUrlVal('mode');
+    if (this.mode === 'verifyEmail') {
+      this.verifyMode = true;
+      this.verify();
+    }
+  },
+
+  methods: {
+
+    getUrlVal(field, url) {
+      const href = url || window.location.href;
+      const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
+      const string = reg.exec(href);
+      return string ? string[1] : null;
+    },
+
+    async verify() {
+      console.log('verifying');
+      try {
+        this.urlCode = this.getUrlVal('oobCode');
+        await fb.auth.applyActionCode(this.urlCode);
+        this.$router.push('/home');
+      } catch (err) {
+        this.errorMsg = err.message;
+        console.log(err);
+      }
+    },
   },
 
 };

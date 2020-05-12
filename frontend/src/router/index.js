@@ -20,9 +20,9 @@ const routes = [
     component: () => import('../views/Reset.vue'),
   },
   {
-    path: '/change',
-    name: 'Change',
-    component: () => import('../views/Change.vue'),
+    path: '/action',
+    name: 'Action',
+    component: () => import('../views/Action.vue'),
   },
   {
     path: '/home',
