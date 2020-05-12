@@ -7,8 +7,8 @@
           <v-col class="forward" cols="12" md="4">
             <div class="title-card">
               <v-card class="">
-                <h1 id="header-desktop">BLACKMAIL</h1>
-                <h1 id="header-mobile">BLACKMAIL</h1>
+                <h1 id="header-desktop">BLACKMAILER</h1>
+                <h1 id="header-mobile">BLACKMAILER</h1>
                 <p id="tagline">Incentivize yourself to complete tasks</p>
                 <ol id="tagpara">
                   <li style="margin-bottom:15px;">
@@ -361,11 +361,11 @@ export default {
     padding-bottom: 40px;
   }
   #header-desktop{
-    font-size: 6em;
+    font-size: 80px;
     font-weight: 600;
   }
   #header-mobile{
-    font-size: 3em;
+    font-size: 42px;
     font-weight: 600;
     display: none;
   }
@@ -422,15 +422,15 @@ export default {
   }
   @media only screen and (max-width: 1850px) {
     #header-desktop{
-      font-size: 5em;
+      font-size: 64px;
     }
   }
   @media only screen and (max-width: 1536px) {
     #header-desktop{
-      font-size: 4em;
+      font-size: 48px;
     }
     #tagpara{
-      font-size: 1.2em;
+      font-size: 19px;
     }
   }
   @media only screen and (max-width: 1281px) {
