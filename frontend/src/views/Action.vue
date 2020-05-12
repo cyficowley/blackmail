@@ -4,7 +4,7 @@
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
           <v-col class="forward colParent" cols="12" md="4">
-            <h1 v-if="verifyMode">VERIFYING  EMAIL</h1>
+            <h1 v-if="verifyMode">VERIFYING  EMAIL1</h1>
             <div v-else class="title-card">
               <v-card class="card" style="padding:20px;text-align:left">
                 <ChangePassword/>
@@ -73,6 +73,10 @@ export default {
       try {
         this.urlCode = this.getUrlVal('oobCode');
         await fb.auth.applyActionCode(this.urlCode);
+        await fb.auth.currentUser.reload();
+        this.$store.commit('setCurrentUser', fb.auth.currentUser);
+        console.log(this.$store.state.currentUser);
+        console.log(fb.auth.currentUser);
         this.$router.push('/home');
       } catch (err) {
         this.errorMsg = err.message;

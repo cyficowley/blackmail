@@ -187,7 +187,14 @@
         <v-row class='forward text-left light-2'>
           <div id="faq-container">
             <h1 class="text-left bigTitle">FAQ</h1>
-            <v-expansion-panels accordion multiple>
+            <v-card class="light-1" style="padding:20px;">
+              <div v-for="question in questions" :key="question.q" style="margin-bottom:20px;">
+                <p style="margin-bottom:5px;"><strong>{{question.q}}</strong></p>
+                <p style="padding-left:15px;">{{question.a}}</p>
+              </div>
+            </v-card>
+
+            <!-- <v-expansion-panels accordion multiple>
               <v-expansion-panel class="light-1"
               v-for="question in questions" :key="question.q">
                 <v-expansion-panel-header><strong>{{ question.q }}</strong>
@@ -196,12 +203,12 @@
                   {{ question.a}}
                 </v-expansion-panel-content>
               </v-expansion-panel>
-            </v-expansion-panels>
+            </v-expansion-panels> -->
           </div>
         </v-row>
         <Footer/>
       </v-container>
-      <modal name="hello-world" :width="600" :height="800">
+      <modal name="email-example" :width="600" :height="800">
         <img src="../assets/email.png" style="width:100%;max-height:100vh;">
       </modal>
     </v-content>
@@ -237,22 +244,22 @@ export default {
       },
       {
         q: 'Who approves the proof?',
-        a: 'Shane or I are the only approvers',
+        a: 'Shane or Cyrus are the only approvers',
       },
       {
-        q: 'What happens if I don\'t meet the deadline?',
-        a: 'We send the photo that you submitted out to the person you specified',
+        q: 'Is there any way to get out of it?',
+        a: 'No, the only way to have your blackmail not be sent is to submit valid proof',
       },
       {
         q: 'Is blackmail email anonymous?',
-        a: 'No, we explain why they are getting that photo and what email it came from',
+        a: 'No, we explain why they are getting that photo and what email it came from. See the validate your goal section for an example',
       },
       {
         q: 'What kind of blackmail can I upload?',
         a: 'Whatever type of nonexecutable file you want',
       },
       {
-        q: 'Does the recipient need to be registered at blackmail.io?',
+        q: 'Does the recipient need to be registered at blackmailer.xyz?',
         a: 'No, you can enter the email of anyone you know',
       },
     ];
@@ -262,10 +269,10 @@ export default {
 
   methods: {
     show() {
-      this.$modal.show('hello-world');
+      this.$modal.show('email-example');
     },
     hide() {
-      this.$modal.hide('hello-world');
+      this.$modal.hide('email-example');
     },
   },
 
@@ -409,6 +416,12 @@ export default {
     .fullwindow{
       height:auto !important;
       position: relative;
+    }
+    .mobile-padded{
+      padding-bottom:10px;
+    }
+    .bigTitle{
+      font-size: 60px;
     }
     #header-desktop{
       display: none;
