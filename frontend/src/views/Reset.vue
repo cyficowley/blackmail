@@ -22,6 +22,12 @@
             </v-row>
           </v-container>
         </v-row>
+           <v-snackbar
+             v-model="success"
+            :timeout="timeout"
+            color="green"
+            top
+      >Deadline Submitted Succesfully!</v-snackbar>
        <Footer/>
       </v-container>
     </v-content>
@@ -37,6 +43,7 @@ import Footer from '@/components/Footer.vue';
 
 export default {
   name: 'Reset',
+
 
   components: {
     ResetPassword,

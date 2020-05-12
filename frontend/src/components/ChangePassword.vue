@@ -44,6 +44,12 @@
         <p style="color:red; padding-top:10px;">{{ errorMsg }}</p>
       </div>
     </transition>
+     <v-snackbar
+             v-model="success"
+            :timeout="timeout"
+            color="green"
+            top
+      >Password recovery email sent.</v-snackbar>
   </div>
 </template>
 
@@ -56,6 +62,7 @@ export default {
 
   data: () => ({
     show: false,
+    success: false,
     password: '',
     passwordConfirm: '',
     valid: true,
@@ -67,6 +74,7 @@ export default {
   }),
 
   created() {
+    this.timeout = 3000;
     this.urlCode = this.getUrlVal('oobCode');
     console.log(this.urlCode);
   },
@@ -89,6 +97,8 @@ export default {
     async reset() {
       try {
         await fb.auth.confirmPasswordReset(this.urlCode, this.password);
+        this.success = true;
+        this.$router.push('/?snackbar=pwreset');
       } catch (err) {
         this.errorMsg = err.message;
         console.log(err);

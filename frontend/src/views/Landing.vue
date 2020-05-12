@@ -212,6 +212,12 @@
         <img src="../assets/email.png" style="width:100%;max-height:100vh;">
       </modal>
     </v-content>
+     <v-snackbar
+             v-model="pwreset"
+            :timeout="timeout"
+            color="green"
+            top
+      >Password reset successful. You can now log in.</v-snackbar>
   </v-app>
 </template>
 
@@ -229,6 +235,11 @@ export default {
   name: 'Landing',
 
   created() {
+    this.urlCode = this.getUrlVal('snackbar');
+    this.timeout = 3000;
+    if (this.urlCode === 'pwreset') {
+      this.pwreset = true;
+    }
     this.questions = [
       {
         q: 'How much will you email me?',
@@ -266,6 +277,9 @@ export default {
     this.exampleDate = new Date();
     this.exampleDate.setDate(this.exampleDate.getDate() + 3);
   },
+  data: () => ({
+    pwReset: false,
+  }),
 
   methods: {
     show() {
@@ -273,6 +287,13 @@ export default {
     },
     hide() {
       this.$modal.hide('email-example');
+    },
+
+    getUrlVal(field, url) {
+      const href = url || window.location.href;
+      const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
+      const string = reg.exec(href);
+      return string ? string[1] : null;
     },
   },
 

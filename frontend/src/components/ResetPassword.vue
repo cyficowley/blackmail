@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-form id = "myForm" ref="form" v-model="valid" lazy-validation>
       <h1>Forgot Password?</h1>
       <h3>Enter your email to receive a password reset link</h3>
 
@@ -20,6 +20,12 @@
         <p style="color:red; padding-top:10px;">{{ errorMsg }}</p>
       </div>
     </transition>
+       <v-snackbar
+             v-model="success"
+            :timeout="timeout"
+            color="green"
+            top
+      >Password recovery email sent.</v-snackbar>
   </div>
 </template>
 
@@ -29,10 +35,15 @@ const fb = require('../plugins/firebase');
 export default {
   name: 'Login',
 
+  created() {
+    this.timeout = 3000;
+  },
+
   data: () => ({
     show: false,
     email: '',
     resetting: false,
+    success: false,
     valid: true,
     errorMsg: '',
     rules: {
@@ -51,6 +62,8 @@ export default {
       try {
         await fb.auth.sendPasswordResetEmail(this.email);
         this.resetting = false;
+        this.success = true;
+        document.getElementById('myForm').reset();
       } catch (err) {
         this.resetting = false;
         this.email = '';
