@@ -21,17 +21,9 @@
         style="float: center;"
       >
         <template style="display: flex; justify-content: center;" v-slot:activator="{ on }">
-          <v-btn v-if="verified"
-            dark class="accent-1 deadlineCreate"
-          v-on="on">
-          <h2 style = "color:white">Create a New Deadline</h2></v-btn>
-          <v-card class="verify accent-1" v-else >
-            <h1 class = "verifyText" style="padding-top: 15px; color: black;">
-              You must verify your email to create a deadline.
-              If you have already verified your email, please refresh this page. <br/><br/>
-                If you need another verification email, click below.</h1>
-            <v-btn style="margin-top: 15px;" @click="resend"> <h2>Resend Email</h2> </v-btn>
-          </v-card>
+          <v-btn dark class="accent-1 deadlineCreate" v-on="on">
+            <h2 style = "color:white">Create a New Deadline</h2>
+          </v-btn>
         </template>
         <v-form ref="newDeadline" v-model="valid" lazy-validation>
           <v-card>
@@ -110,7 +102,7 @@
           </v-card>
         </v-form>
       </v-dialog>
-      <v-container style="margin-top:20px;" v-if="verified">
+      <v-container style="margin-top:20px;">
         <v-row class = "d-none d-md-flex">
           <h2 class="filterText">Filter Deadlines</h2>
         </v-row>
@@ -248,7 +240,6 @@ export default {
       this.$store.dispatch('getAllDeadlines');
     }
     this.timeout = 3000;
-    this.verified = this.$store.state.currentUser.emailVerified;
 
 
     this.sortMethods = [

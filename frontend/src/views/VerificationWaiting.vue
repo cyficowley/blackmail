@@ -4,19 +4,17 @@
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
           <v-col class="forward colParent" cols="12" md="4">
-            <div v-if="verifyMode" class="title-card">
-              <v-card class="card" style="padding:20px;text-align:left">
-                <h1>VERIFYING EMAIL</h1>
-                <p>You will be redirected on completion</p>
-                <p>Click <a href="https://blackmailer.xyz/#/home">here</a>
-                to manually redirect if you aren't automatically redirected in a few seconds</p>
-              </v-card>
-            </div>
-            <div v-else class="title-card">
-              <v-card class="card" style="padding:20px;text-align:left">
-                <ChangePassword/>
-              </v-card>
-            </div>
+            <v-card class="card" style="padding:20px;text-align:left">
+              <h1>PLEASE VERIFY EMAIL</h1>
+              <p>
+                You must verify your email to create a deadline.
+                If you have already verified your email, please refresh this page. <br/><br/>
+                If you need another verification email, click below.
+              </p>
+              <div style="text-align:center; width:100%;">
+                <v-btn style="margin-top: 15px;" @click="resend"> <h2>Resend Email</h2> </v-btn>
+              </div>
+            </v-card>
           </v-col>
 
           <div class="stripe2"></div>
@@ -39,47 +37,21 @@
 
 <script>
 // @ is an alias to /src
-import ChangePassword from '@/components/ChangePassword.vue';
 import Footer from '@/components/Footer.vue';
 
 const fb = require('../plugins/firebase');
 
 export default {
-  name: 'Action',
-
-  data: () => ({
-    verifyMode: false,
-  }),
+  name: 'VerificationWaiting',
 
   components: {
-    ChangePassword,
     Footer,
   },
 
-  created() {
-    this.mode = this.getUrlVal('mode');
-    if (this.mode === 'verifyEmail') {
-      this.verifyMode = true;
-      this.verify();
-    }
-  },
-
   methods: {
-
-    getUrlVal(field, url) {
-      const href = url || window.location.href;
-      const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
-      const string = reg.exec(href);
-      return string ? string[1] : null;
-    },
-
-    async verify() {
+    async resend() {
       try {
-        this.urlCode = this.getUrlVal('oobCode');
-        await fb.auth.applyActionCode(this.urlCode);
-        await fb.auth.currentUser.reload();
-        this.$store.commit('setCurrentUser', fb.auth.currentUser);
-        this.$router.push('/home');
+        await fb.auth.currentUser.sendEmailVerification();
       } catch (err) {
         this.errorMsg = err.message;
         console.log(err);
