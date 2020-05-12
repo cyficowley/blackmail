@@ -5,7 +5,7 @@
       <span style="white-space:nowrap;color:white; padding-left:20px;">
         Created by Shane Folden and Cyrus Cowley</span>
         <a style="white-space:nowrap;color:white; padding-left:20px;"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSdYiCTydQO68LIU5otXWmK1TB3f14wKVqQFkeqM6pmzGS5vCA/viewform?usp=sf_link">form</a>
+        href="https://docs.google.com/forms/d/e/1FAIpQLSdYiCTydQO68LIU5otXWmK1TB3f14wKVqQFkeqM6pmzGS5vCA/viewform?usp=sf_link">Feeding Form</a>
     </v-col>
   </v-row>
 </template>
