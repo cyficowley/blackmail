@@ -183,6 +183,10 @@
           <h1>Loading</h1>
         </v-container>
 
+        <v-container v-else-if="sortedDeadlines.length===0">
+          <h1 style="padding-top:50px;">No deadlines</h1>
+        </v-container>
+
         <v-container class="deadlines" v-else>
           <v-row
             v-for="deadline in sortedDeadlines"

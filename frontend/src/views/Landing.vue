@@ -28,7 +28,7 @@
             <div style="height:0px;">
               <v-btn style="top:90vh;" class="d-none d-md-inline accent-1"
                 @click="$vuetify.goTo('#row2', {duration:800})">
-                More Questions?
+                <h2>More Questions?</h2>
               </v-btn>
             </div>
             <v-row>
@@ -62,7 +62,7 @@
                 <v-card class="workflow white">
                   <v-row>
                     <v-col md="6" cols="12">
-                      <h1>Find your goal</h1>
+                      <h1>Choose your goal</h1>
                       <p style="font-size: 22px;">
                         Come up with a task that you want to complete.
                         This can be related to anything: Work, school, or personal life.
@@ -172,7 +172,7 @@
                         We will be lenient in our validation, we are trying to motivate you,
                         not ruin your life. We are willing to work with you to ensure that
                         we accurately assess whether or not you have successfully completed
-                        your goal. However, if it is obvious the goal has not ben completed,
+                        your goal. However, if it is clear the goal has not ben completed,
                         your recipient will recieve an email like this.
 
                       </p>
@@ -252,27 +252,35 @@ export default {
       },
       {
         q: 'What kind of proof can I submit?',
-        a: 'We except proof in the following formats: .jpg, .png, .pdf, .mp4, and .gif. The most important thing is that the proof clearly shows completiion of the task',
+        a: 'We accept proof in any format, as long as it is under 5mb. The most important thing is that the proof clearly shows completiion of the task',
       },
       {
         q: 'Who approves the proof?',
-        a: 'Shane or Cyrus are the only approvers',
+        a: 'All proof is reviewed by our internal team',
       },
       {
-        q: 'Is there any way to get out of it?',
-        a: 'No, the only way to have your blackmail not be sent is to submit valid proof',
+        q: 'Is there any way to cancel a deadline?',
+        a: 'No, the only way to cancel your deadline is to submit valid proof',
       },
       {
-        q: 'Is blackmail email anonymous?',
-        a: 'No, we explain why they are getting that photo and what email it came from. See the validate your goal section for an example',
+        q: 'Is the blackmail email anonymous?',
+        a: 'No, we explain to the recipient why they are getting that file, and that it came from your email account. See the validate your goal section for an example',
       },
       {
         q: 'What kind of blackmail can I upload?',
-        a: 'Whatever type of nonexecutable file you want',
+        a: 'You can upload any type of nonexecutable file',
       },
       {
         q: 'Does the recipient need to be registered at blackmailer.xyz?',
         a: 'No, you can enter the email of anyone you know',
+      },
+      {
+        q: 'What happens if my proof gets rejected?',
+        a: 'If your proof is rejected you will have at least 24 hours from the time of rejection to reupload valid proof',
+      },
+      {
+        q: 'Why was my proof rejected?',
+        a: 'We reject proof if it doesn\'t clearly show the completion of the goal.  You can contact us if you have any question about why your specific proof was rejected.',
       },
     ];
     this.exampleDate = new Date();
