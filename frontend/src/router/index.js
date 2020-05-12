@@ -25,6 +25,14 @@ const routes = [
     component: () => import('../views/Action.vue'),
   },
   {
+    path: '/verificationWaiting',
+    name: 'VerificationWaiting',
+    meta: {
+      requiresUnverified: true,
+    },
+    component: () => import('../views/VerificationWaiting.vue'),
+  },
+  {
     path: '/home',
     name: 'Home',
     meta: {
@@ -70,13 +78,16 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
   const requiresAdmin = to.matched.some((x) => x.meta.requiresAdmin);
+  const requiresUnverified = to.matched.some((x) => x.meta.requiresUnverified);
   const { currentUser } = firebase.auth();
 
 
   if (requiresAdmin && !isAdmin) {
     next('/');
-  } else if (requiresAuth && !currentUser) {
+  } else if (requiresAuth && (!currentUser || !currentUser.emailVerified)) {
     next('/');
+  } else if (requiresUnverified && (currentUser && currentUser.emailVerified)) {
+    next('/home');
   } else if (to.name === 'Landing' && currentUser) {
     next('/home');
   } else {

@@ -90,7 +90,7 @@ export default {
         const user = await fb.auth.createUserWithEmailAndPassword(this.email, this.password);
         this.$store.commit('setCurrentUser', user.user);
         await fb.auth.currentUser.sendEmailVerification();
-        this.$router.push('/home');
+        this.$router.push('/verificationWaiting');
       } catch (err) {
         this.errorMsg = err.message;
         console.log(err);

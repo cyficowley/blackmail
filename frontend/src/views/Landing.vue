@@ -37,7 +37,7 @@
           </v-col>
           <v-col class="forward" cols="12" md="4">
             <div class="title-card">
-              <v-card class="" style="padding:20px; text-align:left">
+              <v-card class="" style="padding:20px 20px 10px 20px; text-align:left">
                 <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Login/>
@@ -433,10 +433,9 @@ export default {
       font-size: 1.2em;
     }
   }
-  @media only screen and (max-width: 1263px) {
-    .fullwindow{
-      height:auto !important;
-      position: relative;
+  @media only screen and (max-width: 1281px) {
+    #tagpara{
+      margin-top:40px;
     }
     .mobile-padded{
       padding-bottom:10px;
@@ -448,7 +447,8 @@ export default {
       display: none;
     }
     #header-mobile{
-      display: inline;
+      display: block;
+      padding-top: 20px;
     }
     #tagline{
       font-size: 1.7em;
@@ -462,5 +462,12 @@ export default {
       padding: 10px;
       margin:0 auto;
     }
+  }
+  @media only screen and (max-width: 959px) {
+    .fullwindow{
+      height:auto !important;
+      position: relative;
+    }
+
   }
 </style>
