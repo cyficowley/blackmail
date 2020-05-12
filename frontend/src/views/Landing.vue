@@ -235,6 +235,7 @@ export default {
   name: 'Landing',
 
   created() {
+    this.pwreset = false;
     this.urlCode = this.getUrlVal('snackbar');
     this.timeout = 3000;
     if (this.urlCode === 'pwreset') {
