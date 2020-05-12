@@ -187,14 +187,14 @@
         <v-row class='forward text-left light-2'>
           <div id="faq-container">
             <h1 class="text-left bigTitle">FAQ</h1>
-            <v-card class="light-1" style="padding:20px;">
+            <!-- <v-card class="light-1" style="padding:20px;">
               <div v-for="question in questions" :key="question.q" style="margin-bottom:20px;">
                 <p style="margin-bottom:5px;"><strong>{{question.q}}</strong></p>
                 <p style="padding-left:15px;">{{question.a}}</p>
               </div>
-            </v-card>
+            </v-card> -->
 
-            <!-- <v-expansion-panels accordion multiple>
+            <v-expansion-panels accordion multiple>
               <v-expansion-panel class="light-1"
               v-for="question in questions" :key="question.q">
                 <v-expansion-panel-header><strong>{{ question.q }}</strong>
@@ -203,7 +203,7 @@
                   {{ question.a}}
                 </v-expansion-panel-content>
               </v-expansion-panel>
-            </v-expansion-panels> -->
+            </v-expansion-panels>
           </div>
         </v-row>
         <Footer/>

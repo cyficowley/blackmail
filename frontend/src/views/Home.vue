@@ -1,12 +1,14 @@
 <template >
-  <v-app style="display:flex; flex-direction:column;">
+  <v-app style="display:flex; flex-direction:column;" class="light-2">
     <div style="flex: 1 0 auto;">
       <div id="nav" class="">
         <v-btn class="logoutButton" @click="signOut"><strong>Sign Out</strong></v-btn>
       </div>
       <v-row>
       <div class = "title">
-        <h1 class=" home"> My Deadlines </h1>
+        <v-card>
+          <h1 class="home" style="padding:0 20px 0 20px;"> My Deadlines </h1>
+        </v-card>
       </div>
       </v-row>
        <v-row class = "title2">
@@ -193,7 +195,7 @@
             :key="deadline.id"
             style="margin-bottom:40px; margin-top: 0px;"
           >
-            <Deadline v-bind="deadline" class="dark-1"/>
+            <Deadline v-bind="deadline" class="dark-2"/>
           </v-row>
         </v-container>
       </div>
@@ -484,8 +486,6 @@ export default {
 }
 .title{
   display: inline-block;
-  height: 100px;
-  background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   margin: 0 auto;
