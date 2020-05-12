@@ -87,7 +87,7 @@ router.beforeEach((to, from, next) => {
   } else if (requiresAuth && (!currentUser || !currentUser.emailVerified)) {
     next('/');
   } else if (requiresUnverified && (currentUser && currentUser.emailVerified)) {
-    next('/home');
+    next('/home?snackbar=emailVerified');
   } else if (to.name === 'Landing' && currentUser) {
     next('/home');
   } else {

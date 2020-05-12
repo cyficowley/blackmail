@@ -79,7 +79,7 @@ export default {
         await fb.auth.applyActionCode(this.urlCode);
         await fb.auth.currentUser.reload();
         this.$store.commit('setCurrentUser', fb.auth.currentUser);
-        this.$router.push('/home');
+        this.$router.push('/home?snackbar=emailVerified');
       } catch (err) {
         this.errorMsg = err.message;
         console.log(err);

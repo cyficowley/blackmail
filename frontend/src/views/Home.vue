@@ -2,7 +2,7 @@
   <v-app style="display:flex; flex-direction:column;">
     <div style="flex: 1 0 auto;">
       <div id="nav" class="">
-        <v-btn class="logoutButton" @click="signOut">Sign Out</v-btn>
+        <v-btn class="logoutButton" @click="signOut"><strong>Sign Out</strong></v-btn>
       </div>
       <v-row>
       <div class = "title">
@@ -159,6 +159,13 @@
 
       <v-row class="secondRow "></v-row>
 
+       <v-snackbar
+             v-model="emailSnackbar"
+            :timeout="timeout"
+            color="green"
+            top
+      >Email Successfully Verified.</v-snackbar>
+
       <v-snackbar
         v-model="goodSnackbar"
         :timeout="timeout"
@@ -205,6 +212,7 @@ export default {
   name: 'Landing',
 
   data: () => ({
+    emailSnackbar: false,
     filterIndexList: [],
     filterItemList: [],
     statuses: ['Incomplete', 'Pending', 'Rejected', 'Blackmailed', 'Approved'],
@@ -239,7 +247,12 @@ export default {
     if (this.$store.state.deadlines.length === 0) {
       this.$store.dispatch('getAllDeadlines');
     }
+    this.urlCode = this.getUrlVal('snackbar');
     this.timeout = 3000;
+
+    if (this.urlCode === 'emailVerified') {
+      this.emailSnackbar = true;
+    }
 
 
     this.sortMethods = [
@@ -305,6 +318,13 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch('signOut');
+    },
+
+    getUrlVal(field, url) {
+      const href = url || window.location.href;
+      const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
+      const string = reg.exec(href);
+      return string ? string[1] : null;
     },
 
     filter(sortedDeadlines) {

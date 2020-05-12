@@ -13,6 +13,8 @@
       <v-row style="padding-left: 10px;">
         <v-btn v-if="resetting" disabled color="primary" class="mr-4">Resetting</v-btn>
         <v-btn v-else :disabled="!valid" color="primary" class="mr-4" @click="submit">Reset</v-btn>
+        <v-btn :disabled="!valid" color="primary" class="mr-4" @click="redirect">
+          Return to login</v-btn>
       </v-row>
     </v-form>
     <transition name="fade">
@@ -70,6 +72,10 @@ export default {
         this.errorMsg = err.message;
         console.log(err);
       }
+    },
+
+    redirect() {
+      this.$router.push('/');
     },
 
     submit() {
