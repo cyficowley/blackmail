@@ -145,13 +145,13 @@
             <v-row>
               <v-col class="forward" cols="12" xl="10">
                 <v-card class="workflow white">
-                  <h1>Validate your goal</h1>
+                  <h1 class="mobile-padded">Validate your goal</h1>
                   <v-row>
-                    <v-col cols="3" clas="d-none d-md-inline">
+                    <v-col cols="3" class="d-none d-md-inline">
                       <img src="../assets/email.png" id="email-pic"
                       @click="show" style="width:100%; cursor: pointer;">
                     </v-col>
-                    <v-col cols="12" class="d-none d-md-none">
+                    <v-col cols="12" class="d-inline d-md-none">
                       <img src="../assets/email.png" style="width:100%" id="email-pic">
                     </v-col>
                     <v-col cols="12" md="9">
@@ -326,6 +326,7 @@ export default {
     padding-top:0;
     padding-bottom:0;
     height: 100vh;
+    background-color: var(--dark-1);
   }
 
   .title-card{
