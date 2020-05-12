@@ -93,4 +93,9 @@ export default {
       font-size: 16px;
     }
   }
+  @media only screen and (max-width: 1281px) {
+    span.icon {
+      margin:10px;
+    }
+  }
 </style>
