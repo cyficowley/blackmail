@@ -38,9 +38,9 @@
           <v-col class="forward" cols="12" md="4">
             <div class="title-card">
               <v-card class="" style="padding:20px 20px 10px 20px; text-align:left">
-                <Signup/>
-                <v-divider style="margin:10px;"/>
                 <Login/>
+                <v-divider style="margin:10px;"/>
+                <Signup/>
                 <v-divider style="margin:10px;"/>
                 <Google/>
               </v-card>
