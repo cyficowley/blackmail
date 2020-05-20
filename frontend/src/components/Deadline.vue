@@ -35,12 +35,33 @@
         </v-row>
       </v-col>
       <v-col cols="12" lg="8">
-        <v-card class = "whiteBack" style="display:flex;">
+        <v-card class = "whiteBack" style="display:flex; overflow:hidden;">
           <div style="flex-grow:1;">
             <p class = "blackText"><strong>Proof Description:</strong></p>
             <p class = "blackText">{{proofDescription}}</p>
           </div>
-          <div v-if="this.status=='Incomplete' || this.status=='Rejected'">
+          <div v-if="status=='Pending' || status=='Rejected'"
+            style="max-width:300px; overflow-x:auto; padding: 0 5px 0 5px">
+            <p class = "blackText" style="text-align:center; padding:0;">
+              <strong>Uploaded Proof:</strong>
+            </p>
+            <table style="max-height:200px;">
+              <tr>
+              <td v-for="{name, url} in proofItems" :key="name" style="height:100%;padding:5px;">
+                <div v-if="isImage(name)" style="height:100%;">
+                  <a v-bind:href="url.i" target="_blank">
+                    <img style="max-height:180px; max-width:180px; display: block"
+                    v-bind:src="url.i" v-bind:alt="name"/>
+                  </a>
+                </div>
+                <div v-else>
+                  <a v-bind:href="url.i" target="_blank">{{name}}</a>
+                </div>
+              </td>
+              </tr>
+            </table>
+          </div>
+          <div v-if="status=='Incomplete' || status=='Rejected' || status=='Pending'">
             <FileUpload class = "blackText" :disabled="disabled"
              message="Upload proof" :uploadCallback="uploadedProof"/>
           </div>
@@ -58,7 +79,7 @@ import FileUpload from '@/components/FileUpload.vue';
 export default {
   name: 'Deadline',
 
-  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id', 'disabled'],
+  props: ['name', 'dueStamp', 'proofDescription', 'recipient', 'status', 'id', 'disabled', 'proofItems'],
 
   methods: {
     uploadedProof(file) {
@@ -66,9 +87,18 @@ export default {
         id: this.id,
         file,
         date: this.dueStamp,
+        proofItems: this.proofItems,
       };
       this.$store.dispatch('uploadDeadlineProof', payload);
     },
+    isImage(name) {
+      return name.endsWith('png')
+      || name.endsWith('jpg')
+      || name.endsWith('jpeg')
+      || name.endsWith('img')
+      || name.endsWith('tiff');
+    },
+
     statusText() {
       if (this.status === 'Approved') {
         return this.approvedText;

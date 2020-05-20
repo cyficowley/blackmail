@@ -18,7 +18,7 @@ const store = new Vuex.Store({
   state: getDefaultState(),
 
   actions: {
-    async getAllDeadlines({ commit, state }) {
+    async getAllDeadlines({ commit, dispatch, state }) {
       commit('setLoadingDeadlines', true);
       const { uid } = state.currentUser;
       if (!uid) {
@@ -33,6 +33,7 @@ const store = new Vuex.Store({
         snapshot.forEach((doc) => {
           const docData = { id: doc.id, ...doc.data() };
           docData.dueStamp = docData.dueStamp.toDate();
+          docData.proofItems = [];
           deadlines.push(docData);
         });
         this.loading = false;
@@ -40,9 +41,37 @@ const store = new Vuex.Store({
 
         commit('addDeadlines', deadlines);
         commit('setLoadingDeadlines', false);
+
+        deadlines.forEach((deadline) => {
+          if (deadline.status === 'Pending' || deadline.status === 'Rejected') {
+            dispatch('getDeadlineProofImage', deadline);
+          }
+        });
       } catch (err) {
         console.error(err);
       }
+    },
+
+    async getDeadlineProofImage({ commit, state }, deadline) {
+      const { uid } = state.currentUser;
+      const proofPath = [uid, deadline.id, 'proof'].join('/');
+
+      const proofFiles = await fb.storage.child(proofPath).listAll();
+      const fileURLs = [];
+      const fileNames = [];
+      proofFiles.items.forEach((file) => {
+        fileURLs.push(file.getDownloadURL());
+        fileNames.push(file.name);
+      });
+
+      await Promise.all(fileURLs);
+
+      for (let i = 0; i < fileURLs.length; i += 1) {
+        console.log(fileURLs[i]);
+        deadline.proofItems.push({ name: fileNames[i], url: fileURLs[i] });
+      }
+
+      commit('updateDeadline', deadline);
     },
 
     async denyApproval({ dispatch }, {
@@ -145,16 +174,24 @@ const store = new Vuex.Store({
       commit('updateApproval', approvalDetails);
     },
 
-    async uploadDeadlineProof({ state, dispatch }, { id, file, date }) {
+    async uploadDeadlineProof({ state, dispatch }, {
+      id, file, date, proofItems,
+    }) {
       const { uid } = state.currentUser;
       const uploadPath = [uid, id, 'proof', file.name].join('/');
 
       const fileRef = fb.storage.child(uploadPath);
       try {
         await fileRef.put(file);
-        dispatch('updateDeadline', { id, status: 'Pending' });
+        const url = await fileRef.getDownloadURL();
 
-        await fb.db.collection('approvals').add({ uid, did: id, date });
+        proofItems.push({ name: file.name, url: { i: url } });
+
+        dispatch('updateDeadline', { id, status: 'Pending', proofItems });
+
+        await fb.db.collection('approvals').add({
+          uid, did: id, date,
+        });
 
         const expiringRef = fb.db.collection('expiring');
         const snapshot = await expiringRef.where('uid', '==', uid).where('did', '==', id).get();
@@ -168,7 +205,7 @@ const store = new Vuex.Store({
 
     async createDeadline({ commit, state }, deadline) {
       const { file } = deadline;
-      const submittedDeadline = { ...deadline };
+      const submittedDeadline = { ...deadline, proofItems: [] };
       delete submittedDeadline.file;
       try {
         const { uid } = state.currentUser;
