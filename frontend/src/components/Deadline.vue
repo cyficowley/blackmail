@@ -201,9 +201,9 @@ export default {
     border-width: 1px;
     border-color: black;
     border-style: solid;
-    -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
--moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
-box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.46);
+    box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.46);
 
   }
 
