@@ -67,7 +67,6 @@ const store = new Vuex.Store({
       await Promise.all(fileURLs);
 
       for (let i = 0; i < fileURLs.length; i += 1) {
-        console.log(fileURLs[i]);
         deadline.proofItems.push({ name: fileNames[i], url: fileURLs[i] });
       }
 
@@ -174,7 +173,7 @@ const store = new Vuex.Store({
       commit('updateApproval', approvalDetails);
     },
 
-    async uploadDeadlineProof({ state, dispatch }, {
+    async uploadDeadlineProof({ state, dispatch, commit }, {
       id, file, date, proofItems,
     }) {
       const { uid } = state.currentUser;
@@ -182,6 +181,15 @@ const store = new Vuex.Store({
 
       const fileRef = fb.storage.child(uploadPath);
       try {
+        // making sure that deadline is not already sent
+        const deadline = (await fb.users.doc(uid).collection('deadlines').doc(id).get()).data();
+        deadline.id = id;
+        if (deadline.status === 'Blackmailed') {
+          commit('updateDeadline', { id, status: deadline.status });
+          return;
+        }
+
+
         await fileRef.put(file);
         const url = await fileRef.getDownloadURL();
 

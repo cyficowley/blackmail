@@ -6,7 +6,7 @@
           <input type="file" :name="uploadFieldName" :disabled="isSaving || disabled"
             @change="filesChange($event.target.name, $event.target.files);
             fileCount = $event.target.files.length"
-            accept="image/*" class="input-file">
+            accept="" class="input-file">
           <div>
             <img src="../assets/upload.png" style="width:30px;">
             <p v-if="isInitial">
@@ -16,7 +16,7 @@
               Reading file...
             </p>
             <p v-if="isSuccess">
-              {{message}}
+              Uploaded File
             </p>
             <p v-if="isFailed">
               Upload Failed
