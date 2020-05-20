@@ -21,9 +21,16 @@
             </v-card>
           </v-col>
           <v-col cols="12" md="4" lg="12" xl="4">
-            <v-card :class="statusColor" style="text-align:center;">
-              <p style="width:100%;">{{status}}</p>
-            </v-card>
+             <v-tooltip content-class="pog" max-width="500" class="hoverer"
+              top>
+               <template v-slot:activator="{ on }">
+                 <v-card :class="statusColor" v-on="on" style="text-align:center;">
+                   <p style="width:100%;">{{status}}</p>
+                 </v-card>
+                </template>
+               <span class = "hoverText">{{this.statusText()}}</span>
+          </v-tooltip>
+
           </v-col>
         </v-row>
       </v-col>
@@ -62,6 +69,29 @@ export default {
       };
       this.$store.dispatch('uploadDeadlineProof', payload);
     },
+    statusText() {
+      if (this.status === 'Approved') {
+        return this.approvedText;
+      } if (this.status === 'Pending') {
+        return this.pendingText;
+      } if (this.status === 'Blackmailed') {
+        return this.blackmailedText;
+      } if (this.status === 'Rejected') {
+        return this.rejectedText;
+      } if (this.status === 'Incomplete') {
+        return this.incompleteText;
+      }
+      return 'something went wrong';
+    },
+  },
+
+
+  created() {
+    this.incompleteText = 'Incomplete means edit text later';
+    this.pendingText = 'You have submitted but we havent done anything yet';
+    this.rejectedText = 'Your proof was rejected ';
+    this.blackmailedText = 'hey Dumbass ur shit got sent ';
+    this.approvedText = 'Your proof submission has been approved! Your blackmail file has been deleted. Congratulations on completing your goal!';
   },
 
 
@@ -84,6 +114,7 @@ export default {
       }
       return 'purple';
     },
+
   },
 
   components: {
@@ -129,6 +160,24 @@ export default {
   }
   .orange{
     background-color: orange;
+  }
+  .pog{
+    background-color:white;
+    opacity: 1 !important;
+     border-style: solid !important;
+     border-color: black;
+     border-width: 2px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+
+
+  }
+
+  .hoverText{
+    color:black;
+    font-size:22px;
+
+
   }
   .outer-card{
     width:100%;
