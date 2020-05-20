@@ -194,12 +194,16 @@ export default {
   .pog{
     background-color:white;
     opacity: 1 !important;
-     border-style: solid !important;
-     border-color: black;
-     border-width: 2px;
-     padding-top: 10px;
-     padding-bottom: 10px;
 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 5px 10px grey;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);
 
   }
 
