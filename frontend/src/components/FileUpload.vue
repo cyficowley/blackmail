@@ -16,7 +16,7 @@
               Reading file...
             </p>
             <p v-if="isSuccess">
-              Uploaded {{file.name}}
+              {{message}}
             </p>
             <p v-if="isFailed">
               Upload Failed
