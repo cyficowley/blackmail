@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail');
 const serviceAccount = require("./.serviceAccountKey.json");
 const admin = require('firebase-admin');
-const {blackmailEmailString, reminderEmailString} = require("./emailTemplate");
+const {blackmailEmailString, reminderEmailString, approvedEmailString, rejectedEmailString} = require("./emailTemplate");
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
@@ -63,13 +63,11 @@ let grabReminderDeadlines = async () => {
   for(let i = 0; i < ids.length; i ++){
     results.push({...ids[i], ...resolvedPromises[i].data()})
   }
-  console.log(results);
   return results;
 }
 
 // singular deadline
 let grabBlackmail = async (deadline) => {
-  console.log("grabbing");
   blackmails = []
   const {uid, did} = deadline;
   const path = [uid, did, 'blackmail'].join('/');
@@ -92,7 +90,6 @@ let grabBlackmail = async (deadline) => {
     })  
   }
 
-  console.log("finished grabbing");
   return attachments;
 }
 
@@ -120,6 +117,30 @@ let sendReminderEmail = (deadline) => {
     html: reminderEmailString(sender, name, dueStamp.toDate()),
   };
   console.log("about to send reminder " + sender);
+  return sgMail.send(msg);
+}
+
+// singular email
+let sendApprovalEmail = (deadline) => {
+  const {name, sender, dueStamp, status} = deadline;
+
+  const msg = {
+    to: sender,
+    from: 'team@blackmailer.xyz',
+  };
+
+  if(status === "Approved"){
+    msg.subject = `Your proof for your goal ${name} was approved`;
+    msg.html = approvedEmailString(sender, name);
+  } 
+  else if(status === "Rejected"){
+    msg.subject = `Your proof for your goal ${name} was rejected`;
+    msg.html = rejectedEmailString(sender, name, dueStamp.toDate());
+  }
+  else{
+    return undefined;
+  }
+  console.log("about to send approval email to " + sender + " with status " + status);
   return sgMail.send(msg);
 }
 
@@ -184,6 +205,13 @@ exports.reminderEmail = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * 
   await updateReminderEmailStatus(deadlines);
 });
 
+exports.notifyOnApproval = functions.firestore.document('users/{uid}/deadlines/{did}').onUpdate(async (change) => {
+  if(change.before.data().status === "Pending"){
+    await sendApprovalEmail(change.after.data());
+  }
+});
+
+
 // For debugging
 
 exports.manualSendReminder = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
@@ -205,7 +233,6 @@ exports.manualSendDeadline = functions.runWith(runtimeOpts).https.onRequest(asyn
   await deleteStorageObjects(deadlines);
   res.send("ok");
 });
-
 
 // // // truly really for debugging, don't deploy with this
 // exports.addFakeData = functions.https.onRequest(async (req, res) => {
@@ -278,5 +305,26 @@ exports.manualSendDeadline = functions.runWith(runtimeOpts).https.onRequest(asyn
 //   yiken.forEach(yeet => {
 //     console.log(yeet.data());
 //   })
+//   res.send("ok");
+// });
+
+// exports.setPending = functions.https.onRequest(async (req, res) => {
+//   const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+//   console.log("users");
+//   const yiken = await db.collection('users').doc(uid).collection('deadlines').doc('did').update({
+//     status:"Pending"
+//   });
+//   res.send("ok");
+// });
+// exports.setApproved = functions.https.onRequest(async (req, res) => {
+//   const did = "Ai7XCK6uKdvHjQg6hGSx";
+//   // const did2 = "Ai7XCK6uKdvHjQg6hGSx2";
+//   const uid = "EmkrprpSqrco4mfzBtGBE6GnDB62";
+//   console.log("users");
+//   const yiken = await db.collection('users').doc(uid).collection('deadlines').doc('did').update({
+//     status:"Approved"
+//   });
 //   res.send("ok");
 // });
