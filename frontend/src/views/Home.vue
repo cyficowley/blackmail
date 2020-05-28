@@ -67,9 +67,8 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <FileUpload
+                    <FileUpload name="Blackmail"
                       :key="fileComponentKey"
-                      message="Upload File"
                       :uploadCallback="getBlackmailFile"
                     />
 

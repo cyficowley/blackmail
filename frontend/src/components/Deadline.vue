@@ -62,8 +62,8 @@
             </table>
           </div>
           <div v-if="status=='Incomplete' || status=='Rejected' || status=='Pending'">
-            <FileUpload class = "blackText" :disabled="disabled"
-             message="Upload proof" :uploadCallback="uploadedProof"/>
+            <FileUpload class = "blackText" :disabled="disabled" name="Proof"
+             :uploadCallback="uploadedProof"/>
           </div>
         </v-card>
       </v-col>

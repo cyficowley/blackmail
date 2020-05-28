@@ -10,13 +10,13 @@
           <div>
             <img src="../assets/upload.png" style="width:30px;">
             <p v-if="isInitial">
-              {{message}}
+              Upload {{name}}
             </p>
             <p v-if="isSaving">
-              Reading file...
+              Reading {{name}}...
             </p>
             <p v-if="isSuccess">
-              Uploaded File
+              Uploaded {{name}}
             </p>
             <p v-if="isFailed">
               Upload Failed
@@ -38,7 +38,7 @@ const STATUS_FAILED = 3;
 
 export default {
   name: 'FileUpload',
-  props: ['message', 'uploadPath', 'uploadCallback', 'disabled'],
+  props: ['uploadPath', 'uploadCallback', 'disabled', 'name'],
 
   data: () => ({
     currentStatus: null,
