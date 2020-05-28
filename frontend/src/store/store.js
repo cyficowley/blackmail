@@ -83,7 +83,16 @@ const store = new Vuex.Store({
       }
       const ref = fb.users.doc(uid).collection('deadlines').doc(did);
       try {
-        await fb.db.collection('expiring').add({ uid, did, updatedDate });
+        let needsReminderEmail = true;
+
+        const diff = Math.abs(updatedDate.getTime() - (new Date()).getTime());
+        if (diff / (1000 * 60 * 60 * 24) < 2) {
+          needsReminderEmail = false;
+        }
+
+        await fb.db.collection('expiring').add({
+          uid, did, dueStamp: updatedDate, needsReminderEmail,
+        });
         await ref.update({ status: 'Rejected', dueStamp: updatedDate });
         dispatch('removeApproval', { id });
       } catch (error) {
@@ -218,7 +227,17 @@ const store = new Vuex.Store({
       try {
         const { uid } = state.currentUser;
         const { id } = await fb.users.doc(uid).collection('deadlines').add(submittedDeadline);
-        await fb.db.collection('expiring').add({ uid, did: id, date: submittedDeadline.dueStamp });
+
+        let needsReminderEmail = false;
+
+        const diff = Math.abs(submittedDeadline.dueStamp.getTime() - (new Date()).getTime());
+        if (diff / (1000 * 60 * 60 * 24) >= 2) {
+          needsReminderEmail = true;
+        }
+
+        await fb.db.collection('expiring').add({
+          uid, did: id, date: submittedDeadline.dueStamp, needsReminderEmail,
+        });
         submittedDeadline.id = id;
         const uploadPath = [uid, id, 'blackmail', file.name].join('/');
         const fileRef = fb.storage.child(uploadPath);

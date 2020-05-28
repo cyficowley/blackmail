@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail');
 const serviceAccount = require("./.serviceAccountKey.json");
 const admin = require('firebase-admin');
-const {emailString} = require("./emailTemplate");
+const {blackmailEmailString, reminderEmailString} = require("./emailTemplate");
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
@@ -39,6 +39,34 @@ let grabPassedDeadlines = async () => {
   return results;
 }
 
+
+let grabReminderDeadlines = async () => {
+  const upperBound = new Date();
+  const lowerBound = new Date();
+  upperBound.setTime(upperBound.getTime() + 30 * 60 * 60 * 1000);
+  lowerBound.setTime(lowerBound.getTime() + 23 * 60 * 60 * 1000);
+
+  const deadlines = await db.collection('expiring').where('date', '>=', lowerBound).where('date', '<=', upperBound).get();
+
+  const promises = [];
+  const ids = [];
+  deadlines.forEach((deadline) => {
+    const {uid, did, needsReminderEmail} = deadline.data();
+    if(needsReminderEmail){
+      promises.push(db.collection('users').doc(uid).collection('deadlines').doc(did).get());
+      ids.push({uid:uid, did:did, expiringId:deadline.id});
+    }
+  });
+  const resolvedPromises = await Promise.all(promises); 
+
+  results = []
+  for(let i = 0; i < ids.length; i ++){
+    results.push({...ids[i], ...resolvedPromises[i].data()})
+  }
+  console.log(results);
+  return results;
+}
+
 // singular deadline
 let grabBlackmail = async (deadline) => {
   console.log("grabbing");
@@ -69,16 +97,29 @@ let grabBlackmail = async (deadline) => {
 }
 
 // singular email
-let sendEmail = async (deadline, attachments) => {
+let sendBlackmailEmail = async (deadline, attachments) => {
   const {recipient, name, sender, dueStamp} = deadline;
   const msg = {
     to: recipient,
     from: 'team@blackmailer.xyz',
     subject: `${sender.split('@')[0]} failed their goal.`,
-    html: emailString(sender, name, dueStamp.toDate()),
+    html: blackmailEmailString(sender, name, dueStamp.toDate()),
     attachments: attachments,
   };
-  console.log("about to send msg");
+  console.log("about to send blackmail to " + recipient);
+  return sgMail.send(msg);
+}
+
+// singular email
+let sendReminderEmail = (deadline) => {
+  const {name, sender, dueStamp} = deadline;
+  const msg = {
+    to: sender,
+    from: 'team@blackmailer.xyz',
+    subject: `Your goal of ${name} is due tomorrow`,
+    html: reminderEmailString(sender, name, dueStamp.toDate()),
+  };
+  console.log("about to send reminder " + sender);
   return sgMail.send(msg);
 }
 
@@ -89,11 +130,11 @@ let downloadAndSend = async (deadlines) => {
     // eslint-disable-next-line no-await-in-loop
     attachments = await grabBlackmail(deadline);
     // eslint-disable-next-line no-await-in-loop
-    await sendEmail(deadline, attachments);
+    await sendBlackmailEmail(deadline, attachments);
   }
 }
 
-let updateEntries = async (deadlines) => {
+let blackmailedStatus = async (deadlines) => {
   const promises = [];
   deadlines.forEach((deadline) => {
     const {uid, did, expiringId} = deadline;
@@ -103,8 +144,16 @@ let updateEntries = async (deadlines) => {
   await Promise.all(promises);
 }
 
+let updateReminderEmailStatus = async (deadlines) => {
+  const promises = [];
+  deadlines.forEach((deadline) => {
+    const {expiringId} = deadline;
+    promises.push(db.collection('expiring').doc(expiringId).update({needsReminderEmail:false}));
+  });
+  await Promise.all(promises);
+}
+
 let deleteStorageObjects = async (deadlines) => {
-  console.log("deleting");
   const promises = [];
   deadlines.forEach((deadline) => {
     const {uid, did} = deadline;
@@ -121,19 +170,41 @@ let deleteStorageObjects = async (deadlines) => {
 exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('*/5 * * * *').onRun(async () => {
   const deadlines = await grabPassedDeadlines();
   await downloadAndSend(deadlines);
-  await updateEntries(deadlines);
+  await blackmailedStatus(deadlines);
   await deleteStorageObjects(deadlines);
 });
 
-// For debugging
-// exports.manualSend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-//   const deadlines = await grabPassedDeadlines();
-//   await downloadAndSend(deadlines);
-//   await updateEntries(deadlines);
-//   await deleteStorageObjects(deadlines);
-//   res.send("ok");
-// });
+exports.reminderEmail = functions.runWith(runtimeOpts).pubsub.schedule('0 */2 * * *').onRun(async () => {
+  const deadlines = await grabReminderDeadlines();
+  const emailPromises = [];
+  deadlines.forEach((deadline) => {
+    emailPromises.push(sendReminderEmail(deadline));
+  })
+  await Promise.all(emailPromises);
+  await updateReminderEmailStatus(deadlines);
+});
 
+// For debugging
+
+exports.manualSendReminder = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
+  const deadlines = await grabReminderDeadlines();
+  const emailPromises = [];
+  deadlines.forEach((deadline) => {
+    emailPromises.push(sendReminderEmail(deadline));
+  })
+  await Promise.all(emailPromises);
+  await updateReminderEmailStatus(deadlines);
+  res.send("ok");
+});
+
+
+exports.manualSendDeadline = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
+  const deadlines = await grabPassedDeadlines();
+  await downloadAndSend(deadlines);
+  await blackmailedStatus(deadlines);
+  await deleteStorageObjects(deadlines);
+  res.send("ok");
+});
 
 
 // // // truly really for debugging, don't deploy with this
@@ -155,14 +226,18 @@ exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('*/5 * * * *')
 //     date:date,
 //     did:did,
 //     uid:uid,
+//     needsReminderEmail:true,
 //   })
 //   const date2 = new Date();
 //   date2.setDate(date.getDate() + 1);
+//   console.log(date2);
+//   console.log(date);
 
 //   await db.collection('expiring').add({
 //     date:date2,
 //     did:did2,
 //     uid:uid,
+//     needsReminderEmail:true,
 //   })
 
 //   await db.collection('users').doc(uid).collection('deadlines').doc(did).set({
@@ -179,6 +254,7 @@ exports.autoSend = functions.runWith(runtimeOpts).pubsub.schedule('*/5 * * * *')
 //     status:'unfinished',
 //     sender:sender,
 //     dueStamp:date,
+//     needsReminderEmail:true,
 //   })
 
 //   const result = await db.collection('expiring').get();

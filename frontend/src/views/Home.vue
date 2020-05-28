@@ -104,6 +104,27 @@
           </v-card>
         </v-form>
       </v-dialog>
+      <v-dialog
+        v-model="dateConfirmation"
+        persistent
+        max-width="600px"
+        style="float: center;"
+      >
+        <v-card>
+          <v-card-title>
+            <span class="headline">Duedate is within two hours</span>
+          </v-card-title>
+          <div style="width:100%; text-align:left; padding:20px;">
+            <p>Are you sure you want a deadline due within the next two hours?</p>
+          </div>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click.stop="dateConfirmation=false">
+              No, go back
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="submit" >Yes, submit deadline</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-container style="margin-top:20px;">
         <v-row class = "d-none d-md-flex">
           <h2 class="filterText">Filter Deadlines</h2>
@@ -227,6 +248,7 @@ export default {
     Rejected: false,
     Blackmailed: false,
     Approved: false,
+    dateConfirmation: false,
     currentSort: 0,
     newDeadline: {
       name: '',
@@ -415,8 +437,19 @@ export default {
         && this.validDate;
       if (valid) {
         this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
+
+        // ValidationPopup
+        const TWO_HOUR = 2 * 60 * 60 * 1000;
+        if (!this.dateConfirmation) {
+          if (this.newDeadline.dueStamp - (new Date()) < TWO_HOUR) {
+            this.dateConfirmation = true;
+            return;
+          }
+        }
+
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
+        this.dateConfirmation = false;
         this.resetForm();
       } else if (!this.newDeadline.file) {
         this.fileError = true;
