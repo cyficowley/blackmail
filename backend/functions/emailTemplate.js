@@ -1,10 +1,12 @@
 /* eslint-disable no-irregular-whitespace */
 
-const dateFormat = require('dateformat');
+var moment = require('moment-timezone');
 
 
 const blackmailEmailString =  (sender, goal, date) => {
-  const dateString = dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+  const dateObj = moment(date);
+  const dateString = dateObj.tz("America/Los_Angeles").format('LT MMMM Do YYYY');
+
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -143,7 +145,7 @@ const blackmailEmailString =  (sender, goal, date) => {
 <div style="line-height: 2; font-size: 12px; color: #555555; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 24px;">
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">Hello!</p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
-<p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">${sender} had a goal of "${goal}" which they wanted to complete by ${dateString}. Unfortunately, they were unsuccessful in meeting this goal.  </p>
+<p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">${sender} had a goal of "${goal}" which they wanted to complete by ${dateString} PST. Unfortunately, they were unsuccessful in meeting this goal.  </p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">They thought that the idea of you seeing the attachment on this email would be enough of an incentive to get it done, but they were wrong.  So now you get this file that they hoped would never see the light of day.  </p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
@@ -177,7 +179,8 @@ exports.blackmailEmailString = blackmailEmailString;
 
 
 const reminderEmailString =  (sender, goal, date) => {
-  const dateString = dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+	const dateObj = moment(date);
+	const dateString = dateObj.tz("America/Los_Angeles").format('LT MMMM Do YYYY');
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -316,7 +319,7 @@ const reminderEmailString =  (sender, goal, date) => {
 <div style="line-height: 2; font-size: 12px; color: #555555; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 24px;">
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">Hi ${sender}!</p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
-<p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">Remember your goal of "${goal}" is due by ${dateString}.</p>
+<p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">Remember your goal of "${goal}" is due by ${dateString} PST.</p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;">Make sure to upload your proof of completion to <a href="blackmailer.xyz" rel="noopener" style="text-decoration: underline; color: #0068A5;" target="_blank">Blackmailer.xyz</a> before the deadline!</p>
 <p style="font-size: 14px; line-height: 2; word-break: break-word; mso-line-height-alt: 28px; margin: 0;"> </p>
