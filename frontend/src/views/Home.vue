@@ -90,7 +90,7 @@
                 class="dialogConfirm"
                 v-model="confirmed"
                 label="I understand that this
-            image will be sent to the recepient if I do not provide proof of
+            file will be sent to the recepient if I do not provide proof of
             completing the task by the deadline."
                 :rules="[rules.required]"
               ></v-checkbox>

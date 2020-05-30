@@ -91,7 +91,7 @@ const store = new Vuex.Store({
         }
 
         await fb.db.collection('expiring').add({
-          uid, did, dueStamp: updatedDate, needsReminderEmail,
+          uid, did, date: updatedDate, needsReminderEmail,
         });
         await ref.update({ status: 'Rejected', dueStamp: updatedDate });
         dispatch('removeApproval', { id });
