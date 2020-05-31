@@ -64,7 +64,7 @@ export default {
       return moment(this.date).fromNow();
     },
     dateString() {
-      return moment(this.dueStamp).format('LT MMMM Do YYYY');
+      return moment(this.date).format('LT MMMM Do YYYY');
     },
   },
 };

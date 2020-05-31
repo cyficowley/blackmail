@@ -1,13 +1,16 @@
 <template >
   <v-app>
-        <v-container class="approvals">
-          <v-row
-            v-for="approval in approvals"
-            :key="approval.id"
-          >
-            <ApprovalObject v-bind="approval" />
-          </v-row>
-        </v-container>
+    <v-container class="approvals" v-if="approvals.length != 0">
+      <v-row
+        v-for="approval in approvals"
+        :key="approval.id"
+      >
+        <ApprovalObject v-bind="approval" />
+      </v-row>
+    </v-container>
+    <v-container class="approvals" v-else>
+      NO THINGIES TO APPROVE
+    </v-container>
   </v-app>
 </template>
 

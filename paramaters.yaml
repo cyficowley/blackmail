@@ -1,0 +1,58 @@
+# PARAMETERS
+
+
+Firebase:
+    users:
+        uid:
+            deadlines:
+                did: #deadline id
+                    - dueStamp #firebase timestamp object, call getTime()
+                    - name
+                    - proofDescription
+                    - recipient #who gets the blackmail
+                    - sender #who sent the blackmail
+                    - status
+
+    expiring: 
+        id: 
+            - date #also a duestamp?
+            - did #id associated
+            - uid #uid associated
+            - needsReminderEmail #bool
+
+    approvals:
+        id: 
+            - date #also a duestamp?
+            - did #id associated
+            - uid #uid associated
+
+Vuex:
+    currentUser:
+        - email
+        - emailVerified
+    deadlines:
+        -   - dueStamp #now is a date object not a stamp
+            - id #did
+            - name
+            - proofDescription
+            - proofItems: #this should NOT be uploaded to firebase
+                -   - name #of file
+                    - url:
+                        - i #link to use to view/download
+            - recipient #who gets the blackmail
+            - sender #who sent the blackmail
+            - status
+    loadingDeadlines: bool
+    uploadStatus: no idea something shane made
+    approvals:
+        -   - date
+            - id #of approval object
+            - uid
+            - did
+            # everything here below doesn't load till u get details 
+            - fileDetails
+                -   - name #of file
+                    - url:
+                        - i #link to use to view/download
+            - name
+            - proofDescription

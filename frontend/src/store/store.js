@@ -198,13 +198,16 @@ const store = new Vuex.Store({
           return;
         }
 
+        // upload status to firebase
+        dispatch('updateDeadline', { id, status: 'Pending' });
 
         await fileRef.put(file);
         const url = await fileRef.getDownloadURL();
 
         proofItems.push({ name: file.name, url: { i: url } });
 
-        dispatch('updateDeadline', { id, status: 'Pending', proofItems });
+        // keep proof items local
+        commit('updateDeadline', { id, proofItems });
 
         await fb.db.collection('approvals').add({
           uid, did: id, date,
