@@ -27,7 +27,7 @@
             <h2 style = "color:white">Create a New Deadline</h2>
           </v-btn>
         </template>
-        <v-form ref="newDeadline" v-model="valid" lazy-validation>
+        <v-form id="newDeadline" ref="newDeadline" v-model="valid" lazy-validation>
           <v-card>
             <v-card-title>
               <span class="headline">Create a new Deadline</span>
@@ -67,12 +67,27 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <FileUpload name="Blackmail"
-                      :key="fileComponentKey"
-                      :uploadCallback="getBlackmailFile"
-                    />
+                    <div v-if="uploadFile">
+                      <FileUpload name="Blackmail" style="margin:0 auto"
+                        :key="fileComponentKey"
+                        :uploadCallback="getBlackmailFile"
+                      />
+                      <v-btn @click="uploadFile = !uploadFile">Or write a message</v-btn>
+                    </div>
+                    <div v-else>
+                      <v-textarea
+                        filled
+                        v-model="newDeadline.blackmailText"
+                        label="Blackmail material"
+                        rows="3"
+                        auto-grow
+                      ></v-textarea>
+                      <v-btn @click="uploadFile = !uploadFile">Or upload a file</v-btn>
+                    </div>
 
-                    <p v-if="fileError" class="fileMessage">Upload a file to continue.</p>
+                    <p v-if="fileError" class="fileMessage">
+                      Upload a file or write a message to continue.
+                    </p>
                   </v-col>
                   <v-col cols="12">
                     <v-textarea
@@ -220,6 +235,7 @@ export default {
     filterIncomplete: false,
     dateConfirmation: false,
     currentSort: 0,
+    uploadFile: true,
     newDeadline: {
       name: '',
       proofDescription: '',
@@ -394,7 +410,8 @@ export default {
     submit() {
       this.validDate = this.validateDate();
       const valid = this.$refs.newDeadline.validate()
-        && this.newDeadline.file
+        && ((this.newDeadline.file && this.uploadFile)
+        || (this.newDeadline.blackmailText && !this.uploadFile))
         && this.validDate;
       if (valid) {
         this.newDeadline.dueStamp = new Date(this.newDeadlineDate);
@@ -408,11 +425,17 @@ export default {
           }
         }
 
+        if (this.newDeadline.blackmailText) {
+          this.newDeadline.file = new File([this.newDeadline.blackmailText],
+            'blackmail.txt', { type: 'text/plain', lastModified: new Date() });
+        }
+
         this.$store.dispatch('createDeadline', this.newDeadline);
         this.dialog = false;
         this.dateConfirmation = false;
         this.resetForm();
-      } else if (!this.newDeadline.file) {
+      } else if (!((this.newDeadline.file && this.uploadFile)
+        || (this.newDeadline.blackmailText && !this.uploadFile))) {
         this.fileError = true;
       }
     },
