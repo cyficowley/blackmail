@@ -1,6 +1,18 @@
 <template>
   <v-card class="outer-card">
-    <h2 class = "whiteText">{{name}}</h2>
+    <div style="overflow:auto; margin-right:-10px;">
+      <h2 style="float:left" class = "whiteText">{{name}}</h2>
+
+      <v-tooltip content-class="tooltip" top v-if="this.completed">
+        <template v-slot:activator="{ on }">
+          <v-btn style="float:right" icon v-on="on" class="hoverer" color="white"
+            @click="deleteMe">
+            <v-icon>mdi-close-circle-outline</v-icon>
+          </v-btn>
+        </template>
+        <span class = "hoverText">Delete this deadline</span>
+      </v-tooltip>
+    </div>
     <v-row>
       <v-col cols="12" lg="4">
         <v-row style="margin:-12px;">
@@ -21,15 +33,14 @@
             </v-card>
           </v-col>
           <v-col cols="12" md="4" lg="12" xl="4">
-             <v-tooltip content-class="pog" max-width="500" class="hoverer"
-              top>
-               <template v-slot:activator="{ on }">
-                 <v-card :class="statusColor" v-on="on" style="text-align:center;">
-                   <p style="width:100%;">{{status}}</p>
-                 </v-card>
-                </template>
-               <span class = "hoverText">{{this.statusText()}}</span>
-          </v-tooltip>
+            <v-tooltip content-class="tooltip" max-width="500" class="hoverer" top>
+              <template v-slot:activator="{ on }">
+                <v-card :class="statusColor" v-on="on" style="text-align:center;">
+                  <p style="width:100%;">{{status}}</p>
+                </v-card>
+              </template>
+              <span class = "hoverText">{{this.statusText()}}</span>
+            </v-tooltip>
 
           </v-col>
         </v-row>
@@ -91,6 +102,9 @@ export default {
       };
       this.$store.dispatch('uploadDeadlineProof', payload);
     },
+    deleteMe() {
+      this.$store.dispatch('deleteDeadline', { id: this.id });
+    },
     isImage(name) {
       return name.endsWith('png')
       || name.endsWith('jpg')
@@ -120,7 +134,7 @@ export default {
     this.incompleteText = 'Incomplete means edit text later';
     this.pendingText = 'You have submitted but we havent done anything yet';
     this.rejectedText = 'Your proof was rejected ';
-    this.blackmailedText = 'hey Dumbass ur shit got sent ';
+    this.blackmailedText = 'Your blackmail was sent to the recipient';
     this.approvedText = 'Your proof submission has been approved! Your blackmail file has been deleted. Congratulations on completing your goal!';
   },
 
@@ -143,6 +157,13 @@ export default {
         return 'orange';
       }
       return 'purple';
+    },
+
+    completed() {
+      if (this.status === 'Blackmailed' || this.status === 'Approved') {
+        return true;
+      }
+      return false;
     },
 
   },
@@ -191,7 +212,7 @@ export default {
   .orange{
     background-color: orange;
   }
-  .pog{
+  .tooltip{
     background-color:white;
     opacity: 1 !important;
 
@@ -204,14 +225,11 @@ export default {
     -webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.46);
     -moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.46);
     box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.46);
-
   }
 
   .hoverText{
     color:black;
     font-size:22px;
-
-
   }
   .outer-card{
     width:100%;

@@ -128,39 +128,17 @@
         <v-row class = "d-none d-md-flex">
           <h2 class="filterText">Filter Deadlines</h2>
         </v-row>
-
-        <v-select
-          v-model="filterItemList"
-          :items="statuses"
-          label="Filter Deadlines"
-          chips
-          multiple
-          class="d-inline d-md-none"
-        ></v-select>
         <v-row class="topRow">
-          <v-btn-toggle class="filterMenu d-none d-md-flex" v-model="filterIndexList" multiple>
-            <v-btn v-bind:class="{'filterItem': !Incomplete, 'filterItemClicked': Incomplete}"
-                v-on:click ="Incomplete = !Incomplete">
-              <p class = "centered">Incomplete</p>
-            </v-btn>
-            <v-btn  v-bind:class="{'filterItem': !Pending, 'filterItemClicked': Pending}"
-                v-on:click ="Pending = !Pending">
-              <p  class = "centered" >Pending</p>
-            </v-btn>
-            <v-btn v-bind:class="{'filterItem': !Rejected, 'filterItemClicked': Rejected}"
-                v-on:click ="Rejected = !Rejected">
-              <p  class = "centered">Rejected</p>
-            </v-btn>
-            <v-btn v-bind:class="{'filterItem': !Blackmailed, 'filterItemClicked': Blackmailed}"
-                v-on:click ="Blackmailed = !Blackmailed">
-              <p  class = "centered">Blackmailed</p>
-            </v-btn>
-            <v-btn v-bind:class="{'filterItem': !Approved, 'filterItemClicked': Approved}"
-                v-on:click ="Approved = !Approved">
-              <p  class = "centered">Approved</p>
-            </v-btn>
-          </v-btn-toggle>
-
+          <div style="display:inline-block; position:relative">
+            <div id="slider" v-bind:class="{slideRight: filterIncomplete}">
+            </div>
+            <div style="display:grid;grid-template-columns: repeat(3,1fr); justify-items: center;
+              align-items: center;">
+              <div style="z-index:2;padding:0 10px 0 10px;"><h3>Incomplete</h3></div>
+              <v-switch v-model="filterIncomplete" inset style="margin:0; padding:20px 0 0 15px;"/>
+              <div style="z-index:2;padding:0 10px 0 10px;"><h3>Complete</h3></div>
+            </div>
+          </div>
           <v-menu style=""  offset-y>
             <template  v-slot:activator="{ on }">
               <v-btn class = "sortBy"  v-on="on">Sort by ▼</v-btn>
@@ -239,14 +217,7 @@ export default {
 
   data: () => ({
     emailSnackbar: false,
-    filterIndexList: [],
-    filterItemList: [],
-    statuses: ['Incomplete', 'Pending', 'Rejected', 'Blackmailed', 'Approved'],
-    Incomplete: false,
-    Pending: false,
-    Rejected: false,
-    Blackmailed: false,
-    Approved: false,
+    filterIncomplete: false,
     dateConfirmation: false,
     currentSort: 0,
     newDeadline: {
@@ -356,30 +327,21 @@ export default {
 
     filter(sortedDeadlines) {
       const filteredDeadlines = [];
+      const completedStatuses = new Set(['Blackmailed', 'Approved']);
 
-      const statuses = {
-        0: 'Incomplete',
-        1: 'Pending',
-        2: 'Rejected',
-        3: 'Blackmailed',
-        4: 'Approved',
-      };
-
-
-      const currentStatuses = new Set(this.filterIndexList.map((x) => statuses[x]));
-      this.filterItemList.forEach((item) => {
-        currentStatuses.add(item);
-      });
-
-      if (currentStatuses.size === 0) {
-        return sortedDeadlines;
+      if (this.filterIncomplete) {
+        sortedDeadlines.forEach((deadline) => {
+          if (completedStatuses.has(deadline.status)) {
+            filteredDeadlines.push(deadline);
+          }
+        });
+      } else {
+        sortedDeadlines.forEach((deadline) => {
+          if (!completedStatuses.has(deadline.status)) {
+            filteredDeadlines.push(deadline);
+          }
+        });
       }
-
-      sortedDeadlines.forEach((deadline) => {
-        if (currentStatuses.has(deadline.status)) {
-          filteredDeadlines.push(deadline);
-        }
-      });
 
       return filteredDeadlines;
     },
@@ -582,6 +544,22 @@ export default {
 }
 .title2{
   display: none;
+}
+
+#slider{
+  position: absolute;
+  top: 0;
+  left:0;
+  background-color:white;
+  width:67%;
+  height:100%;
+  z-index:0;
+  border-radius:20px;
+  transition-property: left;
+  transition: .25s ease-in-out;
+}
+.slideRight{
+  left:33% !important;
 }
 
 @media (max-width: 1200px) {

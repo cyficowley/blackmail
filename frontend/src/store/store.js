@@ -253,6 +253,17 @@ const store = new Vuex.Store({
       }
     },
 
+    async deleteDeadline({ commit, state }, { id }) {
+      const { uid } = state.currentUser;
+      const pointer = await fb.users.doc(uid).collection('deadlines').doc(id).get();
+      const deadline = pointer.data();
+      deadline.id = id;
+      if (deadline.status === 'Blackmailed' || deadline.status === 'Approved') {
+        pointer.ref.delete();
+        commit('deleteDeadline', { id });
+      }
+    },
+
     updateUploadStatus({ commit }, payload) {
       if (payload.delay) {
         setTimeout(() => commit('updateUploadStatus', payload.val), 3100);
@@ -302,6 +313,11 @@ const store = new Vuex.Store({
       // Will break if new properties are added (https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)
       const objIndex = state.deadlines.findIndex(((obj) => obj.id === newDeadline.id));
       Object.assign(state.deadlines[objIndex], newDeadline);
+    },
+
+    deleteDeadline(state, deadline) {
+      const objIndex = state.deadlines.findIndex(((obj) => obj.id === deadline.id));
+      state.deadlines.splice(objIndex, 1);
     },
 
     addDeadlines(state, newDeadlines) {
