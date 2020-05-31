@@ -1,9 +1,10 @@
 <template >
   <v-app style="display:flex; flex-direction:column;" class="light-2">
     <div style="flex: 1 0 auto;">
-      <div id="nav" class="">
-        <v-btn class="logoutButton" @click="signOut"><strong>Sign Out</strong></v-btn>
-      </div>
+      <v-btn class="logoutButton" @click="signOut"><strong>Sign Out</strong></v-btn>
+      <a href="/#/about" style="text-decoration:none;color:black;"><v-btn class="about">
+        <strong>How it works</strong>
+      </v-btn></a>
       <v-row>
       <div class = "title">
         <v-card>
@@ -467,7 +468,16 @@ export default {
   top: 20px;
   font-size:19px;
   z-index: 99;
+}
 
+.about {
+  width: "8%";
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  font-size:19px;
+  z-index: 99;
+  color:black;
 }
 .deadlines {
   vertical-align: top;

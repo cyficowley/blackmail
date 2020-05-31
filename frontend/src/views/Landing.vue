@@ -53,158 +53,10 @@
           </div>
         </v-row>
         <v-row id="row2" class='forward light-2'>
-          <v-container>
-            <v-row>
-              <h1 class="bigTitle">HOW IT WORKS</h1>
-            </v-row>
-            <v-row>
-              <v-col class="forward" cols="12" xl="10">
-                <v-card class="workflow white">
-                  <v-row>
-                    <v-col md="6" cols="12">
-                      <h1>Choose your goal</h1>
-                      <p style="font-size: 22px;">
-                        Come up with a task that you want to complete.
-                        This can be related to anything: Work, school, or personal life.
-                        <br/>
-                        <br/>
-                        Once you have a goal in mind,
-                        describe how you would upload proof of its completion.
-                        Then choose the image you want to blackmail yourself with,
-                        and the potential recipient.
-
-                      </p>
-                      <p style="font-size: 22px;">
-
-                      </p>
-
-                    </v-col>
-                    <v-col md="6" cols="12">
-                      <h1>Example</h1>
-                      <v-card outlined class="gray">
-                        <v-card-text>
-                          <h2 style="padding-bottom:10px">
-                            You need to finish your math homework by next Tuesday.
-                          </h2>
-                          <table>
-                            <tr>
-                              <td class="table-cell">
-                                Goal:
-                              </td>
-                              <td>Finish Math Homework</td>
-                            </tr>
-                            <tr>
-                              <td class="table-cell">
-                                Blackmail Material:
-                              </td>
-                              <td>An embarassing selfie you took last weekend</td>
-                            </tr>
-                            <tr>
-                              <td class="table-cell">
-                                Recipient:
-                              </td>
-                              <td>Your ex that you haven't spoken to in 2 and a half months</td>
-                            </tr>
-                            <tr>
-                              <td class="table-cell">
-                                Proof description:
-                              </td>
-                              <td>A picture of your fully completed math homework</td>
-                            </tr>
-                          </table>
-                        </v-card-text>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-col>
-              <v-spacer></v-spacer>
-            </v-row>
-            <v-row>
-              <v-spacer></v-spacer>
-              <v-col class="forward" cols="12" xl="10">
-                <v-card class="workflow white">
-                  <h1>Complete your goal</h1>
-
-                  <Deadline class="dark-1"
-                    name="Finish Math Homework"
-                    :dueStamp="this.exampleDate"
-                    proofDescription="A picture of your fully completed math homework"
-                    recipient="WhyDidYouLeaveMe@aol.com"
-                    status="Incomplete"
-                    disabled
-                    />
-                  <p style="padding-top: 20px; font-size: 22px;">
-                    Once you have an uploaded deadline, it will have a status of 'Incomplete'.
-                    To change this, upload proof of completion that matches your proof description.
-                    This will change the status to 'Pending'.
-                  </p>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col class="forward" cols="12" xl="10">
-                <v-card class="workflow white">
-                  <h1 class="mobile-padded">Validate your goal</h1>
-                  <v-row>
-                    <v-col cols="3" class="d-none d-md-inline">
-                      <img src="../assets/email.png" id="email-pic"
-                      @click="show" style="width:100%; cursor: pointer;">
-                    </v-col>
-                    <v-col cols="12" class="d-inline d-md-none">
-                      <img src="../assets/email.png" style="width:100%" id="email-pic">
-                    </v-col>
-                    <v-col cols="12" md="9">
-                      <p style="font-size: 22px;">
-                        We will validate your proof within 24 hours. You will get an
-                        email from us letting you know if it was 'Approved' or 'Rejected'
-                        once we process it.
-                        <br/>
-                        <br/>
-                        If your proof is rejected, you will have 24 hours to resubmit proof.
-                        If you fail to resubmit proof, or miss your deadline altogether,
-                        your deadline will receive the 'Blackmailed' status,
-                        and your blackmail material
-                        will be sent to your recipient.
-                        <br/>
-                        <br/>
-
-                        We will be lenient in our validation, we are trying to motivate you,
-                        not ruin your life. We are willing to work with you to ensure that
-                        we accurately assess whether or not you have successfully completed
-                        your goal. However, if it is clear the goal has not ben completed,
-                        your recipient will recieve an email like this.
-
-                      </p>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-col>
-              <v-spacer></v-spacer>
-            </v-row>
-          </v-container>
+          <HowItWorks/>
         </v-row>
         <v-row class='forward text-left light-2'>
-          <div id="faq-container">
-            <h1 class="text-left bigTitle">FAQ</h1>
-            <!-- <v-card class="light-1" style="padding:20px;">
-              <div v-for="question in questions" :key="question.q" style="margin-bottom:20px;">
-                <p style="margin-bottom:5px;"><strong>{{question.q}}</strong></p>
-                <p style="padding-left:15px;">{{question.a}}</p>
-              </div>
-            </v-card> -->
-
-            <v-expansion-panels accordion multiple>
-              <v-expansion-panel class="light-1"
-              v-for="question in questions" :key="question.q">
-                <v-expansion-panel-header><strong>{{ question.q }}</strong>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  {{ question.a}}
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </div>
+          <FAQ/>
         </v-row>
         <Footer/>
       </v-container>
@@ -226,7 +78,8 @@
 // @ is an alias to /src
 import Login from '@/components/Login.vue';
 import Signup from '@/components/Signup.vue';
-import Deadline from '@/components/Deadline.vue';
+import HowItWorks from '@/components/HowItWorks.vue';
+import FAQ from '@/components/FAQ.vue';
 import Google from '@/components/Google.vue';
 import Footer from '@/components/Footer.vue';
 
@@ -241,63 +94,12 @@ export default {
     if (this.urlCode === 'pwreset') {
       this.pwreset = true;
     }
-    this.questions = [
-      {
-        q: 'How much will you email me?',
-        a: 'We will never email you, only the recipients of your blackmail',
-      },
-      {
-        q: 'Do we ever look at your photos?',
-        a: 'No, they are deleted immediatly once your proof has been aproved or the deadline has passed, and are never viewed by our approvers',
-      },
-      {
-        q: 'What kind of proof can I submit?',
-        a: 'We accept proof in any format, as long as it is under 5mb. The most important thing is that the proof clearly shows completiion of the task',
-      },
-      {
-        q: 'Who approves the proof?',
-        a: 'All proof is reviewed by our internal team',
-      },
-      {
-        q: 'Is there any way to cancel a deadline?',
-        a: 'No, the only way to cancel your deadline is to submit valid proof',
-      },
-      {
-        q: 'Is the blackmail email anonymous?',
-        a: 'No, we explain to the recipient why they are getting that file, and that it came from your email account. See the validate your goal section for an example',
-      },
-      {
-        q: 'What kind of blackmail can I upload?',
-        a: 'You can upload any type of nonexecutable file',
-      },
-      {
-        q: 'Does the recipient need to be registered at blackmailer.xyz?',
-        a: 'No, you can enter the email of anyone you know',
-      },
-      {
-        q: 'What happens if my proof gets rejected?',
-        a: 'If your proof is rejected you will have at least 24 hours from the time of rejection to reupload valid proof',
-      },
-      {
-        q: 'Why was my proof rejected?',
-        a: 'We reject proof if it doesn\'t clearly show the completion of the goal.  You can contact us if you have any question about why your specific proof was rejected.',
-      },
-    ];
-    this.exampleDate = new Date();
-    this.exampleDate.setDate(this.exampleDate.getDate() + 3);
   },
   data: () => ({
     pwReset: false,
   }),
 
   methods: {
-    show() {
-      this.$modal.show('email-example');
-    },
-    hide() {
-      this.$modal.hide('email-example');
-    },
-
     getUrlVal(field, url) {
       const href = url || window.location.href;
       const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
@@ -309,9 +111,10 @@ export default {
   components: {
     Login,
     Signup,
-    Deadline,
+    FAQ,
     Google,
     Footer,
+    HowItWorks,
   },
 };
 
@@ -324,11 +127,6 @@ export default {
     0px 2px 2px 0px rgba(0, 0, 0, 0.14),
     0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     border-radius:4px;
-  }
-
-  .table-cell{
-    padding-right:10px;
-    color:rgba(0,0,0,.7)
   }
 
   .fullwindow{
@@ -389,20 +187,7 @@ export default {
     /* background-image: url("../assets/landing.jpg");
     background-size: cover; */
   }
-  .bigTitle{
-    font-size: 100px;
-    padding-left: 20px;
-  }
 
-  #faq-container{
-    width:70vw;
-    margin:0 auto;
-    margin-bottom:20px;
-  }
-
-  .faqList{
-    list-style: none;
-  }
 
   .cardQuestion{
     padding-left: 10px;
@@ -426,10 +211,6 @@ export default {
     font-size: 1.2em;
   }
 
-  .workflow{
-    padding: 20px;
-    text-align: left;
-  }
   @media only screen and (max-width: 1850px) {
     #header-desktop{
       font-size: 64px;
@@ -446,12 +227,6 @@ export default {
   @media only screen and (max-width: 1281px) {
     #tagpara{
       margin-top:40px;
-    }
-    .mobile-padded{
-      padding-bottom:10px;
-    }
-    .bigTitle{
-      font-size: 60px;
     }
     #header-desktop{
       display: none;
