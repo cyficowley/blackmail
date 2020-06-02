@@ -1,24 +1,31 @@
 <template>
-  <div id="faq-container">
-    <h1 class="text-left bigTitle">FAQ</h1>
+  <v-container id="faq-container">
     <!-- <v-card class="light-1" style="padding:20px;">
       <div v-for="question in questions" :key="question.q" style="margin-bottom:20px;">
         <p style="margin-bottom:5px;"><strong>{{question.q}}</strong></p>
         <p style="padding-left:15px;">{{question.a}}</p>
       </div>
     </v-card> -->
-
-    <v-expansion-panels accordion multiple>
-      <v-expansion-panel class="light-1"
-      v-for="question in questions" :key="question.q">
-        <v-expansion-panel-header><strong>{{ question.q }}</strong>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content style="text-align:left;">
-          {{ question.a}}
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col cols="12" xl="10">
+        <v-row>
+          <h1 class="text-left bigTitle">FAQ</h1>
+        </v-row>
+        <v-expansion-panels accordion multiple>
+          <v-expansion-panel class="light-1"
+          v-for="question in questions" :key="question.q">
+            <v-expansion-panel-header><strong>{{ question.q }}</strong>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content style="text-align:left;">
+              {{ question.a}}
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -30,11 +37,11 @@ export default {
     this.questions = [
       {
         q: 'How much will you email me?',
-        a: 'We will never email you, only the recipients of your blackmail',
+        a: 'We email you a reminder a day before your goal, and on acceptance or rejection of your proof',
       },
       {
-        q: 'Do we ever look at your photos?',
-        a: 'No, they are deleted immediatly once your proof has been aproved or the deadline has passed, and are never viewed by our approvers',
+        q: 'Do we ever look at your blackmail?',
+        a: 'No, the files are deleted immediatly once your proof has been aproved or the deadline has passed, and are never viewed by our approvers.  They are encrypted the entire time they are stored',
       },
       {
         q: 'What kind of proof can I submit?',
@@ -50,7 +57,7 @@ export default {
       },
       {
         q: 'Is the blackmail email anonymous?',
-        a: 'No, we explain to the recipient why they are getting that file, and that it came from your email account. See the validate your goal section for an example',
+        a: 'No, we explain to the recipient why they are getting that file, and that it came from your email account. See the validate your goal step for an example',
       },
       {
         q: 'What kind of blackmail can I upload?',
@@ -62,7 +69,7 @@ export default {
       },
       {
         q: 'What happens if my proof gets rejected?',
-        a: 'If your proof is rejected you will have at least 24 hours from the time of rejection to reupload valid proof',
+        a: 'If your proof is rejected you will have at least 24 hours from the time of rejection to reupload valid proof.  You will be emailed to notify you if your proof is rejected.',
       },
       {
         q: 'Why was my proof rejected?',
@@ -79,16 +86,19 @@ export default {
     font-size: 100px;
     padding-left: 20px;
   }
+
+
+  #faq-container{
+    margin:0 auto;
+    margin-bottom:20px;
+  }
   @media only screen and (max-width: 1281px) {
     .bigTitle{
       font-size: 60px;
     }
-  }
-
-
-  #faq-container{
-    width:70vw;
-    margin:0 auto;
-    margin-bottom:20px;
+    #faq-container{
+      padding: 10px;
+      margin:0 auto;
+    }
   }
 </style>

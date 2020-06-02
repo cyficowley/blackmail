@@ -239,11 +239,6 @@ export default {
     .title-card{
       padding: 10px;
     }
-    #faq-container{
-      width:100%;
-      padding: 10px;
-      margin:0 auto;
-    }
   }
   @media only screen and (max-width: 959px) {
     .fullwindow{

@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <h1 class="bigTitle">HOW IT WORKS</h1>
-    </v-row>
-    <v-row>
       <v-spacer></v-spacer>
       <v-col cols="12" xl="10">
+        <v-row>
+          <h1 class="bigTitle">HOW IT WORKS</h1>
+        </v-row>
         <v-carousel id="slides" hide-delimiters :show-arrows="false" v-model="slide" height="auto"
         light>
           <v-carousel-item>
@@ -68,7 +68,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn class="float-right" @click="slide++"><strong>Next Step</strong></v-btn>
+                  <v-btn class="float-right" @click="slide++"><h2>Next Step</h2></v-btn>
                 </v-col>
               </v-row>
             </v-card>
@@ -96,15 +96,19 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn class="float-left" @click="slide--"><strong>Previous Step</strong></v-btn>
-                  <v-btn class="float-right" @click="slide++"><strong>Next Step</strong></v-btn>
+                  <v-btn class="float-left" @click="slide--"><h2>Previous Step</h2></v-btn>
+                  <v-btn class="float-right" @click="slide++"><h2>Next Step</h2></v-btn>
                 </v-col>
               </v-row>
             </v-card>
           </v-carousel-item>
           <v-carousel-item>
             <v-card class="workflow white">
-              <h1 class="mobile-padded">Validate your goal</h1>
+              <v-row>
+                <v-col>
+                  <h1 class="mobile-padded">Validate your goal</h1>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col cols="3" class="d-none d-md-inline">
                   <img src="../assets/email.png" id="email-pic"
@@ -139,7 +143,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn class="float-left" @click="slide--"><strong>Previous Step</strong></v-btn>
+                  <v-btn class="float-left" @click="slide--"><h2>Previous Step</h2></v-btn>
                 </v-col>
               </v-row>
             </v-card>
