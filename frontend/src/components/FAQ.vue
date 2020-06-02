@@ -61,7 +61,7 @@ export default {
       },
       {
         q: 'What kind of blackmail can I upload?',
-        a: 'You can upload any type of nonexecutable file',
+        a: 'You can upload any type file, keep in mind your recipient must be able to run it though',
       },
       {
         q: 'Does the recipient need to be registered at blackmailer.xyz?',
