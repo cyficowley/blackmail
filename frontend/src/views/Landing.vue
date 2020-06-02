@@ -60,9 +60,6 @@
         </v-row>
         <Footer/>
       </v-container>
-      <modal name="email-example" :width="600" :height="800">
-        <img src="../assets/email.png" style="width:100%;max-height:100vh;">
-      </modal>
     </v-content>
      <v-snackbar
              v-model="pwreset"

@@ -13,7 +13,7 @@
       v-for="question in questions" :key="question.q">
         <v-expansion-panel-header><strong>{{ question.q }}</strong>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
+        <v-expansion-panel-content style="text-align:left;">
           {{ question.a}}
         </v-expansion-panel-content>
       </v-expansion-panel>

@@ -1,6 +1,9 @@
 <template>
   <v-app id="about">
     <v-content>
+      <a href="/#/home" style="text-decoration:none;color:black;"><v-btn class="home">
+        <strong>View Deadlines</strong>
+      </v-btn></a>
       <v-container fluid class="fullwindow" style="z-index:0;">
         <HowItWorks/>
         <FAQ/>
@@ -32,6 +35,15 @@ export default {
 </script>
 
 <style scoped>
+  .home {
+    width: "8%";
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    font-size:19px;
+    z-index: 99;
+    color:black;
+  }
 
   .fullwindow{
     padding-top:0;
