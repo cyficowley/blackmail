@@ -14,14 +14,17 @@
                 <v-col md="6" cols="12">
                   <h1>Choose your goal</h1>
                   <p style="font-size: 22px;">
-                    Come up with a task that you want to complete.
+                    1. Come up with a task that you want to complete.
                     This can be related to anything: Work, school, or personal life.
                     <br/>
                     <br/>
-                    Once you have a goal in mind,
-                    describe how you would upload proof of its completion.
-                    Then choose the image you want to blackmail yourself with,
+                    2. Describe how you would prove that you completed it in an uploadable file.
+                    <br/>
+                    <br/>
+                    3. Choose the file you want to blackmail yourself with,
                     and the potential recipient.
+                    The less you want your recipient to see the file, the more motivation you will
+                    have to complete your goal.
 
                   </p>
                   <p style="font-size: 22px;">
@@ -82,15 +85,15 @@
                   <Deadline class="dark-1"
                     name="Finish Math Homework"
                     :dueStamp="this.exampleDate"
-                    proofDescription="A picture of your fully completed math homework"
+                    proofDescription="A picture of my fully completed math homework"
                     recipient="WhyDidYouLeaveMe@aol.com"
                     status="Incomplete"
                     disabled
                     />
                   <p style="padding-top: 20px; font-size: 22px;">
-                    Once you have an uploaded deadline, it will have a status of 'Incomplete'.
-                    To change this, upload proof of completion that matches your proof description.
-                    This will change the status to 'Pending'.
+                    Once you've created a deadline, it will have a status of 'Incomplete'.
+                    To complete your goal, upload proof of completion that matches your proof
+                    description.  This proof will be sent to our reviewers.
                   </p>
                 </v-col>
               </v-row>
@@ -122,22 +125,24 @@
                     We will validate your proof within 24 hours. You will get an
                     email from us letting you know if it was 'Approved' or 'Rejected'
                     once we process it.
-                    <br/>
-                    <br/>
-                    If your proof is rejected, you will have 24 hours to resubmit proof.
-                    If you fail to resubmit proof, or miss your deadline altogether,
-                    your deadline will receive the 'Blackmailed' status,
-                    and your blackmail material
-                    will be sent to your recipient.
-                    <br/>
-                    <br/>
-
-                    We will be lenient in our validation, we are trying to motivate you,
-                    not ruin your life. We are willing to work with you to ensure that
-                    we accurately assess whether or not you have successfully completed
-                    your goal. However, if it is clear the goal has not ben completed,
-                    your recipient will recieve an email like this.
-
+                  </p>
+                  <h2>If Proof is rejected</h2>
+                  <p style="font-size: 22px;">
+                    If your proof is rejected we will immediatly email you to let you know,
+                    and you will have 24 hours to resubmit proof. We will be leniant with approval,
+                    your proof will only be rejected if it is very obviously not matching your
+                    description.
+                  </p>
+                  <h2>If Proof is approved</h2>
+                  <p style="font-size: 22px;">
+                    Congratulations you finished your goal! We'll email you to let you know,
+                    and your blackmail will be deleted, never to be seen by anyone.
+                  </p>
+                  <h2>If Deadline Passes</h2>
+                  <p style="font-size: 22px;">
+                    If you submit nothing by your deadline will receive the 'Blackmailed' status,
+                    and your blackmail material will be sent to your recipient. They'll get an email
+                    like the one shown here.
                   </p>
                 </v-col>
               </v-row>
@@ -202,6 +207,12 @@ export default {
   .bigTitle{
     font-size: 100px;
     padding-left: 20px;
+  }
+
+  td{
+    font-size: 20px;
+    padding-bottom: 10px;
+    color:black;
   }
 
   .table-cell{
