@@ -1,14 +1,40 @@
 <template>
-  <v-expansion-panel>
-    <v-expansion-panel-header disable-icon-rotate color="white" :light="true">
-      <h3 id="deadline-title">{{ deadline.name }}</h3>
+  <v-expansion-panel class="Deadline">
+    <v-expansion-panel-header
+      class="deadline-header"
+      disable-icon-rotate
+      color="white"
+      :light="true">
+
+      <h3 class="deadline-title">{{ deadline.name }}</h3>
 
       <v-spacer/>
 
-      <h4 id="deadline-remaining">Deadline: {{timeRemaining}}</h4>
+      <div class="due-wrapper">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <h4
+              class="deadline-duedate"
+              v-bind="attrs"
+              v-on="on">
+              {{dueDate}}
+            </h4>
+          </template>
+
+          <span>{{dueDateFull}}</span>
+        </v-tooltip>
+
+        <h4 class="deadline-remaining">Due {{timeRemaining}}</h4>
+      </div>
+
+
     </v-expansion-panel-header>
 
     <v-expansion-panel-content color="white">
+      <p>{{deadline.proofDescription}}</p>
+      <p>{{deadline.recipient}}</p>
+
+      <v-btn>Submit Proof</v-btn>
 
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -163,8 +189,17 @@ export default {
     this.approvedText = 'Your proof submission has been approved! Your blackmail file has been deleted. Congratulations on completing your goal!';
   },
   computed: {
+    dueDate() {
+      const due = new Date(this.deadline.dueStamp);
+      return moment(due).format('dddd, MMMM Do');
+    },
+    dueDateFull() {
+      const due = new Date(this.deadline.dueStamp);
+      return moment(due).format('MMMM Do YYYY, h:mm:ss a');
+    },
     timeRemaining() {
-      return moment(this.dueStamp).fromNow();
+      const due = new Date(this.deadline.dueStamp);
+      return moment(due).fromNow();
     },
     // dateString() {
     //   return moment(this.dueStamp).format('LT MMMM Do YYYY');
@@ -194,76 +229,48 @@ export default {
 </script>
 
 <style scoped>
+.Deadline {
+}
 
-  h3#deadline-title {
-    color: black;
-  }
+.deadline-header {
+  position: relative;
+}
 
-  h4#deadline-remaining {
-    color: black;
-  }
+h3.deadline-title {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: black;
+}
 
-  h2{
-    text-align:left;
-  }
+h4.deadline-duedate {
+  font-size: 1rem;
+  display: inline-block;
+  margin: .5rem 0 0 auto;
+  color: rgba(0, 0, 0, 0.897);
+}
 
-  p{
-    font-size: 1.2em;
-    padding:5px;
-    float:left;
-    margin-bottom: 0px !important;
-    /* width: 100%; */
-  }
+h4.deadline-remaining {
+  font-weight: normal;
+  display: inline-block;
+  margin: .5rem 0 0 auto;
+  color: rgba(0, 0, 0, 0.87);
+}
 
-  .v-card{
-    text-align: left;
-    overflow: auto;
-  }
-  .blackText{
-    color: black;
-  }
-  .whiteText{
-    color: white;
-  }
-  .whiteBack{
-    background-color: rgb(255,255,255);
-  }
-  .green{
-    background-color: green;
-  }
-  .red{
-    background-color: red;
-  }
-  .blue{
-    background-color: blue;
-  }
-  .orange{
-    background-color: orange;
-  }
-  .tooltip{
-    background-color:white;
-    opacity: 1 !important;
+.due-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0 1rem .5rem 0;
+}
 
-    padding-top: 10px;
-    padding-bottom: 10px;
-    box-shadow: 5px 10px grey;
-    border-width: 1px;
-    border-color: black;
-    border-style: solid;
-    -webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.46);
-    -moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.46);
-    box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.46);
-  }
-
-  .hoverText{
-    color:black;
-    font-size:22px;
-  }
-  .outer-card{
-    width:100%;
-
-    background-color: rgba(22, 72, 105, 1);
-    overflow:hidden;
-    padding:10px 20px 10px 20px;
-  }
+.color-bar {
+  --completion: 0;
+  display: block;
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 4px;
+  width: 6px;
+  background-color: hsla(calc((-144 * var(--completion)) + 144), 100%, 45%, .8);
+}
 </style>

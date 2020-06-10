@@ -3,7 +3,7 @@
     <CreateDeadline :open="createModal" @close="closeCreate"/>
 
     <v-card class="limit-width deadlines">
-      <v-expansion-panels accordion tile v-model="filterPanel" readonly >
+      <v-expansion-panels accordion v-model="filterPanel" readonly>
         <v-expansion-panel>
           <v-expansion-panel-header disable-icon-rotate color="accent">
             <h2 id="list-title">MY DEADLINES</h2>
@@ -67,14 +67,14 @@
         </v-expansion-panel>
       </v-expansion-panels>
 
-      <v-card-text>
+      <v-card-text style="padding: 0">
         <v-expansion-panels accordion>
           <Deadline
             class="deadline"
             v-for="(deadline, i) in deadlines"
             :key="i"
             :deadline="deadline"
-            style="margin-bottom:40px; margin-top: 0px;"/>
+            style=""/>
         </v-expansion-panels>
 
         <div v-if="deadlines.length === 0">
