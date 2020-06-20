@@ -110,7 +110,7 @@ export default {
   background-image: linear-gradient(
     to right bottom,
     rgba(0, 0, 0, 0) 50%,
-    var(--light-2) 50%
+    var(--blackmailer-blue-2) 50%
   );
 }
 .stripe2 {
@@ -122,7 +122,7 @@ export default {
   background-image: linear-gradient(
     to left bottom,
     rgba(0, 0, 0, 0) 50%,
-    var(--light-1) 50%
+    var(--blackmailer-blue-1) 50%
   );
 }
 .forward {
@@ -130,7 +130,9 @@ export default {
 }
 
 #landing-row {
-  background-image: linear-gradient(to bottom, var(--dark-1), var(--dark-2));
+  background-image: linear-gradient(to bottom,
+    var(--blackmailer-blue-1),
+    var(--blackmailer-blue-2));
   /* background-image: url("../assets/landing.jpg");
     background-size: cover; */
 }

@@ -38,9 +38,4 @@ export default {
     color:black;
   }
 
-  .fullwindow{
-    padding-top:0;
-    padding-bottom:0;
-    background-color: var(--light-2);
-  }
 </style>

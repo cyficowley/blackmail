@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-app-bar color="primary">
+    <v-app-bar color="blue1">
       <v-row class="limit-width app-bar-row">
         <img id="app-bar-logo" src="./assets/logo.svg" @click="route('/')"/>
 
@@ -8,7 +8,7 @@
           BLACKMAILER
         </h1>
 
-        <v-btn text large color="default" class="font-weight-medium" to="/about">
+        <v-btn text large color="light" class="font-weight-medium" to="/about">
           How it Works
         </v-btn>
 
@@ -18,7 +18,7 @@
           v-if="currentUser == null"
           text
           large
-          color="default"
+          color="light"
           class="font-weight-medium"
           @click="loginRegister(1)">
           Login
@@ -51,7 +51,7 @@
           v-if="currentUser != null"
           text
           large
-          color="default"
+          color="light"
           class="font-weight-medium"
           @click="route('/home')">
           Sign Out
@@ -65,7 +65,7 @@
       <router-view/>
     </v-content>
 
-    <v-footer color="dark-2" class="footer">
+    <v-footer color="dark1" class="footer">
       <v-col>
         <p>
           &copy; 2020 Blackmailer.xyz
@@ -116,13 +116,20 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
-  --dark-1: #02244A;
-  --dark-1-clear: rgba(2, 36, 74, .8);
-  --dark-2: #164869;
-  --light-1: #8CE5F5;
-  --light-2: #55BDCA;
+  --blackmailer-light: #F2F2F2;
+  --blackmailer-dark-1: #202225;
+  --blackmailer-dark-2: #2F3136;
+  --blackmailer-dark-3: #363941;
+  --blackmailer-dark-4: #585C62;
+  --blackmailer-dark-5: #72767D;
+  --blackmailer-dark-6: #A6A7A8;
+  --blackmailer-blue-1: #02244A;
+  --blackmailer-blue-1-clear: #02244ACC;
+  --blackmailer-blue-2: #164869;
+  --blackmailer-blue-3: #8CE5F5;
+  --blackmailer-blue-4: #55BDCA;
   --accent: #DF622C;
-  --gray: #f6f6f6;
+
 }
 
 #app {
@@ -132,33 +139,8 @@ export default {
   -webkit-font-smoothing: antialiased;
 }
 
-.white{
-  background-color: white !important;
-}
-.gray{
-  background-color: var(--gray) !important;
-}
-.dark-1{
-  background-color: var(--dark-1) !important;
-}
-.dark-2{
-  background-color: var(--dark-2) !important;
-}
-.light-1{
-  background-color: var(--light-1) !important;
-}
-.light-2{
-  background-color: var(--light-2) !important;
-}
-.light-3{
-  background-color: var(--light-3) !important;
-}
-.accent-1{
-  background-color: var(--accent) !important;
-}
-
 h1, h2, h3, h4, h5, h6{
-  color: white;
+  color: var(--blackmailer-light);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -172,7 +154,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 #app-bar-title {
-  color: white;
+  color: var(--blackmailer-light);
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-size: 1.5em;

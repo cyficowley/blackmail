@@ -3,8 +3,7 @@
     <v-expansion-panel-header
       class="deadline-header"
       disable-icon-rotate
-      color="white"
-      :light="true">
+      color="light" ripple>
 
       <h3 class="deadline-title">{{ deadline.name }}</h3>
 
@@ -24,7 +23,7 @@
           <span>{{dueDateFull}}</span>
         </v-tooltip>
 
-        <h4 class="deadline-remaining">Due {{timeRemaining}}</h4>
+        <h4 class="deadline-remaining">{{timeRemaining}}</h4>
       </div>
 
 
@@ -181,7 +180,6 @@ export default {
     },
   },
   created() {
-    console.log(this.deadline);
     this.incompleteText = 'Incomplete means edit text later';
     this.pendingText = 'You have submitted but we havent done anything yet';
     this.rejectedText = 'Your proof was rejected ';
@@ -199,7 +197,10 @@ export default {
     },
     timeRemaining() {
       const due = new Date(this.deadline.dueStamp);
-      return moment(due).fromNow();
+      if (due.getTime() < new Date().getTime()) {
+        return 'Deadline Expired';
+      }
+      return `Due ${moment(due).fromNow()}`;
     },
     // dateString() {
     //   return moment(this.dueStamp).format('LT MMMM Do YYYY');

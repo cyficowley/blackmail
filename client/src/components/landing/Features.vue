@@ -1,6 +1,6 @@
 <template>
   <div class="Features">
-    <v-card class="step step-left" color="primary" elevation="0">
+    <v-card class="step step-left" color="blue1" elevation="0">
       <div class="step-text">
         <h1 class="step-title">
           Choose a Goal
@@ -36,7 +36,7 @@
       </v-card>
     </v-card>
 
-    <v-card class="step step-right" color="primary" elevation="0">
+    <v-card class="step step-right" color="blue1" elevation="0">
       <v-card
         class="step-example"
         width="95%"
@@ -81,7 +81,7 @@
       </div>
     </v-card>
 
-    <v-card class="step step-left" color="primary" elevation="0">
+    <v-card class="step step-left" color="blue1" elevation="0">
       <div class="step-text">
         <h1 class="step-title">
           Upload Proof before Deadline

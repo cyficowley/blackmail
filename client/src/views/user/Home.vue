@@ -9,6 +9,7 @@
             <h2 id="list-title">MY DEADLINES</h2>
 
             <template v-slot:actions>
+
               <v-btn text @click="filterPanelToggle" :dark="true">
                 Filter
                 <v-icon right style="margin-left: .5rem;" color="white">
@@ -71,7 +72,7 @@
         <v-expansion-panels accordion>
           <Deadline
             class="deadline"
-            v-for="(deadline, i) in deadlines"
+            v-for="(deadline, i) in sortedFilteredDeadlines"
             :key="i"
             :deadline="deadline"
             style=""/>
@@ -319,8 +320,8 @@ export default {
     filter: 0,
     filterDeadlines: [
       { text: 'All', icon: 'mdi-check-box-multiple-outline' },
-      { text: 'Completed', icon: 'mdi-check-box-outline' },
       { text: 'Incomplete', icon: 'mdi-checkbox-blank-outline' },
+      { text: 'Completed', icon: 'mdi-check-box-outline' },
     ],
     sort: 0,
     sortDeadlines: [
@@ -336,21 +337,6 @@ export default {
     // dateConfirmation: false,
     // currentSort: 0,
     // uploadFile: true,
-    // newDeadline: {
-    //   name: '',
-    //   proofDescription: '',
-    //   recipient: '',
-    //   dueStamp: undefined,
-    //   status: 'Incomplete',
-    //   file: undefined,
-    //   sender: null,
-    // },
-    // valid: true,
-    // validDate: {
-    //   validity: true,
-    // },
-
-    // newDeadlineDate: '',
     // confirmed: '',
     // fileError: false,
     // dialog: false,
@@ -359,10 +345,8 @@ export default {
   methods: {
     filterPanelToggle() {
       if (this.filterPanel instanceof Array && this.filterPanel.length === 0) {
-        console.log(0);
         this.filterPanel = 0;
       } else {
-        console.log([]);
         this.filterPanel = [];
       }
     },
@@ -372,30 +356,12 @@ export default {
     closeCreate() {
       this.createModal = false;
     },
-    // getUrlVal(field, url) {
-    //   const href = url || window.location.href;
-    //   const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
-    //   const string = reg.exec(href);
-    //   return string ? string[1] : null;
-    // },
-    // filter(sortedDeadlines) {
-    //   const filteredDeadlines = [];
-    //   const completedStatuses = new Set(['Blackmailed', 'Approved']);
-
-    //   if (this.filterIncomplete) {
-    //     sortedDeadlines.forEach((deadline) => {
-    //       if (completedStatuses.has(deadline.status)) {
-    //         filteredDeadlines.push(deadline);
-    //       }
-    //     });
-    //   } else {
-    //     sortedDeadlines.forEach((deadline) => {
-    //       if (!completedStatuses.has(deadline.status)) {
-    //         filteredDeadlines.push(deadline);
-    //       }
-    //     });
-    //   }
-
+    getUrlVal(field, url) {
+      const href = url || window.location.href;
+      const reg = new RegExp(`[?&]${field}=([^&#]*)`, 'i');
+      const string = reg.exec(href);
+      return string ? string[1] : null;
+    },
     //   return filteredDeadlines;
     // },
     // compareDate(a, b) {
@@ -466,6 +432,61 @@ export default {
     //   }
     //   return false;
     // },
+    // filter(sortedDeadlines) {
+    //   const filteredDeadlines = [];
+    //   const completedStatuses = new Set(['Blackmailed', 'Approved']);
+    //   if (this.filterIncomplete) {
+    //     sortedDeadlines.forEach((deadline) => {
+    //       if (completedStatuses.has(deadline.status)) {
+    //         filteredDeadlines.push(deadline);
+    //       }
+    //     });
+    //   } else {
+    //     sortedDeadlines.forEach((deadline) => {
+    //       if (!completedStatuses.has(deadline.status)) {
+    //         filteredDeadlines.push(deadline);
+    //       }
+    //     });
+    //   }
+    filteredDeadlines() {
+      switch (this.filter) {
+        case 1: {
+          return this.$store.state.deadlines.filter((deadline) => deadline.status !== 'Blackmailed' && deadline.status !== 'Approved');
+        }
+        case 2: {
+          return this.$store.state.deadlines.filter((deadline) => deadline.status === 'Blackmailed' || deadline.status === 'Approved');
+        }
+        default: {
+          return this.$store.state.deadlines;
+        }
+      }
+    },
+    sortedFilteredDeadlines() {
+      switch (this.sort) {
+        case 1: {
+          return this.filteredDeadlines.slice().sort((a, b) => {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+              return -1;
+            }
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+        default: {
+          return this.filteredDeadlines.slice().sort((a, b) => {
+            if (a.dueStamp.getTime() < b.dueStamp.getTime()) {
+              return -1;
+            }
+            if (a.dueStamp.getTime() > b.dueStamp.getTime()) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+      }
+    },
     // sortedDeadlines() {
     //   let sortedDeadlines = [...this.$store.state.deadlines];
     //   sortedDeadlines = this.filter(sortedDeadlines);
@@ -571,13 +592,7 @@ button.v-expansion-panel-header {
 
 }
 
-.sortBy {
-  margin-left:auto;
-  margin-right:0;
-  margin-top: 10px;
-  background-color:var(--dark-1) !important;
-  color: white;
-}
+
 .filterText {
   color: black;
   padding-right: 20px;
@@ -623,22 +638,6 @@ button.v-expansion-panel-header {
 .filterMenu {
   float: left;
   background-color:white !important;
-}
-.filterItem{
-  background-color:var(--dark-1) !important;
-  color: white;
-  text-align: center;
-  opacity: 1.0 !important;
-  font-size: 16px;
-  font-weight: bold;
-}
-.filterItemClicked{
-  background-color:var(--dark-1-clear) !important;
-  color: white !important;
-  text-align: center;
-  opacity: 1 !important;
-  font-size: 16px;
-  font-weight: bold;
 }
 .centered{
   line-height: 48px;

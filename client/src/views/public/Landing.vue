@@ -11,22 +11,6 @@
 
     <Features/>
 
-    <!-- <v-container fluid class="fullwindow" style="z-index:0;">
-        <v-row id="landing-row" class="fullwindow">
-          <v-col class="forward" cols="12" md="4">
-            <div class="title-card">
-
-            </div>
-          </v-col>
-        </v-row>
-        <v-row id="row2" class='forward light-2'>
-          <HowItWorks/>
-        </v-row>
-        <v-row class='forward text-left light-2'>
-          <FAQ/>
-        </v-row>
-        <Footer/>
-      </v-container> -->
     <v-snackbar
       v-model="pwreset"
       :timeout="timeout"
@@ -112,7 +96,7 @@ export default {
   padding-top:0;
   padding-bottom:0;
   height: 100vh;
-  background-color: var(--dark-1);
+  background-color: var(--blackmailer-blue-1);
 }
 
 .title-card{
@@ -145,7 +129,9 @@ export default {
 }
 #landing-row{
 
-  background-image: linear-gradient(to bottom, var(--dark-1), var(--dark-2));
+  background-image: linear-gradient(to bottom,
+    var(--blackmailer-blue-1),
+    var(--blackmailer-blue-2));
   /* background-image: url("../assets/landing.jpg");
   background-size: cover; */
 }
