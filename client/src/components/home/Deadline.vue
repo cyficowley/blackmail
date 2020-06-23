@@ -36,18 +36,14 @@
 
 
       <v-file-input
-        label="Select Files"
+        label="Uploads on selection of file"
         dense
         filled
-        multiple
         color="accent"
-        chips
         @change="uploadedProof"
         v-model="localProofFiles"
-        :counter="localProofFiles.length > 0"
         prepend-icon="mdi-upload">
       </v-file-input>
-      <v-btn>Submit Proof</v-btn>
 
     </v-expansion-panel-content>
   </v-expansion-panel>
