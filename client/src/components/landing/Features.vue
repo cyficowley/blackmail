@@ -1,5 +1,5 @@
 <template>
-  <div class="Features">
+  <div class="Features" id="Features">
     <v-card class="step step-left" color="blue1" elevation="0">
       <div class="step-text">
         <h1 class="step-title">
@@ -105,7 +105,7 @@
         </h1>
 
         <h3 v-if="!timerExpired" style="text-align:center">
-          To Eat less Cup Noodles
+          To eat fewer cup noodles
         </h3>
 
         <h1 v-if="timerExpired" style="text-align:center;font-size:3rem; margin: 0;" class="pulse">
@@ -130,7 +130,7 @@ export default {
     task: 1,
     tasks: [
       { text: 'Run three times a week', icon: 'mdi-run-fast' },
-      { text: 'Eat less Cup Noodles', icon: 'mdi-noodles' },
+      { text: 'eat fewer cup noodles', icon: 'mdi-noodles' },
       { text: 'Go to bed by 11:00 PM', icon: 'mdi-sleep' },
       { text: 'Lose 10 lbs this month', icon: 'mdi-scale' },
     ],

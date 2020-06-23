@@ -258,7 +258,7 @@ export default {
       }
     },
     finishStepTwo() {
-      if (this.deadline.blackmail.text.length || this.files.length) {
+      if (this.deadline.blackmail.text.length || this.deadline.blackmail.files.length) {
         this.step = 3;
       }
     },
@@ -270,6 +270,7 @@ export default {
           && (this.deadline.blackmail.text.length
             || this.deadline.blackmail.files.length)) {
           this.submit();
+          this.close();
         }
       }
     },
@@ -280,13 +281,11 @@ export default {
         proofDescription: this.deadline.description,
         recipient: this.deadline.recipient,
         sender: this.$store.state.currentUser.email,
-        files: this.deadline.blackmail.files,
+        blackmail: this.deadline.blackmail,
       };
 
-      console.log(deadlineData);
-
       if (this.deadline.blackmail.text) {
-        deadlineData.files.push(new File(
+        deadlineData.blackmail.files.push(new File(
           [this.deadline.blackmail.text],
           'blackmail.txt',
           {
@@ -295,7 +294,6 @@ export default {
           },
         ));
       }
-
       this.$store.dispatch('createDeadline', deadlineData);
     },
   },

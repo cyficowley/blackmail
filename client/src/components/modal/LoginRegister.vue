@@ -121,13 +121,13 @@ export default {
   }),
   methods: {
     close() {
-      this.$store.dispatch('openLoginRegisterDialogue', 0);
+      this.$store.dispatch('updateLoginRegisterDialogue', 0);
     },
     switchType() {
-      this.$store.dispatch('openLoginRegisterDialogue', this.loginRegisterDialogue === 1 ? 2 : 1);
+      this.$store.dispatch('updateLoginRegisterDialogue', this.loginRegisterDialogue === 1 ? 2 : 1);
     },
     forgotPassword() {
-      this.$store.dispatch('openLoginRegisterDialogue', 0);
+      this.$store.dispatch('updateLoginRegisterDialogue', 0);
       this.$router.push('/reset');
     },
     async googleLogin() {

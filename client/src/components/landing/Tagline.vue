@@ -10,7 +10,8 @@
       </p>
 
       <v-row>
-        <v-btn color="accent" class="font-weight-medium" id="action">
+        <v-btn color="accent" class="font-weight-medium" id="action"
+          @click="$vuetify.goTo('#Features', {duration:800})">
           Get Started
         </v-btn>
       </v-row>

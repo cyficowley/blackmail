@@ -56,14 +56,15 @@ const createDeadline = async ({ commit, state }, deadline) => {
   const submittedDeadline = {
     ...deadline,
     proofItems: [],
+    status: 'Incomplete',
   };
   delete submittedDeadline.blackmail;
 
   try {
     const { uid } = state.currentUser;
-    const { deadlineId } = await Firebase.users().doc(uid).collection('deadlines').add(submittedDeadline);
+    const { id } = await Firebase.users().doc(uid).collection('deadlines').add(submittedDeadline);
 
-    const diff = submittedDeadline.dueStamp.getTime() - (Date.now().getTime());
+    const diff = Math.abs(submittedDeadline.dueStamp.getTime() - ((new Date()).getTime()));
     const MILLISEC_IN_DAY = 86400000;
     let needsReminderEmail = false;
     if (diff / MILLISEC_IN_DAY >= 2) {
@@ -72,15 +73,15 @@ const createDeadline = async ({ commit, state }, deadline) => {
 
     await Firebase.db().collection('expiring').add({
       uid,
-      did: deadlineId,
+      did: id,
       date: submittedDeadline.dueStamp,
       needsReminderEmail,
     });
 
-    submittedDeadline.id = deadlineId;
+    submittedDeadline.id = id;
 
     for (let i = 0; i < blackmail.files.length; i += 1) {
-      const uploadPath = [uid, deadlineId, 'blackmail', blackmail.files[i].name].join('/');
+      const uploadPath = [uid, id, 'blackmail', blackmail.files[i].name].join('/');
       const fileRef = Firebase.storage().child(uploadPath);
 
       // eslint-disable-next-line no-await-in-loop
@@ -91,6 +92,7 @@ const createDeadline = async ({ commit, state }, deadline) => {
 
     commit('setUploadStatus', 1);
   } catch (error) {
+    console.error(error);
     commit('setUploadStatus', -1);
   }
 };
@@ -170,7 +172,6 @@ const uploadDeadlineProof = async ({ state, dispatch, commit }, {
     // making sure that deadline is not already sent
     const deadline = (await Firebase.users().doc(uid).collection('deadlines').doc(id)
       .get()).data();
-    deadline.id = id;
     if (deadline.status === 'Blackmailed') {
       commit('updateDeadline', { id, status: deadline.status });
       return;
@@ -187,9 +188,11 @@ const uploadDeadlineProof = async ({ state, dispatch, commit }, {
     // keep proof items local
     commit('updateDeadline', { id, proofItems });
 
-    await Firebase.db().collection('approvals').add({
-      uid, did: id, date,
-    });
+    if (deadline.status === 'Incomplete') {
+      await Firebase.db().collection('approvals').add({
+        uid, did: id, date,
+      });
+    }
 
     const expiringRef = Firebase.db().collection('expiring');
     const snapshot = await expiringRef.where('uid', '==', uid).where('did', '==', id).get();
@@ -314,7 +317,7 @@ const removeApproval = async ({ commit }, { id }) => {
   const ref = Firebase.db().collection('approvals').doc(id);
   try {
     await ref.delete();
-    commit('removeApproval', { id });
+    commit('deleteApproval', { id });
   } catch (error) {
     console.error(error);
   }
