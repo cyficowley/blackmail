@@ -1,20 +1,16 @@
 
 <template>
-  <div id="Landing">
+  <div :class="$style.component">
+    <striped-transition>
+      <tagline slot="content" />
+    </striped-transition>
 
-    <StripedTransition
-      :start="transitionColors.start"
-      :middle="transitionColors.middle"
-      :end="transitionColors.end">
-      <Tagline slot="content"/>
-    </StripedTransition>
-
-    <Features/>
+    <features />
 
     <v-snackbar
       v-model="pwreset"
-      :timeout="timeout"
       color="green"
+      :timeout="timeout"
       top>
       Password reset successful. You can now log in.
     </v-snackbar>
@@ -36,23 +32,7 @@ export default {
   },
   data: () => ({
     pwReset: false,
-    transitionColors: {
-      start: {
-        r: 2,
-        g: 36,
-        b: 74,
-      },
-      middle: {
-        r: 140,
-        g: 229,
-        b: 245,
-      },
-      end: {
-        r: 85,
-        g: 189,
-        b: 202,
-      },
-    },
+    timeout: 0,
   }),
   methods: {
     getUrlVal(field, url) {
@@ -63,138 +43,18 @@ export default {
     },
   },
   created() {
-    this.pwreset = false;
-    this.urlCode = this.getUrlVal('snackbar');
+    this.pwReset = false;
+    const urlCode = this.getUrlVal('snackbar');
     this.timeout = 3000;
-    if (this.urlCode === 'pwreset') {
-      this.pwreset = true;
+    if (urlCode === 'pwreset') {
+      this.pwReset = true;
     }
   },
 };
 </script>
 
-<style scoped>
-#Landing {
+<style module>
+.component {
   position: relative;
-}
-
-.content {
-  padding-top:0;
-  padding-bottom:0;
-  height: 100vh;
-  z-index: 5;
-}
-
-#email-pic{
-  box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-  0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-  0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  border-radius:4px;
-}
-
-.fullwindow{
-  padding-top:0;
-  padding-bottom:0;
-  height: 100vh;
-  background-color: var(--blackmailer-blue-1);
-}
-
-.title-card{
-  padding: 20px;
-  padding-top: 80px;
-}
-.forward{
-  z-index:2;
-}
-#tagpara{
-  text-align:left;
-  margin-top:80px;
-  font-size: 1.5em;
-  padding-left: 60px;
-  padding-right: 40px;
-  padding-bottom: 40px;
-}
-#header-desktop{
-  font-size: 80px;
-  font-weight: 600;
-}
-#header-mobile{
-  font-size: 42px;
-  font-weight: 600;
-  display: none;
-}
-#tagline{
-  font-size: 2.3em;
-  font-weight: 400;
-}
-#landing-row{
-
-  background-image: linear-gradient(to bottom,
-    var(--blackmailer-blue-1),
-    var(--blackmailer-blue-2));
-  /* background-image: url("../assets/landing.jpg");
-  background-size: cover; */
-}
-
-.cardQuestion{
-  padding-left: 10px;
-}
-.cardAnswer{
-  padding-left: 10px;
-}
-
-p{
-  color:black;
-  font-size: 1.2em;
-}
-table{
-  color:black;
-  font-size: 1.2em;
-  border-spacing: 0 8px;
-}
-
-li{
-  color:black;
-  font-size: 1.2em;
-}
-
-@media only screen and (max-width: 1850px) {
-  #header-desktop{
-    font-size: 64px;
-  }
-}
-@media only screen and (max-width: 1536px) {
-  #header-desktop{
-    font-size: 48px;
-  }
-  #tagpara{
-    font-size: 19px;
-  }
-}
-@media only screen and (max-width: 1281px) {
-  #tagpara{
-    margin-top:40px;
-  }
-  #header-desktop{
-    display: none;
-  }
-  #header-mobile{
-    display: block;
-    padding-top: 20px;
-  }
-  #tagline{
-    font-size: 1.7em;
-    font-weight: 400;
-  }
-  .title-card{
-    padding: 10px;
-  }
-}
-@media only screen and (max-width: 959px) {
-  .fullwindow{
-    height:auto !important;
-    position: relative;
-  }
-
 }
 </style>

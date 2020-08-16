@@ -1,24 +1,28 @@
 <template>
-  <div class="Tagline">
-    <div id="tagline-text">
-      <h1 id="tagline-title">
+  <div :class="$style.component">
+    <div :class="$style.text">
+      <h1 :class="$style.title">
         Incentivize Yourself to Complete Tasks
       </h1>
 
-      <p id="tagline-description">
+      <p :class="$style.description">
         Blackmail yourself into achieving goals you can't find the motivation to complete.
       </p>
 
       <v-row>
-        <v-btn color="accent" class="font-weight-medium" id="action"
+        <v-btn
+          class="font-weight-medium"
+          color="accent"
+          :class="$style.action"
           @click="$vuetify.goTo('#Features', {duration:800})">
           Get Started
         </v-btn>
       </v-row>
     </div>
 
-    <img src="../../assets/landingGirl.svg" id="tagline-art">
-
+    <img
+      src="../../assets/landingGirl.svg"
+      :class="$style.art">
   </div>
 </template>
 
@@ -28,8 +32,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.Tagline {
+<style module>
+.component {
   display: flex;
   flex-wrap: warp;
   align-items: center;
@@ -38,12 +42,12 @@ export default {
   height: calc(100vh - 64px);
 }
 
-#tagline-text {
+.text {
   max-width: 550px;
   padding-bottom: 20%;
 }
 
-#tagline-title {
+.title {
   text-align: left;
   font-size: 2.7rem;
   line-height: 3rem;
@@ -51,70 +55,70 @@ export default {
   margin-bottom: 12px;
 }
 
-#tagline-description {
+.description {
   text-align: left;
   font-size: 1.5rem;
   color: var(--accent);
   font-weight: 400;
 }
 
-#tagline-art {
+.art {
   --size: 40;
   width: calc(var(--size) * 1vw);
 }
 
-#action {
+.action {
   margin: .5rem 0 0 .75rem;
 }
 
 /* Adjusting for Medium Screen Sizes */
 @media only screen and (max-width: 1200px) {
-  #tagline-text {
+  .text {
     max-width: 440px;
   }
 
-  #tagline-title {
+  .title {
     font-size: 2rem;
     line-height: 2.5rem;
   }
 
-  #tagline-description {
+  .description {
     text-align: left;
     font-size: 1.2rem;
     color: var(--accent);
     font-weight: 400;
   }
 
-  #tagline-art {
+  .art {
     --size: 40;
   }
 }
 
 /* Adjusting for Small Screen Sizes */
 @media only screen and (max-width: 840px) {
-  .Tagline {
+  .component {
     display: block;
     padding: 3rem 3rem 1rem 3rem;
   }
 
-  #tagline-text {
+  .text {
     max-width: 100%;
     padding-bottom: 0%;
   }
 
-  #tagline-title {
+  .title {
     font-size: 1.75rem;
     line-height: 2.5rem;
   }
 
-  #tagline-description {
+  .description {
     text-align: left;
     font-size: 1.2rem;
     color: var(--accent);
     font-weight: 400;
   }
 
-  #tagline-art {
+  .art {
     --size: 75;
     transform: translateY(-2.5rem) translateX(1.5rem);
   }

@@ -100,7 +100,7 @@
 </template>
 
 <script>
-const fb = require('../../plugins/firebase').default;
+import fb from '@/plugins/firebase';
 
 export default {
   name: 'LoginRegister',

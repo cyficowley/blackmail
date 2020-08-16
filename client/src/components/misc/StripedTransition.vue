@@ -22,25 +22,25 @@ export default {
     start: {
       type: Object,
       default: () => ({
-        r: 0,
-        g: 0,
-        b: 0,
+        r: 2,
+        g: 36,
+        b: 74,
       }),
     },
     middle: {
       type: Object,
       default: () => ({
-        r: 0,
-        g: 0,
-        b: 0,
+        r: 140,
+        g: 229,
+        b: 245,
       }),
     },
     end: {
       type: Object,
       default: () => ({
-        r: 0,
-        g: 0,
-        b: 0,
+        r: 85,
+        g: 189,
+        b: 202,
       }),
     },
   },

@@ -15,6 +15,14 @@ const routes = [
     component: Landing,
   },
   {
+    path: '/home',
+    name: 'Home',
+    meta: {
+      requiresAuth: true,
+    },
+    component: () => import('../views/user/Home.vue'),
+  },
+  {
     path: '/reset',
     name: 'Reset',
     component: () => import('../views/public/Reset.vue'),
@@ -36,14 +44,6 @@ const routes = [
       requiresUnverified: true,
     },
     component: () => import('../views/user/VerificationWaiting.vue'),
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    meta: {
-      requiresAuth: true,
-    },
-    component: () => import('../views/user/Home.vue'),
   },
   {
     path: '/approval',

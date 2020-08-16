@@ -2,13 +2,23 @@
   <v-app id="app">
     <v-app-bar color="blue1">
       <v-row class="limit-width app-bar-row">
-        <img id="app-bar-logo" src="./assets/logo.svg" @click="route('/')"/>
+        <img
+          id="app-bar-logo"
+          src="./assets/logo.svg"
+          @click="route('/')"/>
 
-        <h1 id="app-bar-title" @click="route('/')">
+        <h1
+          id="app-bar-title"
+          @click="route('/')">
           BLACKMAILER
         </h1>
 
-        <v-btn text large color="light" class="font-weight-medium" to="/about">
+        <v-btn
+          class="font-weight-medium"
+          color="light"
+          to="/about"
+          text
+          large>
           How it Works
         </v-btn>
 
@@ -16,30 +26,30 @@
 
         <v-btn
           v-if="currentUser == null"
+          class="font-weight-medium"
+          color="light"
           text
           large
-          color="light"
-          class="font-weight-medium"
           @click="loginRegister(1)">
           Login
         </v-btn>
 
         <v-btn
           v-if="currentUser == null"
-          text
-          large
           color="accent"
           class="font-weight-medium"
+          text
+          large
           @click="loginRegister(2)">
           Signup
         </v-btn>
 
         <v-btn
           v-if="currentUser != null"
+          class="font-weight-medium"
+          color="accent"
           text
           large
-          color="accent"
-          class="font-weight-medium"
           @click="route('/home')">
           <v-icon left style="margin-right: 1rem;">
             mdi-home
@@ -49,10 +59,10 @@
 
         <v-btn
           v-if="currentUser != null"
+          class="font-weight-medium"
+          color="light"
           text
           large
-          color="light"
-          class="font-weight-medium"
           @click="route('/home')">
           Sign Out
         </v-btn>
@@ -65,7 +75,9 @@
       <router-view/>
     </v-content>
 
-    <v-footer color="dark1" class="footer">
+    <v-footer
+      class="footer"
+      color="dark1">
       <v-col>
         <p>
           &copy; 2020 Blackmailer.xyz
@@ -129,7 +141,6 @@ export default {
   --blackmailer-blue-3: #8CE5F5;
   --blackmailer-blue-4: #55BDCA;
   --accent: #DF622C;
-
 }
 
 #app {

@@ -164,26 +164,20 @@
 </template>
 
 <script>
-
 import Deadline from '@/components/home/Deadline.vue';
 
 export default {
   name: 'HowItWorks',
-
   components: {
     Deadline,
   },
-
   data: () => ({
     slide: 0,
   }),
-
-
   created() {
     this.exampleDate = new Date();
     this.exampleDate.setDate(this.exampleDate.getDate() + 3);
   },
-
   methods: {
     show() {
       this.$modal.show('email-example');
@@ -192,7 +186,6 @@ export default {
       this.$modal.hide('email-example');
     },
   },
-
 };
 </script>
 

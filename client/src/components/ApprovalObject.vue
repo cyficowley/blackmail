@@ -24,9 +24,7 @@ import moment from 'moment';
 
 export default {
   name: 'ApprovalObject',
-
   props: ['name', 'date', 'did', 'uid', 'proofDescription', 'id', 'fileDetails'],
-
   methods: {
     getDetails() {
       const payload = {
@@ -36,7 +34,6 @@ export default {
       };
       this.$store.dispatch('getApprovalDetails', payload);
     },
-
     approve() {
       const payload = {
         id: this.id,
@@ -45,7 +42,6 @@ export default {
       };
       this.$store.dispatch('approveApproval', payload);
     },
-
     deny() {
       const payload = {
         id: this.id,

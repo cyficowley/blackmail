@@ -1,5 +1,5 @@
 <template>
-  <v-app id="landing">
+  <v-app>
     <v-content>
       <v-container fluid class="fullwindow" style="z-index:0;">
         <v-row id="landing-row" class="fullwindow">
@@ -14,7 +14,7 @@
             </div>
             <div v-else class="title-card">
               <v-card class="card" style="padding:20px;text-align:left">
-                <ChangePassword/>
+                <change-password />
               </v-card>
             </div>
           </v-col>
@@ -37,10 +37,8 @@
 
 
 <script>
-// @ is an alias to /src
-import ChangePassword from '@/components/ChangePassword.vue';
-
-const fb = require('../../plugins/firebase').default;
+import ChangePassword from '@/components/modal/ChangePassword.vue';
+import fb from '@/plugins/firebase';
 
 export default {
   name: 'Action',

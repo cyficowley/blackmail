@@ -32,7 +32,6 @@
 
 export default {
   name: 'FAQ',
-
   created() {
     this.questions = [
       {

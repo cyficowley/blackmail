@@ -1,22 +1,37 @@
 <template>
-  <div class="VerificationWaiting">
+  <div>
     <StripedTransition
       :start="transitionColors.start"
       :middle="transitionColors.middle"
       :end="transitionColors.end">
-      <div slot="content" class="info-content">
-        <v-card max-width="400px" width="calc(90% - 1rem)" class="info-card" color="accent" dark>
-          <v-card-title class="headline" id="title">
+      <div
+        slot="content"
+        :class="$style['info-content']">
+        <v-card
+          width="calc(90% - 1rem)"
+          max-width="400px"
+          color="accent"
+          :class="$style['info-card']"
+          dark>
+          <v-card-title class="headline">
             Please Verify your Email
           </v-card-title>
 
           <v-card-text>
-            To continue please verify your email.
-            If you have already verified your email, please refresh this page.
+            <p>
+              To continue please verify your email.
+            <p>
+
+            <p>
+              If you have already verified your email, please refresh this page.
+            </p>
           </v-card-text>
 
           <v-card-actions>
-            <v-btn @click="resend" outlined class="resend-button">
+            <v-btn
+              :class="$style['resend-button']"
+              outlined
+              @click="resend">
               Resend Email
             </v-btn>
           </v-card-actions>
@@ -28,8 +43,7 @@
 
 <script>
 import StripedTransition from '@/components/misc/StripedTransition.vue';
-
-const fb = require('../../plugins/firebase').default;
+import fb from '@/plugins/firebase';
 
 export default {
   name: 'VerificationWaiting',
@@ -67,7 +81,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style module>
 .info-content {
   height: calc(100vh - 24px);
 }
