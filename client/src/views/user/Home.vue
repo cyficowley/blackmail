@@ -51,7 +51,7 @@
           <v-expansion-panel-content color="white">
             <div :class="$style['filter-wrapper']">
               <v-list
-                :class="$style.list"
+                :class="$style['filter-list']"
                 dense
                 light>
                 <v-subheader>
@@ -103,7 +103,7 @@
         <v-expansion-panels accordion>
           <deadline
             v-for="(deadline, i) in sortedFilteredDeadlines"
-            :key="i"
+            :key="`deadline-${i}`"
             :class="$style.deadline"
             :deadline="deadline"/>
         </v-expansion-panels>
@@ -196,11 +196,15 @@ export default {
           });
         }
         default: {
+          const now = (new Date()).getTime();
           return this.filteredDeadlines.slice().sort((a, b) => {
-            if (a.dueStamp.getTime() < b.dueStamp.getTime()) {
+            if (a.dueStamp.getTime() < now && b.dueStamp.getTime() > now) {
+              return 1;
+            } if (b.dueStamp.getTime() < now && a.dueStamp.getTime() > now) {
               return -1;
-            }
-            if (a.dueStamp.getTime() > b.dueStamp.getTime()) {
+            } if (a.dueStamp.getTime() < b.dueStamp.getTime()) {
+              return -1;
+            } if (a.dueStamp.getTime() > b.dueStamp.getTime()) {
               return 1;
             }
             return 0;
@@ -225,9 +229,7 @@ button.v-expansion-panel-header {
 
 <style module>
 .component {
-  font-size: 70px;
   text-align: center;
-  line-height: 100px;
 }
 
 .deadlines {
@@ -248,7 +250,7 @@ button.v-expansion-panel-header {
   display: flex;
 }
 
-.filter-wrapper .list {
+.filter-list {
   margin-right: 1rem;
 }
 

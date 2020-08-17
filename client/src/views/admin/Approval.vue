@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ApprovalObject from '@/components/ApprovalObject.vue';
 import { mapState } from 'vuex';
+import ApprovalObject from '@/components/ApprovalObject.vue';
 
 export default {
   name: 'Approval',

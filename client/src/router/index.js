@@ -79,8 +79,6 @@ router.beforeEach((to, from, next) => {
   const requiresUnverified = to.matched.some((x) => x.meta.requiresUnverified);
   const currentUser = Firebase.currentUser();
 
-  console.log(currentUser);
-
   if (requiresAdmin && !isAdmin) {
     next('/');
   } else if (requiresAuth && (!currentUser || !currentUser.emailVerified)) {

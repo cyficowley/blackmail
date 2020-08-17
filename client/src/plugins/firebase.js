@@ -16,8 +16,7 @@ const application = {
   measurementId: 'G-EKG5MMFX7G',
 };
 
-function Firebase() {
-}
+function Firebase() {}
 
 Firebase.ready = false;
 

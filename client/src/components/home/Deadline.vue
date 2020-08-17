@@ -1,63 +1,111 @@
 <template>
-  <v-expansion-panel class="Deadline">
+  <v-expansion-panel :class="$style.component">
     <v-expansion-panel-header
-      class="deadline-header"
+      :class="$style.header"
+      color="light"
       disable-icon-rotate
-      color="light" ripple>
-      <h3 class="deadline-title">{{ deadline.status }}</h3>
+      ripple>
+      <div>
+        <h3
+          :class="[$style.title,
+          {
+            [$style.complete]: complete,
+          }]">
+          {{ deadline.name }}
+        </h3>
 
-      <h3 class="deadline-title">{{ deadline.name }}</h3>
+        <h4 :class="$style.status">
+          {{ deadline.status }}
+        </h4>
+      </div>
+
 
       <v-spacer/>
 
-      <div class="due-wrapper">
+      <div :class="$style['due-wrapper']">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <h4
-              class="deadline-duedate"
               v-bind="attrs"
-              v-on="on">
+              v-on="on"
+              :class="[$style['due-date'], {
+                [$style.complete]: complete,
+              }]">
               {{dueDate}}
             </h4>
           </template>
 
-          <span>{{dueDateFull}}</span>
+          <span>
+            {{dueDateFull}}
+          </span>
         </v-tooltip>
 
-        <h4 class="deadline-remaining">{{timeRemaining}}</h4>
+        <h4 :class="$style.remaining">
+          {{timeRemaining}}
+        </h4>
       </div>
-
-
     </v-expansion-panel-header>
 
     <v-expansion-panel-content color="white">
-      <p>{{deadline.proofDescription}}</p>
-      <p>{{deadline.recipient}}</p>
+      <div :class="[$style['text-wrapper'], $style.accent]">
+        <h1>
+          STATUS: {{ deadline.status }}
+        </h1>
 
+        <p>
+          {{ statusText }}
+        </p>
+      </div>
 
-      <v-file-input
-        label="Uploads on selection of file"
-        dense
-        filled
-        color="accent"
-        @change="uploadedProof"
-        v-model="localProofFiles"
-        prepend-icon="mdi-upload">
-      </v-file-input>
+      <div
+        v-if="!complete"
+        :class="$style['text-wrapper']">
+        <p>
+          Upload proof that you completed your task before the deadline,
+          or your blackmail will be sent to
+          <span style="color: var(--accent);">{{deadline.recipient}}</span>.
+        </p>
+      </div>
 
+      <div
+        v-if="!complete"
+        :class="$style['text-wrapper']">
+        <p>
+          There is no way to cancel a deadline, best of luck!.
+        </p>
+      </div>
+
+      <div :class="[$style['text-wrapper'], $style.dark]">
+        <h1>
+          {{ proofMessage }}
+        </h1>
+
+        <p>
+          {{deadline.proofDescription}}
+        </p>
+      </div>
+
+      <div
+        v-if="!complete"
+        :class="$style['file-input']">
+        <v-file-input
+          v-model="localProofFiles"
+          label="Upload Proof"
+          prepend-icon="mdi-upload"
+          color="accent"
+          outlined
+          @change="uploadedProof">
+        </v-file-input>
+      </div>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
 import moment from 'moment';
-// import FileUpload from '@/components/FileUpload.vue';
 
 export default {
   name: 'Deadline',
-  components: {
-    // FileUpload,
-  },
   props: {
     deadline: {
       type: Object,
@@ -75,7 +123,6 @@ export default {
   data: () => ({
     localProofFiles: [],
   }),
-
   methods: {
     uploadedProof() {
       if (this.localProofFiles.length) {
@@ -98,28 +145,6 @@ export default {
       || name.endsWith('img')
       || name.endsWith('tiff');
     },
-
-    statusText() {
-      if (this.status === 'Approved') {
-        return this.approvedText;
-      } if (this.status === 'Pending') {
-        return this.pendingText;
-      } if (this.status === 'Blackmailed') {
-        return this.blackmailedText;
-      } if (this.status === 'Rejected') {
-        return this.rejectedText;
-      } if (this.status === 'Incomplete') {
-        return this.incompleteText;
-      }
-      return 'something went wrong';
-    },
-  },
-  created() {
-    this.incompleteText = 'Incomplete means edit text later';
-    this.pendingText = 'You have submitted but we havent done anything yet';
-    this.rejectedText = 'Your proof was rejected ';
-    this.blackmailedText = 'Your blackmail was sent to the recipient';
-    this.approvedText = 'Your proof submission has been approved! Your blackmail file has been deleted. Congratulations on completing your goal!';
   },
   computed: {
     dueDate() {
@@ -137,59 +162,93 @@ export default {
       }
       return `Due ${moment(due).fromNow()}`;
     },
-    // dateString() {
-    //   return moment(this.dueStamp).format('LT MMMM Do YYYY');
-    // },
-    // statusColor() {
-    //   if (this.status === 'Approved') {
-    //     return 'green';
-    //   } if (this.status === 'Incomplete' || this.status === 'Rejected') {
-    //     return 'red';
-    //   } if (this.status === 'Pending') {
-    //     return 'blue';
-    //   } if (this.status === 'Blackmailed') {
-    //     return 'orange';
-    //   }
-    //   return 'purple';
-    // },
-
-    // completed() {
-    //   if (this.status === 'Blackmailed' || this.status === 'Approved') {
-    //     return true;
-    //   }
-    //   return false;
-    // },
-
+    statusText() {
+      switch (this.deadline.status) {
+        case 'Approved':
+          return 'Your proof submission has been approved! Your blackmail file has been deleted. Congratulations on completing your goal!';
+        case 'Pending':
+          return 'You have submitted your proof for review. Nothing will be done until the proof is reviewed.';
+        case 'Blackmailed':
+          return 'You failed. Your blackmail has been sent to the recipient.';
+        case 'Rejected':
+          return 'Your proof was rejected. Please upload further proof.';
+        case 'Incomplete':
+          return 'Your deadline is all set up, complete the task before the deadline to avoid getting blackmailed.';
+        default:
+          return 'something went wrong';
+      }
+    },
+    complete() {
+      switch (this.deadline.status) {
+        case 'Approved':
+        case 'Blackmailed':
+          return true;
+        case 'Pending':
+        case 'Rejected':
+        case 'Incomplete':
+        default:
+          return false;
+      }
+    },
+    proofMessage() {
+      switch (this.deadline.status) {
+        case 'Approved':
+          return 'YOU UPLOADED:';
+        case 'Blackmailed':
+          return 'YOU FAILED TO UPLOAD:';
+        case 'Pending':
+        case 'Rejected':
+        case 'Incomplete':
+        default:
+          return 'WHAT TO UPLOAD:';
+      }
+    },
   },
 };
 </script>
 
-<style scoped>
-.Deadline {
+<style module>
+.component {
+  text-align: left;
 }
 
-.deadline-header {
+.header {
   position: relative;
 }
 
-h3.deadline-title {
+.title {
   font-size: 1.2rem;
   font-weight: normal;
   color: black;
 }
 
-h4.deadline-duedate {
+.title.complete {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.329);
+}
+
+.status {
+  color: rgba(0, 0, 0, 0.329);
+  margin-top: 4px;
+}
+
+.due-date {
   font-size: 1rem;
   display: inline-block;
   margin: .5rem 0 0 auto;
-  color: rgba(0, 0, 0, 0.897);
+  color: rgba(0, 0, 0, 0.699);
 }
 
-h4.deadline-remaining {
+.due-date.complete {
+  color: rgba(0, 0, 0, 0.473);
+}
+
+.remaining {
   font-weight: normal;
   display: inline-block;
   margin: .5rem 0 0 auto;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.616);
 }
 
 .due-wrapper {
@@ -199,14 +258,51 @@ h4.deadline-remaining {
   margin: 0 1rem .5rem 0;
 }
 
-.color-bar {
-  --completion: 0;
+.text-wrapper {
+  margin: 16px 16px;
+  padding: 0 6px;
+}
+
+.text-wrapper.accent {
+  background:#df622c2d;
+  border-radius: 5px;
+  padding: 12px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.233);
+}
+
+.text-wrapper.dark {
+  background:#9291912d;
+  border-radius: 5px;
+  padding: 12px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.233);
+}
+
+.text-wrapper h1 {
+  margin: 0 0 4px 0;
+  color: #1d1d1d;
+  font-size: 15px;
+  font-weight: light;
+  opacity: .8;
+  text-transform: uppercase;
+}
+
+.text-wrapper.accent h1 {
+  color: #DF622C;
+}
+
+.text-wrapper p {
+  color: #242424;
+  margin: 0;
+}
+
+.text-wrapper.accent p {
+  color: #DF622C;
+}
+
+.file-input {
+  margin-top: 32px !important;
   display: block;
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: 4px;
-  width: 6px;
-  background-color: hsla(calc((-144 * var(--completion)) + 144), 100%, 45%, .8);
+  width: 90%;
+  margin: 0 auto;
 }
 </style>

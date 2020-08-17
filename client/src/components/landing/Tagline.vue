@@ -14,14 +14,14 @@
           class="font-weight-medium"
           color="accent"
           :class="$style.action"
-          @click="$vuetify.goTo('#Features', {duration:800})">
+          @click="getStarted">
           Get Started
         </v-btn>
       </v-row>
     </div>
 
     <img
-      src="../../assets/landingGirl.svg"
+      src="@/assets/landingGirl.svg"
       :class="$style.art">
   </div>
 </template>
@@ -29,6 +29,20 @@
 <script>
 export default {
   name: 'Tagline',
+  methods: {
+    getStarted() {
+      if (this.currentUser) {
+        this.$router.push('/home');
+      } else {
+        this.$store.dispatch('updateLoginRegisterDialogue', window);
+      }
+    },
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
+  },
 };
 </script>
 

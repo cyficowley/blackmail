@@ -8,7 +8,7 @@
     <features />
 
     <v-snackbar
-      v-model="pwreset"
+      v-model="pwReset"
       color="green"
       :timeout="timeout"
       top>
