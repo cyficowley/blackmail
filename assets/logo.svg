@@ -18,7 +18,7 @@
       height: 35px;
     }
     h1 {
-      color: #DF622C;
+      color: rgb(230,126,34);
       margin: 0;
       margin-left: 12px;
       font-size: 24px;
