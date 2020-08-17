@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>
-  Blackmail yourself into achieving goals you can't find the motivation to complete.
+    Blackmail yourself into finding the motivation to not be lazy.
   </b>
 </p>
 
