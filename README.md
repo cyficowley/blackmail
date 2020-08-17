@@ -1,15 +1,19 @@
 <p align="center">
   <a href="https://blackmailer.xyz/">
-    <img width="200px" src="https://raw.githubusercontent.com/cyficowley/blackmail/client-refactor/assets/logo.svg" />
+    <img width="350" src="https://raw.githubusercontent.com/cyficowley/blackmail/client-refactor/assets/logo.svg" />
   </a>
 </p>
 
 <p align="center">
+  <b>
   Blackmail yourself into achieving goals you can't find the motivation to complete.
+  </b>
 </p>
 
 <p align="center">
+  <i>
   By <a href="https://github.com/shanefolden">Shane Folden</a>, <a href="https://github.com/cyficowley">Cyrus Cowley</a>, and <a href="https://github.com/andyruwruw">Andrew Young</a>
+  </i>
 </p>
 
 # Overview
