@@ -3,7 +3,7 @@
     <v-row
       v-for="approval in approvals"
       :key="approval.id">
-      <ApprovalObject v-bind="approval" />
+      <approval-object v-bind="approval" />
     </v-row>
   </div>
 
@@ -14,22 +14,22 @@
 
 <script>
 import { mapState } from 'vuex';
-import ApprovalObject from '@/components/ApprovalObject.vue';
+import ApprovalObject from '@/components/admin/ApprovalObject.vue';
 
 export default {
   name: 'Approval',
-  created() {
-    if (this.$store.state.approvals.length === 0) {
-      this.$store.dispatch('getAllApprovals');
-    }
+  components: {
+    ApprovalObject,
   },
   computed: {
     ...mapState({
       approvals: 'approvals',
     }),
   },
-  components: {
-    ApprovalObject,
+  created() {
+    if (this.$store.state.approvals.length === 0) {
+      this.$store.dispatch('getAllApprovals');
+    }
   },
 };
 </script>

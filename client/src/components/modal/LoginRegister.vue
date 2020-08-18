@@ -1,95 +1,115 @@
 <template>
   <v-dialog
-    class="LoginRegister"
     :value="loginRegisterDialogue"
     max-width="430px"
     width="95%"
     @click:outside="close">
-    <v-card color="">
-      <v-card-title class="headline" id="title">
+    <v-card>
+      <v-card-title
+        class="headline"
+        :class="$style.title">
         {{title}}
       </v-card-title>
 
       <v-btn
-        @click="googleLogin"
-        class="google-button"
+        :class="$style['google-button']"
         height="50px"
+        color="accent"
         dark
-        color="accent">
-        <v-icon left style="margin-right: 1rem;">
+        @click="googleLogin">
+        <v-icon
+          :class="$style.icon"
+          left>
           mdi-google
         </v-icon>
         Continue with Google
       </v-btn>
 
-      <div class="separator">
+      <div :class="$style.separator">
         <v-divider/>
-        <p class="or">OR</p>
+
+        <p :class="$style.or">
+          OR
+        </p>
+
         <v-divider/>
       </div>
 
       <v-card-text>
         <v-form
-          ref="form"
           v-model="valid"
+          ref="form"
           lazy-validation>
           <v-text-field
             v-model.trim="email"
-            :rules="rules.emailText"
             class="margin-less"
             ref="email"
+            color="#DF622C"
+            label="Email"
+            :rules="rules.emailText"
             dense
             single-line
             outlined
-            color="#DF622C"
-            required
-            label="Email">
+            required>
           </v-text-field>
 
-          <div class="forgot-password-wrapper">
-            <v-btn text small @click="forgotPassword" v-if="loginRegisterDialogue == 1" >
+          <div :class="$style['forgot-password']">
+            <v-btn
+              v-if="loginRegisterDialogue == 1"
+              text
+              small
+              @click="forgotPassword">
               Forgot Password
             </v-btn>
           </div>
 
           <v-text-field
             v-model.trim="password"
-            dense
-            single-line
             ref="password"
-            required
-            outlined
             label="Password"
             color="#DF622C"
-            :rules="[rules.min]"
             hint="At least 8 characters"
+            :rules="[rules.min]"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
+            dense
+            single-line
+            required
+            outlined
             @click:append="showPassword = !showPassword">
           </v-text-field>
 
           <v-text-field
             v-if="loginRegisterDialogue == 2"
             v-model="confirmPass"
-            dense
-            single-line
             ref="confirm"
-            outlined
             label="Confirm Password"
             color="#DF622C"
             :error-messages="invalidPasswords ? 'Passwords must match.' : ''"
-            :type="showPassword ? 'text' : 'password'">
+            :type="showPassword ? 'text' : 'password'"
+            dense
+            single-line
+            outlined>
           </v-text-field>
 
-          <p>{{errorMsg}}</p>
+          <p>
+            {{errorMsg}}
+          </p>
 
-          <div class="buttons">
-            <v-btn outlined color="accent" width="175px" @click="submit"
-            :disabled="!validSubmit">
+          <div :class="$style.buttons">
+            <v-btn
+              :disabled="!validSubmit"
+              color="accent"
+              width="175px"
+              outlined
+              @click="submit">
               {{action}}
             </v-btn>
 
-            <v-btn outlined @click="switchType" width="175px">
+            <v-btn
+              width="175px"
+              outlined
+              @click="switchType" >
               {{switchTitle}}
             </v-btn>
           </div>
@@ -202,8 +222,18 @@ export default {
 };
 </script>
 
-<style scoped>
-#title.headline {
+<style>
+div.v-input.v-text-field {
+  margin: 0rem 0 1rem;
+}
+
+div.v-input.v-text-field.margin-less {
+  margin: 1rem 0 0rem;
+}
+</style>
+
+<style module>
+.title {
   display: block;
   color: var(--accent);
   text-align: center;
@@ -211,10 +241,13 @@ export default {
   width: 100%;
 }
 
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.google-button {
+  margin: 24px;
+  width: calc(100% - 48px);
+}
+
+.google-button .icon {
+  margin-right: 1rem;
 }
 
 .separator {
@@ -235,20 +268,13 @@ export default {
   color: rgba(0, 0, 0, 0.329);
 }
 
-.google-button {
-  margin: 24px;
-  width: calc(100% - 48px);
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-div.v-input.v-text-field {
-  margin: 0rem 0 1rem;
-}
-
-div.v-input.v-text-field.margin-less {
-  margin: 1rem 0 0rem;
-}
-
-.forgot-password-wrapper {
+.forgot-password {
   display: flex;
   justify-content: flex-end;
 }
