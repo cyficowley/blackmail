@@ -20,7 +20,10 @@
           </span>
         </v-expansion-panel-header>
 
-        <v-expansion-panel-content style="text-align:left;">
+        <v-expansion-panel-content
+          color="blue2"
+          :class="$style.content"
+          eager>
           <span :class="$style.answer">
             {{ question.a}}
           </span>
@@ -46,7 +49,10 @@
           </span>
         </v-expansion-panel-header>
 
-        <v-expansion-panel-content style="text-align:left;">
+        <v-expansion-panel-content
+          color="blue2"
+          :class="$style.content"
+          eager>
           <span :class="$style.answer">
             {{ question.a}}
           </span>
@@ -72,7 +78,10 @@
           </span>
         </v-expansion-panel-header>
 
-        <v-expansion-panel-content style="text-align:left;">
+        <v-expansion-panel-content
+          color="blue2"
+          :class="$style.content"
+          eager>
           <span :class="$style.answer">
             {{ question.a}}
           </span>
@@ -155,5 +164,9 @@ export default {
 .question {
   margin: 6px 0;
   text-align: left;
+}
+
+.content {
+  padding: 2rem 0 1rem;
 }
 </style>

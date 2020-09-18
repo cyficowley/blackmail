@@ -6,6 +6,7 @@
 
     <v-card
       class="limit-width"
+      color="blue2"
       :class="$style.deadlines">
       <v-expansion-panels
         v-model="filterPanel"
@@ -48,13 +49,14 @@
             </template>
           </v-expansion-panel-header>
 
-          <v-expansion-panel-content color="white">
+          <v-expansion-panel-content color="blue2">
             <div :class="$style['filter-wrapper']">
               <v-list
+                color="blue2"
                 :class="$style['filter-list']"
                 dense
                 light>
-                <v-subheader>
+                <v-subheader dark>
                   Filter
                 </v-subheader>
 
@@ -63,10 +65,12 @@
                     v-for="choice in filterDeadlines"
                     :key="`filter-choice-${choice.text}`">
                     <v-list-item-icon>
-                      <v-icon v-text="choice.icon" />
+                      <v-icon
+                        v-text="choice.icon"
+                        color="white" />
                     </v-list-item-icon>
 
-                    <v-list-item-content>
+                    <v-list-item-content :class="$style.option">
                       {{ choice.text }}
                     </v-list-item-content>
                   </v-list-item>
@@ -74,9 +78,10 @@
               </v-list>
 
               <v-list
+                color="blue2"
                 dense
                 light>
-                <v-subheader>
+                <v-subheader dark>
                   Sort
                 </v-subheader>
 
@@ -85,10 +90,12 @@
                     v-for="choice in sortDeadlines"
                     :key="`sort-choice-${choice.text}`">
                     <v-list-item-icon>
-                      <v-icon v-text="choice.icon" />
+                      <v-icon
+                        v-text="choice.icon"
+                        color="white" />
                     </v-list-item-icon>
 
-                    <v-list-item-content>
+                    <v-list-item-content :class="$style.option">
                       {{ choice.text }}
                     </v-list-item-content>
                   </v-list-item>
@@ -100,7 +107,9 @@
       </v-expansion-panels>
 
       <v-card-text :class="$style.list">
-        <v-expansion-panels accordion>
+        <v-expansion-panels
+          accordion
+          flat>
           <deadline
             v-for="(deadline, i) in sortedFilteredDeadlines"
             :key="`deadline-${i}`"
@@ -109,8 +118,8 @@
         </v-expansion-panels>
 
         <div v-if="deadlines.length === 0">
-          <h2>
-            You have not created a deadline.
+          <h2 :class="$style.empty">
+            You have not created any deadlines
           </h2>
         </div>
       </v-card-text>
@@ -258,7 +267,17 @@ button.v-expansion-panel-header {
   margin-left: .5rem;
 }
 
+.option {
+  color: white;
+}
+
 .create-icon {
   margin-left: .5rem;
+}
+
+.empty {
+  color: rgba(255, 255, 255, .3);
+  font-weight: 300;
+  padding: 6rem 0;
 }
 </style>

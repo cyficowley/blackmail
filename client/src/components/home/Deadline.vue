@@ -2,7 +2,7 @@
   <v-expansion-panel :class="$style.component">
     <v-expansion-panel-header
       :class="$style.header"
-      color="light"
+      color="white"
       disable-icon-rotate
       ripple>
       <div>
@@ -46,7 +46,7 @@
       </div>
     </v-expansion-panel-header>
 
-    <v-expansion-panel-content color="white">
+    <v-expansion-panel-content color="#F6F6FA">
       <div :class="[$style['text-wrapper'], $style.accent]">
         <h1>
           STATUS: {{ deadline.status }}
@@ -93,9 +93,16 @@
           label="Upload Proof"
           prepend-icon="mdi-upload"
           color="accent"
+          hide-details
           outlined
           @change="uploadedProof">
         </v-file-input>
+
+        <v-btn
+          color="black"
+          dark>
+          Submit
+        </v-btn>
       </div>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -301,8 +308,12 @@ export default {
 
 .file-input {
   margin-top: 32px !important;
+  background:#9291912d;
+  padding: 18px;
   display: block;
   width: 90%;
   margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.212);
 }
 </style>

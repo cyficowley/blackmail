@@ -146,7 +146,6 @@
             label="Select Files"
             dense
             filled
-            multiple
             color="accent"
             chips
             v-model="deadline.blackmail.files"
