@@ -1,5 +1,9 @@
 <template>
-  <v-dialog class="CreateDeadline" :value="open" @click:outside="close(true)" max-width="980px">
+  <v-dialog
+    :value="open"
+    max-width="980px"
+    class="CreateDeadline"
+    @click:outside="close(true)">
     <v-stepper v-model="step">
       <v-stepper-header>
         <v-stepper-step
@@ -27,10 +31,16 @@
       </v-stepper-header>
 
       <v-stepper-items dark="false">
-        <v-stepper-content
-          step="1">
-          <v-form v-model="validOne" ref="CreateDeadline1" lazy-validation>
-            <h3 id="goal-header" style="margin: 0 0 1rem;">Describe Your Goal</h3>
+        <v-stepper-content step="1">
+          <v-form
+            v-model="validOne"
+            ref="CreateDeadline1"
+            lazy-validation>
+            <h3
+              id="goal-header"
+              style="margin: 0 0 1rem;">
+              Describe Your Goal
+            </h3>
 
             <v-text-field
               v-model="deadline.title"
@@ -50,7 +60,11 @@
               placeholder="31 images of me exercising with that day's newspaper."
             ></v-textarea>
 
-            <h3 id="time-selection-header" style="margin: 0 0 1rem">Select a Deadline</h3>
+            <h3
+              id="time-selection-header"
+              style="margin: 0 0 1rem">
+              Select a Deadline
+            </h3>
 
             <div id="time-selection-wrapper">
               <v-dialog
@@ -71,14 +85,27 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" color="accent" :min="currentDate">
+                <v-date-picker
+                  v-model="date"
+                  :min="currentDate"
+                  color="accent">
 
                   <v-spacer></v-spacer>
 
                   <div class="button-spacer">
-                    <v-btn text color="accent" @click="dateMenu = false">Cancel</v-btn>
+                    <v-btn
+                      color="accent"
+                      text
+                      @click="dateMenu = false">
+                      Cancel
+                    </v-btn>
 
-                    <v-btn text color="accent" @click="$refs.dateDialog.save(date)">OK</v-btn>
+                    <v-btn
+                      color="accent"
+                      text
+                      @click="$refs.dateDialog.save(date)">
+                      OK
+                    </v-btn>
                   </div>
                 </v-date-picker>
               </v-dialog>
@@ -110,65 +137,101 @@
                   <v-spacer></v-spacer>
 
                   <div class="button-spacer">
-                    <v-btn color="accent" @click="timeMenu = false">Cancel</v-btn>
+                    <v-btn
+                      color="accent"
+                      @click="timeMenu = false">
+                      Cancel
+                    </v-btn>
 
-                    <v-btn color="accent" @click="$refs.timeDialog.save(time)">OK</v-btn>
+                    <v-btn
+                      color="accent"
+                      @click="$refs.timeDialog.save(time)">
+                      OK
+                    </v-btn>
                   </div>
                 </v-time-picker>
               </v-dialog>
             </div>
 
             <div class="button-end">
-              <v-btn style="margin: 0 1rem 0 0;" @click="close(true)">
+              <v-btn
+                style="margin: 0 1rem 0 0;"
+                @click="close(true)">
                 Abandon
               </v-btn>
 
-              <v-btn color="accent" @click="finishStepOne">
+              <v-btn
+                color="accent"
+                @click="finishStepOne">
                 Achieve
               </v-btn>
             </div>
           </v-form>
         </v-stepper-content>
 
-        <v-stepper-content
-          step="2">
-          <h3 id="goal-header" style="margin: 0 0 0rem;">Write Your Darkest Secrets</h3>
+        <v-stepper-content step="2">
+          <h3
+            id="goal-header"
+            style="margin: 0 0 0rem;">
+            Write Your Darkest Secrets
+          </h3>
 
-          <v-textarea
-            v-model="deadline.blackmail.text"
-            required
-            color="accent"
-            placeholder="I cheated my way through my classes this year."/>
+          <v-form
+            v-model="validTwo"
+            ref="CreateDeadline2"
+            lazy-validation>
+            <v-textarea
+              v-model="textBlackmail"
+              required
+              color="accent"
+              :disabled="file !== null"
+              placeholder="I cheated my way through my classes this year."/>
 
-            <h3 id="goal-header" style="margin: 1rem 0 1rem;">Or Upload a Confidential File</h3>
+            <h3
+              id="goal-header"
+              style="margin: 1rem 0 1rem;">
+              Or Upload a Confidential File
+            </h3>
 
-          <v-file-input
-            label="Select Files"
-            dense
-            filled
-            color="accent"
-            chips
-            v-model="deadline.blackmail.files"
-            :counter="deadline.blackmail.files.length > 0"
-            prepend-icon="mdi-upload">
-          </v-file-input>
+            <v-file-input
+              label="Select File"
+              dense
+              filled
+              color="accent"
+              chips
+              :disabled="textBlackmail.length !== 0"
+              v-model="file"
+              prepend-icon="mdi-upload"
+              @change="handlFile">
+            </v-file-input>
 
-          <div class="button-end">
-            <v-btn style="margin: 0 1rem 0 0;" @click="close(true)">
-              Bail Out
-            </v-btn>
+            <div class="button-end">
+              <v-btn
+                style="margin: 0 1rem 0 0;"
+                @click="close(true)">
+                Bail Out
+              </v-btn>
 
-            <v-btn color="accent" @click="finishStepTwo">
-              Upload
-            </v-btn>
-          </div>
+              <v-btn
+                color="accent"
+                @click="finishStepTwo">
+                Upload
+              </v-btn>
+            </div>
+          </v-form>
         </v-stepper-content>
 
-        <v-stepper-content
-          step="3">
-          <h3 id="goal-header" style="margin: 0 0 1rem;">Who is the Worst Person to See This?</h3>
+        <v-stepper-content step="3">
+          <h3
+            id="goal-header"
+            style="margin: 0 0 1rem;">
+            Who is the Worst Person to See This?
+          </h3>
 
-          <v-form v-model="validThree" lazy-validation  ref="CreateDeadline3">
+          <v-form
+            v-model="validThree"
+            ref="CreateDeadline3"
+            lazy-validation>
             <v-text-field
               v-model="deadline.recipient"
               :rules="rules.emailText"
@@ -188,11 +251,15 @@
           </v-form>
 
           <div class="button-end">
-            <v-btn style="margin: 0 1rem 0 0;" @click="close(true)">
+            <v-btn
+              style="margin: 0 1rem 0 0;"
+              @click="close(true)">
               Hide
             </v-btn>
 
-            <v-btn color="accent" @click="finishStepThree">
+            <v-btn
+              color="accent"
+              @click="finishStepThree">
               Blackmail Yourself
             </v-btn>
           </div>
@@ -219,8 +286,12 @@ export default {
     approve: false,
     step: 1,
     validOne: true,
+    validTwo: true,
     validThree: true,
-    files: [],
+
+    file: null,
+    textBlackmail: '',
+
     rules: {
       emailText: [
         (v) => !!v || 'Email is required',
@@ -228,20 +299,20 @@ export default {
       ],
       required: (value) => !!value || 'Required',
     },
+
     deadline: {
       title: '',
       description: '',
       recipient: '',
-      blackmail: {
-        text: '',
-        files: [],
-      },
       dueStamp: null,
     },
+
     time: null,
     timeMenu: false,
+
     date: null,
     dateMenu: false,
+
     currentDate: '2020-06-09',
   }),
   methods: {
@@ -256,8 +327,12 @@ export default {
         this.step = 2;
       }
     },
+    handlFile(e) {
+      console.log(e);
+      console.log(this.file);
+    },
     finishStepTwo() {
-      if (this.deadline.blackmail.text.length || this.deadline.blackmail.files.length) {
+      if (this.textBlackmail.length || this.file !== null) {
         this.step = 3;
       }
     },
@@ -266,8 +341,8 @@ export default {
         if (this.deadline.title.length
           && this.deadline.description.length
           && this.deadline.recipient.length
-          && (this.deadline.blackmail.text.length
-            || this.deadline.blackmail.files.length)) {
+          && (this.textBlackmail.length
+            || this.file !== null)) {
           this.submit();
           this.close();
         }
@@ -280,18 +355,21 @@ export default {
         proofDescription: this.deadline.description,
         recipient: this.deadline.recipient,
         sender: this.$store.state.currentUser.email,
-        blackmail: this.deadline.blackmail,
+        blackmail: {
+          files: this.file,
+          text: this.textBlackmail,
+        },
       };
 
-      if (this.deadline.blackmail.text) {
-        deadlineData.blackmail.files.push(new File(
-          [this.deadline.blackmail.text],
+      if (this.textBlackmail) {
+        deadlineData.blackmail.files = new File(
+          [this.textBlackmail],
           'blackmail.txt',
           {
             type: 'text/plain',
             lastModified: Date.now(),
           },
-        ));
+        );
       }
       this.$store.dispatch('createDeadline', deadlineData);
     },

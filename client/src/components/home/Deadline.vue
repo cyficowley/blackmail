@@ -92,15 +92,16 @@
           v-model="localProofFiles"
           label="Upload Proof"
           prepend-icon="mdi-upload"
+          multiple
           color="accent"
           hide-details
-          outlined
-          @change="uploadedProof">
+          outlined>
         </v-file-input>
 
         <v-btn
           color="black"
-          dark>
+          dark
+          @click="uploadProof">
           Submit
         </v-btn>
       </div>
@@ -131,7 +132,7 @@ export default {
     localProofFiles: [],
   }),
   methods: {
-    uploadedProof() {
+    uploadProof() {
       if (this.localProofFiles.length) {
         const payload = {
           id: this.deadline.id,

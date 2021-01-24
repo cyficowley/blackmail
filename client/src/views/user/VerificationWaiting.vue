@@ -9,7 +9,7 @@
         :class="$style['info-content']">
         <v-card
           width="calc(90% - 1rem)"
-          max-width="400px"
+          max-width="480px"
           color="accent"
           :class="$style['info-card']"
           dark>
@@ -88,10 +88,10 @@ export default {
 
 .info-card {
   margin: 5% auto;
-  padding: .5rem 0;
+  padding: .5rem .5rem;
 }
 
 .resend-button {
-  margin: .5rem auto;
+  margin: .2rem auto .5rem;
 }
 </style>

@@ -63,7 +63,7 @@
           color="light"
           text
           large
-          @click="route('/home')">
+          @click="logout">
           Sign Out
         </v-btn>
       </v-row>
@@ -111,6 +111,9 @@ export default {
     },
     loginRegister(window) {
       this.$store.dispatch('updateLoginRegisterDialogue', window);
+    },
+    logout() {
+      this.$store.dispatch('signOut');
     },
   },
   computed: {

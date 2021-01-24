@@ -80,13 +80,10 @@ const createDeadline = async ({ commit, state }, deadline) => {
 
     submittedDeadline.id = id;
 
-    for (let i = 0; i < blackmail.files.length; i += 1) {
-      const uploadPath = [uid, id, 'blackmail', blackmail.files[i].name].join('/');
-      const fileRef = Firebase.storage().child(uploadPath);
+    const uploadPath = [uid, id, 'blackmail', blackmail.files.name].join('/');
+    const fileRef = Firebase.storage().child(uploadPath);
 
-      // eslint-disable-next-line no-await-in-loop
-      await fileRef.put(blackmail.files[i]);
-    }
+    await fileRef.put(blackmail.files);
 
     commit('addDeadlines', [submittedDeadline]);
 
@@ -166,6 +163,7 @@ const uploadDeadlineProof = async ({ state, dispatch, commit }, {
 }) => {
   const { uid } = state.currentUser;
   const uploadPath = [uid, id, 'proof', file.name].join('/');
+  console.log(uploadPath);
 
   const fileRef = Firebase.storage().child(uploadPath);
   try {

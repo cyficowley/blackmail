@@ -7,6 +7,7 @@
     <v-card>
       <v-card-title
         class="headline"
+        id="login-title"
         :class="$style.title">
         {{title}}
       </v-card-title>
@@ -237,7 +238,6 @@ div.v-input.v-text-field.margin-less {
   display: block;
   color: var(--accent);
   text-align: center;
-  padding: 1.5rem 0 0;
   width: 100%;
 }
 
@@ -272,6 +272,10 @@ div.v-input.v-text-field.margin-less {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.or {
+  padding: 0 1rem !important;
 }
 
 .forgot-password {

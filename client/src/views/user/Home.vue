@@ -1,12 +1,13 @@
 <template>
   <div :class="$style.component">
     <create-deadline
+      v-if="createModal"
       :open="createModal"
       @close="closeCreate"/>
 
     <v-card
       class="limit-width"
-      color="blue2"
+      color="white"
       :class="$style.deadlines">
       <v-expansion-panels
         v-model="filterPanel"
@@ -49,14 +50,14 @@
             </template>
           </v-expansion-panel-header>
 
-          <v-expansion-panel-content color="blue2">
+          <v-expansion-panel-content color="#EEEEEE">
             <div :class="$style['filter-wrapper']">
               <v-list
-                color="blue2"
+                color="#EEEEEE"
                 :class="$style['filter-list']"
                 dense
                 light>
-                <v-subheader dark>
+                <v-subheader>
                   Filter
                 </v-subheader>
 
@@ -67,7 +68,7 @@
                     <v-list-item-icon>
                       <v-icon
                         v-text="choice.icon"
-                        color="white" />
+                        color="black" />
                     </v-list-item-icon>
 
                     <v-list-item-content :class="$style.option">
@@ -78,10 +79,10 @@
               </v-list>
 
               <v-list
-                color="blue2"
+                color="#EEEEEE"
                 dense
                 light>
-                <v-subheader dark>
+                <v-subheader>
                   Sort
                 </v-subheader>
 
@@ -92,7 +93,7 @@
                     <v-list-item-icon>
                       <v-icon
                         v-text="choice.icon"
-                        color="white" />
+                        color="black" />
                     </v-list-item-icon>
 
                     <v-list-item-content :class="$style.option">
@@ -120,6 +121,12 @@
         <div v-if="deadlines.length === 0">
           <h2 :class="$style.empty">
             You have not created any deadlines
+          </h2>
+        </div>
+
+        <div v-if="sortedFilteredDeadlines.length === 0">
+          <h2 :class="$style.empty">
+            No deadlines fit the filters.
           </h2>
         </div>
       </v-card-text>
@@ -268,7 +275,7 @@ button.v-expansion-panel-header {
 }
 
 .option {
-  color: white;
+  color: black;
 }
 
 .create-icon {
@@ -276,7 +283,7 @@ button.v-expansion-panel-header {
 }
 
 .empty {
-  color: rgba(255, 255, 255, .3);
+  color: rgba(95, 95, 95, 0.3);
   font-weight: 300;
   padding: 6rem 0;
 }
