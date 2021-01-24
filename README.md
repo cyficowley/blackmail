@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://blackmailer.xyz/">
-    <img width="350" src="https://raw.githubusercontent.com/cyficowley/blackmail/client-refactor/assets/logo.svg" />
+    <img width="350" src="https://raw.githubusercontent.com/cyficowley/blackmail/master/assets/logo.svg" />
   </a>
 </p>
 
